@@ -13,6 +13,10 @@ code {
 }
 
 table {
+  display: table-header-group;
+  margin: 20px;
+}
+
+.table-box {
   display: flex;
-  width: 200px;
 }

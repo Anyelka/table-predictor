@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="table-box">
       <Table
         id="previous-table"
         className="table"
