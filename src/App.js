@@ -1,4 +1,3 @@
-import "./App.css";
 import Table from "./Table";
 import React, { useMemo, useState, useEffect } from "react";
 import {
@@ -7,12 +6,13 @@ import {
   ZSOLTI_GUESSES,
 } from "./guesses";
 import { getTable } from "./agent";
+import { DUMMY_API_RESPONSE } from "./resources/dummyData";
 
 function App() {
   const columns = useMemo(
     () => [
       {
-        Header: "Position",
+        Header: "",
         accessor: "position",
       },
       {
@@ -28,15 +28,21 @@ function App() {
   const [marci, setMarci] = useState([]);
   const [currentPositions, setCurrentPositions] = useState([]);
 
+  const loadDummyData = () => {
+    setCurrentPositions(DUMMY_API_RESPONSE.league.standings[0]);
+  };
+
   useEffect(() => {
     setPreviousPositions(PREVIOUS_POSITIONS);
     setZsolti(ZSOLTI_GUESSES);
     setMarci(MARCI_GUESSES);
 
-    (async () => {
+    /* (async () => {
       const table = await getTable();
       setCurrentPositions(table.standings[0]);
-    })();
+    })(); */
+
+    loadDummyData();
   }, []);
 
   const currentTable = currentPositions.map((entry) => {
