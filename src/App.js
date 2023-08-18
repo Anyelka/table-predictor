@@ -6,6 +6,7 @@ import {
   prevSeasonPositions as PREVIOUS_POSITIONS,
   ZSOLTI_GUESSES,
 } from "./guesses";
+import { getTable } from "./agent";
 
 function App() {
   const columns = useMemo(
@@ -31,10 +32,17 @@ function App() {
     setPreviousPositions(PREVIOUS_POSITIONS);
     setZsolti(ZSOLTI_GUESSES);
     setMarci(MARCI_GUESSES);
-    setCurrentPositions();
-    (async () => {})();
+
+    (async () => {
+      const table = await getTable();
+      setCurrentPositions(table.standings[0]);
+    })();
   }, []);
 
+  const currentTable = currentPositions.map((entry) => {
+    return { position: entry.rank, name: entry.team.name };
+  });
+  console.log("current table: " + JSON.stringify(currentTable));
   return (
     <div className="table-box">
       <Table
@@ -45,7 +53,7 @@ function App() {
       />
       <Table id="zsolti" className="table" columns={columns} data={zsolti} />
       <Table id="marci" className="table" columns={columns} data={marci} />
-      {/* <Table i="actual-table" columns={columns} data={currentPositions} /> */}
+      <Table i="actual-table" columns={columns} data={currentTable} />
     </div>
   );
 }
