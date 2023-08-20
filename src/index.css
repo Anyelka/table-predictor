@@ -18,7 +18,9 @@ code {
 }
 
 .table-container {
-  min-width: 25%;
+  min-width: 23%; /*25% - the width of the margin*/
+  margin: 20px 10px 20px 10px;
+  border-radius: 20px;
   background-color: blue;
   color: white;
 }
