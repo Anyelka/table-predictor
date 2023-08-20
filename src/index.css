@@ -18,14 +18,26 @@ code {
 }
 
 .table-container {
-  min-width: 23%; /*25% - the width of the margin*/
+  display: flex;
+  flex: 0 1 25%;
+  flex-wrap: wrap;
   margin: 20px 10px 20px 10px;
   border-radius: 20px;
   background-color: blue;
   color: white;
 }
 
+.table-title {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+
+.table-body {
+  margin: auto;
+}
+
 .table {
-  display: table-header-group;
-  margin: 20px;
+  width: 100%;
+  height: 100%;
 }
