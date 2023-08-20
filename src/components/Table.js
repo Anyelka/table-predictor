@@ -1,7 +1,7 @@
 import React from "react";
 import { useTable } from "react-table";
 
-export default function Table({ columns, data }) {
+export default function Table({ id, columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
   const {
     getTableProps, // table props from react-table
@@ -19,7 +19,7 @@ export default function Table({ columns, data }) {
     - react-table doesn't have UI, it's headless. We just need to put the react-table props from the Hooks, and it will do its magic automatically
   */
   return (
-    <table {...getTableProps()}>
+    <table id={id} {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>

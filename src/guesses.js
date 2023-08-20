@@ -1,4 +1,4 @@
-export const prevSeasonPositions = [
+export const PREVIOUS_POSITIONS = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Arsenal" },
   { position: 3, name: "Man United" },

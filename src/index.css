@@ -12,11 +12,18 @@ code {
     monospace;
 }
 
-table {
-  display: table-header-group;
-  margin: 20px;
+.tables-box {
+  display: flex;
+  min-height: 100vh;
 }
 
-.table-box {
-  display: flex;
+.table-container {
+  min-width: 25%;
+  background-color: blue;
+  color: white;
+}
+
+.table {
+  display: table-header-group;
+  margin: 20px;
 }
