@@ -60,11 +60,11 @@ code {
 
 @media screen and (min-width: 1500px) {
   .table {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .table-container-head {
-    font-size: 35px;
+    font-size: 32px;
   }
 }
 
