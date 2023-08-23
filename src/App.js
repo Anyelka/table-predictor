@@ -1,5 +1,4 @@
-import Table from "./components/Table";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { MARCI_GUESSES, PREVIOUS_POSITIONS, ZSOLTI_GUESSES } from "./guesses";
 import { getTable } from "./agent";
 import { DUMMY_API_RESPONSE } from "./resources/dummyData";
@@ -23,14 +22,14 @@ function App() {
     <div className="tables-box">
       <TableContainer
         id="previous"
-        title="2022/23 Table"
+        title="2022/23"
         initialData={PREVIOUS_POSITIONS}
       />
       <TableContainer id="zsolti" title="Zsolti" initialData={ZSOLTI_GUESSES} />
       <TableContainer id="marci" title="Marci" initialData={MARCI_GUESSES} />
       <TableContainer
         id="actual-table"
-        title="Actual Table"
+        title="2023/24"
         initialData={currentTable}
       />
     </div>

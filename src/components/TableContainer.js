@@ -22,10 +22,10 @@ const TableContainer = ({ id, title, initialData }) => {
 
   return (
     <div id={`${id}-table-container`} className="table-container">
-      <div className="table-title">
+      <div className="table-container-head">
         <h1>{title}</h1>
       </div>
-      <div className="table-body">
+      <div className="table-container-body">
         <Table
           id={`${id}-table`}
           className="table"
