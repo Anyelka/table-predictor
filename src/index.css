@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Fantasy"; /*Can be any text*/
+  src: local("Radikal-Bold"),
+    url("./resources/Radikal-Bold.ttf") format("truetype");
+}
+
 :root {
   --neon-green: rgb(0, 255, 135);
   --green: #00db74;
@@ -11,9 +17,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Fantasy";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--light-blue);

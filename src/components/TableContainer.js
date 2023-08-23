@@ -13,7 +13,7 @@ const TableContainer = ({ id, title, initialData }) => {
         accessor: "position",
       },
       {
-        Header: "Team",
+        Header: "",
         accessor: "name",
       },
     ],
