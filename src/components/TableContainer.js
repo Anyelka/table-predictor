@@ -1,10 +1,9 @@
-import { PREVIOUS_POSITIONS } from "../guesses";
 import Table from "./Table";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 
 const TableContainer = ({ id, title, initialData }) => {
-  const [data, setData] = useState(initialData);
+  const [data] = useState(initialData);
 
   const columns = useMemo(
     () => [

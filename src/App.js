@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { MARCI_GUESSES, PREVIOUS_POSITIONS, ZSOLTI_GUESSES } from "./guesses";
-import { getTable } from "./agent";
 import { DUMMY_API_RESPONSE } from "./resources/dummyData";
 import TableContainer from "./components/TableContainer";
 
