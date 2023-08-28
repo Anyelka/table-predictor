@@ -1,7 +1,7 @@
 export const PREVIOUS_POSITIONS = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Arsenal" },
-  { position: 3, name: "Man United" },
+  { position: 3, name: "Man Utd" },
   { position: 4, name: "Newcastle" },
   { position: 5, name: "Liverpool" },
   { position: 6, name: "Brighton" },
@@ -17,7 +17,7 @@ export const PREVIOUS_POSITIONS = [
   { position: 16, name: "Nottingham" },
   { position: 17, name: "Everton" },
   { position: 18, name: "Burnley" },
-  { position: 19, name: "Sheffield" },
+  { position: 19, name: "Sheffield Utd" },
   { position: 20, name: "Luton" },
 ];
 
@@ -26,7 +26,7 @@ export const ZSOLTI_GUESSES = [
   { position: 2, name: "Liverpool" },
   { position: 3, name: "Man City" },
   { position: 4, name: "Arsenal" },
-  { position: 5, name: "Man United" },
+  { position: 5, name: "Man Utd" },
   { position: 6, name: "Tottenham" },
   { position: 7, name: "West Ham" },
   { position: 8, name: "Aston Villa" },
@@ -39,7 +39,7 @@ export const ZSOLTI_GUESSES = [
   { position: 15, name: "Fulham" },
   { position: 16, name: "Wolves" },
   { position: 17, name: "Luton" },
-  { position: 18, name: "Sheffield" },
+  { position: 18, name: "Sheffield Utd" },
   { position: 19, name: "Nottingham" },
   { position: 20, name: "Bournemouth" },
 ];
@@ -47,7 +47,7 @@ export const ZSOLTI_GUESSES = [
 export const MARCI_GUESSES = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Liverpool" },
-  { position: 3, name: "Man United" },
+  { position: 3, name: "Man Utd" },
   { position: 4, name: "Arsenal" },
   { position: 5, name: "Chelsea" },
   { position: 6, name: "Brighton" },
@@ -64,5 +64,5 @@ export const MARCI_GUESSES = [
   { position: 17, name: "Fulham" },
   { position: 18, name: "Wolves" },
   { position: 19, name: "Luton" },
-  { position: 20, name: "Sheffield" },
+  { position: 20, name: "Sheffield Utd" },
 ];

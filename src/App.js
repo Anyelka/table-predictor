@@ -7,6 +7,21 @@ import { getTeam } from "./resources/teams";
 
 const currentPositions = DUMMY_API_RESPONSE.league.standings[0];
 
+const getPoints = (guess, actualTable) => {
+  const actualRank = actualTable.find(
+    (team) => getTeam(team.name) === getTeam(guess.name)
+  ).position;
+  return Math.round(1000 * (1 - Math.abs(guess.position - actualRank) / 20));
+};
+
+const GuessTable = ({ id, title, guesses, actualTable }) => {
+  const data = guesses.map((guess) => {
+    const points = getPoints(guess, actualTable);
+    return { ...guess, points };
+  });
+  return <TableContainer id={id} title={title} initialData={data} />;
+};
+
 function App() {
   useEffect(() => {
     /* (async () => {
@@ -32,8 +47,18 @@ function App() {
         title="2022/23"
         initialData={PREVIOUS_POSITIONS}
       />
-      <TableContainer id="zsolti" title="Zsolti" initialData={ZSOLTI_GUESSES} />
-      <TableContainer id="marci" title="Marci" initialData={MARCI_GUESSES} />
+      <GuessTable
+        id="zsolti"
+        title="Zsolti"
+        guesses={ZSOLTI_GUESSES}
+        actualTable={currentTable}
+      />
+      <GuessTable
+        id="marci"
+        title="Marci"
+        guesses={MARCI_GUESSES}
+        actualTable={currentTable}
+      />
       <TableContainer
         id="actual-table"
         title="2023/24"
