@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { MARCI_GUESSES, PREVIOUS_POSITIONS, ZSOLTI_GUESSES } from "./guesses";
 import { DUMMY_API_RESPONSE } from "./resources/dummyData";
 import TableContainer from "./components/TableContainer";
+import { all } from "axios";
+import { getTeam } from "./resources/teams";
 
 const currentPositions = DUMMY_API_RESPONSE.league.standings[0];
 
@@ -14,7 +16,13 @@ function App() {
   }, []);
 
   const currentTable = currentPositions.map((entry) => {
-    return { position: entry.rank, name: entry.team.name };
+    const teamName = getTeam(entry.team.name);
+    return {
+      position: entry.rank,
+      name: teamName.basic,
+      played: entry.all.played, //not used yet
+      points: entry.points,
+    };
   });
 
   return (

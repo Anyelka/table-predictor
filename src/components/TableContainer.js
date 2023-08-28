@@ -15,6 +15,10 @@ const TableContainer = ({ id, title, initialData }) => {
         Header: "",
         accessor: "name",
       },
+      {
+        Header: "",
+        accessor: "points",
+      },
     ],
     []
   );
