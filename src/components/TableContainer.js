@@ -47,7 +47,7 @@ const TableContainer = ({ id, title, initialData }) => {
         accessor: "played",
         Cell: (row) =>
           row.value !== undefined && (
-            <div style={{ textAlign: "center", marginRight: "20px" }}>
+            <div style={{ textAlign: "left", marginRight: "20px" }}>
               {row.value}
             </div>
           ),
@@ -56,8 +56,9 @@ const TableContainer = ({ id, title, initialData }) => {
         Header: "",
         accessor: "change",
         Cell: (row) =>
-          row.value !== undefined && (
-            <div style={{ textAlign: "right", marginRight: "20px" }}>
+          row.value !== undefined &&
+          row.value !== 0 && (
+            <div style={{ textAlign: "center", marginRight: "20px" }}>
               {getPositionPrefix(row.value)}
               {Math.abs(row.value)}
             </div>
