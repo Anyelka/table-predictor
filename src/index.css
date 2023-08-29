@@ -51,11 +51,13 @@ code {
 }
 
 .table-container-body {
-  margin: auto;
+  margin: 20px;
+  width: 100%;
 }
 
 .table {
   font-size: 2vw;
+  width: 100%;
 }
 
 @media screen and (min-width: 1500px) {

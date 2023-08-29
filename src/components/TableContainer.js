@@ -18,6 +18,7 @@ const TableContainer = ({ id, title, initialData }) => {
       {
         Header: "",
         accessor: "points",
+        Cell: (row) => <div style={{ textAlign: "right" }}>{row.value}</div>,
       },
     ],
     []
