@@ -6,17 +6,22 @@ import { getTeam } from "./resources/teams";
 
 const currentPositions = DUMMY_API_RESPONSE.league.standings[0];
 
-const getPoints = (guess, actualTable) => {
+const getChange = (guess, actualTable) => {
   const actualRank = actualTable.find(
     (team) => getTeam(team.name) === getTeam(guess.name)
   ).position;
-  return Math.round(1000 * (1 - Math.abs(guess.position - actualRank) / 20));
+  return guess.position - actualRank;
+};
+
+const getPoints = (change) => {
+  return Math.round(1000 * (1 - Math.abs(change) / 20));
 };
 
 const GuessTable = ({ id, title, guesses, actualTable }) => {
   const data = guesses.map((guess) => {
-    const points = getPoints(guess, actualTable);
-    return { ...guess, points };
+    const change = getChange(guess, actualTable);
+    const points = getPoints(change);
+    return { ...guess, points, change };
   });
   return <TableContainer id={id} title={title} initialData={data} />;
 };
@@ -34,7 +39,7 @@ function App() {
     return {
       position: entry.rank,
       name: teamName.basic,
-      played: entry.all.played, //not used yet
+      played: entry.all.played,
       points: entry.points,
     };
   });

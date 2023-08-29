@@ -1,6 +1,33 @@
 import Table from "./Table";
+import upArrow from "../resources/icons/up-arrow.png";
+import upArrowDouble from "../resources/icons/up-arrow-double.png";
+import downArrow from "../resources/icons/down-arrow.png";
+import downArrowDouble from "../resources/icons/down-arrow-double.png";
 
 import React, { useMemo, useState } from "react";
+
+const getArrowIcon = (position) => {
+  if (position > 0 && position <= 5) {
+    return <img src={upArrow} class="arrow" width={20} height={20} alt="" />;
+  }
+  if (position > 5) {
+    return (
+      <img src={upArrowDouble} class="arrow" width={20} height={20} alt="" />
+    );
+  }
+  if (position < 0 && position >= -5) {
+    return <img src={downArrow} class="arrow" width={20} height={20} alt="" />;
+  }
+  if (position < -5) {
+    return (
+      <img src={downArrowDouble} class="arrow" width={20} height={20} alt="" />
+    );
+  }
+};
+
+const getPositionPrefix = (position) => {
+  return position === 0 ? "" : getArrowIcon(position);
+};
 
 const TableContainer = ({ id, title, initialData }) => {
   const [data] = useState(initialData);
@@ -14,6 +41,27 @@ const TableContainer = ({ id, title, initialData }) => {
       {
         Header: "",
         accessor: "name",
+      },
+      {
+        Header: "",
+        accessor: "played",
+        Cell: (row) =>
+          row.value !== undefined && (
+            <div style={{ textAlign: "center", marginRight: "20px" }}>
+              {row.value}
+            </div>
+          ),
+      },
+      {
+        Header: "",
+        accessor: "change",
+        Cell: (row) =>
+          row.value !== undefined && (
+            <div style={{ textAlign: "right", marginRight: "20px" }}>
+              {getPositionPrefix(row.value)}
+              {Math.abs(row.value)}
+            </div>
+          ),
       },
       {
         Header: "",
