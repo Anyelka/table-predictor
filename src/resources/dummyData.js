@@ -1,4 +1,4 @@
-export const DUMMY_API_RESPONSE = {
+export const DUMMY_TABLE_API_RESPONSE = {
   league: {
     id: 39,
     name: "Premier League",

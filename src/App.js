@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { PREVIOUS_POSITIONS } from "./constants/predictions";
-import { DUMMY_API_RESPONSE } from "./resources/dummyData";
 import TableContainer from "./components/TableContainer";
 import { getTeam } from "./resources/teams";
 import { get, getDatabase, ref, /* set, */ child } from "firebase/database";
@@ -28,6 +27,15 @@ const database = getDatabase(app);
   const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
   set(ref(database, "predictions/zsolti"), zsoltiPredictions);
   set(ref(database, "predictions/marci"), marciPredictions);
+}; */
+
+/* const saveActualTable = (leagueStangings) => {
+  const standings = leagueStangings.standings[0];
+  set(ref(database, "actualTable"), {
+    standings,
+    season: leagueStangings.season,
+    updated: new Date(),
+  });
 }; */
 
 const getChange = (guess, actualTable) => {
@@ -59,12 +67,12 @@ const loadPredictions = (name, setPredictions) => {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        console.log(
+        /* console.log(
           "getting predictions from db: name:" +
             name +
             ", data:" +
             JSON.stringify(data.predictions)
-        );
+        ); */
         setPredictions(data.predictions);
       } else {
         console.log("No data available");
@@ -76,8 +84,24 @@ const loadPredictions = (name, setPredictions) => {
 };
 
 const loadActualTable = (setActualTable) => {
-  const currentPositions = DUMMY_API_RESPONSE.league.standings[0];
-  const currentTable = currentPositions.map((entry) => {
+  const dbRef = ref(database);
+  get(child(dbRef, `actualTable`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        console.log("data:" + JSON.stringify(data));
+        setCurrentTable(data.standings, setActualTable);
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const setCurrentTable = (data, setActualTable) => {
+  const currentTable = data.map((entry) => {
     const teamName = getTeam(entry.team.name);
     return {
       position: entry.rank,
@@ -90,18 +114,21 @@ const loadActualTable = (setActualTable) => {
 };
 
 function App() {
+  const [actualTable, setActualTable] = useState([]);
   const [zsoltiPredictions, setZsoltiPredictions] = useState([]);
   const [marciPredictions, setMarciPredictions] = useState([]);
-  const [actualTable, setActualTable] = useState([]);
 
   useEffect(() => {
     /* (async () => {
       const table = await getTable();
       setCurrentPositions(table.standings[0]);
     })(); */
+
+    /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
+
+    loadActualTable(setActualTable);
     loadPredictions("zsolti", setZsoltiPredictions);
     loadPredictions("marci", setMarciPredictions);
-    loadActualTable(setActualTable);
   }, []);
 
   return (
