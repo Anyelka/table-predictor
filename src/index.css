@@ -81,6 +81,8 @@ h1 {
   margin-right: 5px;
   filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
     brightness(104%) contrast(97%);
+  width: 20px;
+  height: 20px;
 }
 
 .logo {

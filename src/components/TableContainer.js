@@ -8,36 +8,16 @@ import React, { useMemo } from "react";
 
 const getArrowIcon = (position) => {
   if (position > 0 && position <= 5) {
-    return (
-      <img src={upArrow} className="arrow" width={20} height={20} alt="" />
-    );
+    return <img src={upArrow} className="arrow" alt="" />;
   }
   if (position > 5) {
-    return (
-      <img
-        src={upArrowDouble}
-        className="arrow"
-        width={20}
-        height={20}
-        alt=""
-      />
-    );
+    return <img src={upArrowDouble} className="arrow" alt="" />;
   }
   if (position < 0 && position >= -5) {
-    return (
-      <img src={downArrow} className="arrow" width={20} height={20} alt="" />
-    );
+    return <img src={downArrow} className="arrow" alt="" />;
   }
   if (position < -5) {
-    return (
-      <img
-        src={downArrowDouble}
-        className="arrow"
-        width={20}
-        height={20}
-        alt=""
-      />
-    );
+    return <img src={downArrowDouble} className="arrow" alt="" />;
   }
 };
 
@@ -80,9 +60,15 @@ const TableContainer = ({ id, title, data }) => {
         Cell: (row) =>
           row.value !== undefined &&
           row.value !== 0 && (
-            <div style={{ textAlign: "center", marginRight: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                textAlign: "center",
+                marginRight: "20px",
+              }}
+            >
               {getPositionPrefix(row.value)}
-              {Math.abs(row.value)}
+              <div>{Math.abs(row.value)}</div>
             </div>
           ),
       },
