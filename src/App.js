@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { PREVIOUS_POSITIONS } from "./constants/predictions";
 import TableContainer from "./components/TableContainer";
 import { getTeam } from "./resources/teams";
 import { get, getDatabase, ref, /* set, */ child } from "firebase/database";
@@ -38,10 +37,8 @@ const database = getDatabase(app);
   });
 }; */
 
-const getChange = (guess, actualTable) => {
-  const actualRank = actualTable.find(
-    (team) => getTeam(team.name) === getTeam(guess.name)
-  ).position;
+const getChange = (guess, team) => {
+  const actualRank = team.position;
   return guess.position - actualRank;
 };
 
@@ -54,9 +51,13 @@ const PredictionsTable = ({ id, title, predictions, actualTable }) => {
     return null;
   }
   const data = predictions.map((guess) => {
-    const change = getChange(guess, actualTable);
+    const team = actualTable.find(
+      (team) => getTeam(team.name) === getTeam(guess.name)
+    );
+    const change = getChange(guess, team);
     const points = getPoints(change);
-    return { ...guess, points, change };
+    const logo = team.logo;
+    return { ...guess, points, change, logo };
   });
   return <TableContainer id={id} title={title} data={data} />;
 };
@@ -102,9 +103,11 @@ const loadActualTable = (setActualTable) => {
 
 const setCurrentTable = (data, setActualTable) => {
   const currentTable = data.map((entry) => {
-    const teamName = getTeam(entry.team.name);
+    const team = entry.team;
+    const teamName = getTeam(team.name);
     return {
       position: entry.rank,
+      logo: team.logo,
       name: teamName.basic,
       played: entry.all.played,
       points: entry.points,
@@ -133,7 +136,7 @@ function App() {
 
   return (
     <div className="tables-box">
-      <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} />
+      {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
       <PredictionsTable
         id="zsolti"
         title="Zsolti"

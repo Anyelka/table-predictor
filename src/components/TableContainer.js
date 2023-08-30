@@ -54,6 +54,14 @@ const TableContainer = ({ id, title, data }) => {
       },
       {
         Header: "",
+        accessor: "logo",
+        Cell: (row) =>
+          row.value !== undefined && (
+            <img src={row.value} alt="" className="logo"></img>
+          ),
+      },
+      {
+        Header: "",
         accessor: "name",
       },
       {

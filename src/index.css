@@ -35,7 +35,7 @@ code {
 
 .table-container {
   display: flex;
-  flex: 0 1 25%;
+  flex: 0 1 33%;
   flex-wrap: wrap;
   margin: 20px 10px 20px 10px;
   border-radius: 20px;
@@ -81,4 +81,9 @@ h1 {
   margin-right: 5px;
   filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
     brightness(104%) contrast(97%);
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
 }
