@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  MARCI_PREDICTIONS,
-  PREVIOUS_POSITIONS,
-  ZSOLTI_PREDICTIONS,
-} from "./constants/predictions";
+import { PREVIOUS_POSITIONS } from "./constants/predictions";
 import { DUMMY_API_RESPONSE } from "./resources/dummyData";
 import TableContainer from "./components/TableContainer";
 import { getTeam } from "./resources/teams";
-import { get, getDatabase, ref, set, child } from "firebase/database";
+import { get, getDatabase, ref, /* set, */ child } from "firebase/database";
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
@@ -27,12 +23,12 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
-const savePredictions = () => {
+/* const savePredictions = () => {
   const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
   const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
   set(ref(database, "predictions/zsolti"), zsoltiPredictions);
   set(ref(database, "predictions/marci"), marciPredictions);
-};
+}; */
 
 const getChange = (guess, actualTable) => {
   const actualRank = actualTable.find(
@@ -58,7 +54,7 @@ const PredictionsTable = ({ id, title, predictions, actualTable }) => {
 };
 
 const loadPredictions = (name, setPredictions) => {
-  const dbRef = ref(getDatabase());
+  const dbRef = ref(database);
   get(child(dbRef, `predictions/${name}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
