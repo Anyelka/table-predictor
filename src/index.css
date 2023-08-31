@@ -8,6 +8,7 @@
   --neon-green: rgb(0, 255, 135);
   --green: #00db74;
   --dark-purple: #37003c;
+  --dark-lighter-purple: #7f3985;
   --pink: #ff2882;
   --red: #e0005e;
   --light-blue: #05f0ff;
@@ -20,7 +21,9 @@ body {
   font-family: "Fantasy";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--light-blue);
+
+  background-image: url("./resources/background/Vladimir-Coufal-Kaoru-Mitoma.webp");
+  background-size: cover;
 }
 
 code {
@@ -31,6 +34,8 @@ code {
 .tables-box {
   display: flex;
   min-height: 100vh;
+  opacity: 80%;
+  background-color: var(--light-blue);
 }
 
 .table-container {
@@ -41,6 +46,8 @@ code {
   border-radius: 20px;
   background-color: var(--dark-purple);
   color: var(--neon-green);
+
+  box-shadow: inset -10px 15px 10px var(--dark-lighter-purple);
 }
 
 .table-container-head {
