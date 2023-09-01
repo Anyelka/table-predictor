@@ -3,6 +3,7 @@ import upArrow from "../resources/icons/up-arrow.png";
 import upArrowDouble from "../resources/icons/up-arrow-double.png";
 import downArrow from "../resources/icons/down-arrow.png";
 import downArrowDouble from "../resources/icons/down-arrow-double.png";
+import refreshIcon from "../resources/icons/refresh_1.png";
 
 import React, { useMemo } from "react";
 
@@ -25,7 +26,7 @@ const getPositionPrefix = (position) => {
   return position === 0 ? "" : getArrowIcon(position);
 };
 
-const TableContainer = ({ id, title, data }) => {
+const TableContainer = ({ id, title, data, headerButtonAction }) => {
   const columns = useMemo(
     () => [
       {
@@ -84,7 +85,16 @@ const TableContainer = ({ id, title, data }) => {
   return (
     <div id={`${id}-table-container`} className="table-container">
       <div className="table-container-head">
-        <h1>{title}</h1>
+        <div className="table-container-head-title">
+          <h1>{title}</h1>
+        </div>
+        {headerButtonAction && (
+          <div className="table-container-head-button">
+            <button class="button" onClick={headerButtonAction}>
+              <img src={refreshIcon} alt="" class="button-image" />
+            </button>
+          </div>
+        )}
       </div>
       <div className="table-container-body">
         <Table

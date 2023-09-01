@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TableContainer from "./components/TableContainer";
 import { getTeam } from "./resources/teams";
-import { get, getDatabase, ref, /* set, */ child } from "firebase/database";
+import { get, getDatabase, ref, set, child } from "firebase/database";
 import { initializeApp } from "firebase/app";
+import { getTable } from "./agent";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -20,22 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
-
-/* const savePredictions = () => {
-  const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
-  const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
-  set(ref(database, "predictions/zsolti"), zsoltiPredictions);
-  set(ref(database, "predictions/marci"), marciPredictions);
-}; */
-
-/* const saveActualTable = (leagueStangings) => {
-  const standings = leagueStangings.standings[0];
-  set(ref(database, "actualTable"), {
-    standings,
-    season: leagueStangings.season,
-    updated: new Date(),
-  });
-}; */
 
 const getChange = (guess, team) => {
   const actualRank = team.position;
@@ -60,6 +45,23 @@ const PredictionsTable = ({ id, title, predictions, actualTable }) => {
     return { ...guess, points, change, logo };
   });
   return <TableContainer id={id} title={title} data={data} />;
+};
+
+/* const savePredictions = () => {
+  const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
+  const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
+  set(ref(database, "predictions/zsolti"), zsoltiPredictions);
+  set(ref(database, "predictions/marci"), marciPredictions);
+}; */
+
+const saveActualTable = (leagueStangings) => {
+  const standings = leagueStangings.standings[0];
+  const date = new Date().getDate();
+  set(ref(database, "actualTable"), {
+    standings,
+    season: leagueStangings.season,
+    updated: date,
+  });
 };
 
 const loadPredictions = (name, setPredictions) => {
@@ -116,16 +118,22 @@ const setCurrentTable = (data, setActualTable) => {
   setActualTable(currentTable);
 };
 
+const refreshActualTable = async (setActualTable) => {
+  const table = await getTable();
+  saveActualTable(table);
+  loadActualTable(setActualTable);
+};
+
 function App() {
   const [actualTable, setActualTable] = useState([]);
   const [zsoltiPredictions, setZsoltiPredictions] = useState([]);
   const [marciPredictions, setMarciPredictions] = useState([]);
 
   useEffect(() => {
-    /* (async () => {
+    (async () => {
       const table = await getTable();
-      setCurrentPositions(table.standings[0]);
-    })(); */
+      setActualTable(table.standings[0]);
+    })();
 
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
 
@@ -149,7 +157,12 @@ function App() {
         predictions={marciPredictions}
         actualTable={actualTable}
       />
-      <TableContainer id="actual-table" title="2023/24" data={actualTable} />
+      <TableContainer
+        id="actual-table"
+        title="2023/24"
+        data={actualTable}
+        headerButtonAction={() => refreshActualTable(setActualTable)}
+      />
     </div>
   );
 }
