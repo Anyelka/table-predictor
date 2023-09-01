@@ -19,7 +19,6 @@ export const getTable = async () => {
   let result;
   try {
     result = await axios.request(options);
-    console.log(result.data);
   } catch (error) {
     console.error(error);
   }
@@ -27,6 +26,5 @@ export const getTable = async () => {
 };
 
 const mapResponse = (result) => {
-  console.log("result: " + JSON.stringify(result.data.response[0].league));
   return result.data.response[0].league;
 };

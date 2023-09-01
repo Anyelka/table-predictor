@@ -22,6 +22,31 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
+const getCurrentDate = () => {
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+const checkIfDateIsValid = (actualTableUpdated) => {
+  if (!actualTableUpdated) {
+    return true;
+  }
+  console.log("actualTableUpdated:" + JSON.stringify(actualTableUpdated));
+  const [year, month, day] = actualTableUpdated.split("-");
+  const updatedDate = new Date(+year, month - 1, day);
+  const currentDate = new Date();
+  console.log(
+    "Updated date:" +
+      JSON.stringify(updatedDate) +
+      ", currentDate: " +
+      JSON.stringify(currentDate)
+  );
+  return updatedDate >= currentDate;
+};
+
 const getChange = (guess, team) => {
   const actualRank = team.position;
   return guess.position - actualRank;
@@ -56,7 +81,8 @@ const PredictionsTable = ({ id, title, predictions, actualTable }) => {
 
 const saveActualTable = (leagueStangings) => {
   const standings = leagueStangings.standings[0];
-  const date = new Date().getDate();
+  const date = getCurrentDate();
+  console.log("current Date: " + JSON.stringify(date));
   set(ref(database, "actualTable"), {
     standings,
     season: leagueStangings.season,
@@ -86,14 +112,14 @@ const loadPredictions = (name, setPredictions) => {
     });
 };
 
-const loadActualTable = (setActualTable) => {
+const loadActualTable = (setActualTable, setActualTableUpdated) => {
   const dbRef = ref(database);
   get(child(dbRef, `actualTable`))
     .then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        console.log("data:" + JSON.stringify(data));
         setCurrentTable(data.standings, setActualTable);
+        setActualTableUpdated(data.updated);
       } else {
         console.log("No data available");
       }
@@ -118,26 +144,23 @@ const setCurrentTable = (data, setActualTable) => {
   setActualTable(currentTable);
 };
 
-const refreshActualTable = async (setActualTable) => {
+const refreshActualTable = async (setActualTable, setActualTableUpdated) => {
   const table = await getTable();
   saveActualTable(table);
-  loadActualTable(setActualTable);
+  loadActualTable(setActualTable, setActualTableUpdated);
 };
 
 function App() {
   const [actualTable, setActualTable] = useState([]);
+  const [actualTableUpdated, setActualTableUpdated] = useState();
   const [zsoltiPredictions, setZsoltiPredictions] = useState([]);
   const [marciPredictions, setMarciPredictions] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      const table = await getTable();
-      setActualTable(table.standings[0]);
-    })();
-
+    /* refreshActualTable(setActualTable, setActualTableUpdated); */
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
 
-    loadActualTable(setActualTable);
+    loadActualTable(setActualTable, setActualTableUpdated);
     loadPredictions("zsolti", setZsoltiPredictions);
     loadPredictions("marci", setMarciPredictions);
   }, []);
@@ -161,6 +184,7 @@ function App() {
         id="actual-table"
         title="2023/24"
         data={actualTable}
+        showHeaderButton={checkIfDateIsValid(actualTableUpdated)}
         headerButtonAction={() => refreshActualTable(setActualTable)}
       />
     </div>

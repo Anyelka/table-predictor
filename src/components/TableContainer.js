@@ -26,7 +26,13 @@ const getPositionPrefix = (position) => {
   return position === 0 ? "" : getArrowIcon(position);
 };
 
-const TableContainer = ({ id, title, data, headerButtonAction }) => {
+const TableContainer = ({
+  id,
+  title,
+  data,
+  showHeaderButton,
+  headerButtonAction,
+}) => {
   const columns = useMemo(
     () => [
       {
@@ -88,10 +94,10 @@ const TableContainer = ({ id, title, data, headerButtonAction }) => {
         <div className="table-container-head-title">
           <h1>{title}</h1>
         </div>
-        {headerButtonAction && (
+        {showHeaderButton && headerButtonAction && (
           <div className="table-container-head-button">
-            <button class="button" onClick={headerButtonAction}>
-              <img src={refreshIcon} alt="" class="button-image" />
+            <button className="button" onClick={headerButtonAction}>
+              <img src={refreshIcon} alt="" className="button-image" />
             </button>
           </div>
         )}
