@@ -36,15 +36,17 @@ const checkIfDateIsValid = (actualTableUpdated) => {
   }
   console.log("actualTableUpdated:" + JSON.stringify(actualTableUpdated));
   const [year, month, day] = actualTableUpdated.split("-");
-  const updatedDate = new Date(+year, month - 1, day);
-  const currentDate = new Date();
+  let updatedDate = new Date(+year, month - 1, day);
+  updatedDate.setHours(0, 0, 0, 0);
+  let currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
   console.log(
     "Updated date:" +
       JSON.stringify(updatedDate) +
       ", currentDate: " +
       JSON.stringify(currentDate)
   );
-  return updatedDate >= currentDate;
+  return updatedDate < currentDate;
 };
 
 const getChange = (guess, team) => {
