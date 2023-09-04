@@ -4,6 +4,8 @@ import { getTeam } from "./resources/teams";
 import { get, getDatabase, ref, set, child } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { getTable } from "./agent";
+import PredictionTable from "./components/PredictionTable";
+import ActualTalbe from "./components/ActualTable";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -47,31 +49,6 @@ const checkIfDateIsValid = (actualTableUpdated) => {
       JSON.stringify(currentDate)
   );
   return updatedDate < currentDate;
-};
-
-const getChange = (guess, team) => {
-  const actualRank = team.position;
-  return guess.position - actualRank;
-};
-
-const getPoints = (change) => {
-  return Math.round(1000 * (1 - Math.abs(change) / 20));
-};
-
-const PredictionsTable = ({ id, title, predictions, actualTable }) => {
-  if (!predictions) {
-    return null;
-  }
-  const data = predictions.map((guess) => {
-    const team = actualTable.find(
-      (team) => getTeam(team.name) === getTeam(guess.name)
-    );
-    const change = getChange(guess, team);
-    const points = getPoints(change);
-    const logo = team.logo;
-    return { ...guess, points, change, logo };
-  });
-  return <TableContainer id={id} title={title} data={data} />;
 };
 
 /* const savePredictions = () => {
@@ -167,27 +144,49 @@ function App() {
     loadPredictions("marci", setMarciPredictions);
   }, []);
 
-  return (
-    <div className="tables-box">
-      {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
-      <PredictionsTable
-        id="zsolti"
-        title="Zsolti"
+  const renderZsoltiPredictionTable = (id) => {
+    return (
+      <PredictionTable
+        id={id}
         predictions={zsoltiPredictions}
         actualTable={actualTable}
       />
-      <PredictionsTable
-        id="marci"
-        title="Marci"
+    );
+  };
+
+  const renderMarciPredictionTable = (id) => {
+    return (
+      <PredictionTable
+        id={id}
         predictions={marciPredictions}
         actualTable={actualTable}
+      />
+    );
+  };
+
+  const renderActualTable = () => {
+    return <ActualTalbe id="actual" data={actualTable} />;
+  };
+
+  return (
+    <div className="tables-box">
+      {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
+      <TableContainer
+        id="zsolti"
+        title="Zsolti"
+        renderTable={() => renderZsoltiPredictionTable("zsolti")}
+      />
+      <TableContainer
+        id="marci"
+        title="Marci"
+        renderTable={() => renderMarciPredictionTable("marci")}
       />
       <TableContainer
         id="actual-table"
         title="2023/24"
-        data={actualTable}
         showHeaderButton={checkIfDateIsValid(actualTableUpdated)}
         headerButtonAction={() => refreshActualTable(setActualTable)}
+        renderTable={() => renderActualTable()}
       />
     </div>
   );
