@@ -1,10 +1,10 @@
-import Table from "./Table";
+import Table from "../Table";
 import React, { useMemo } from "react";
-import upArrow from "../resources/icons/up-arrow.png";
-import upArrowDouble from "../resources/icons/up-arrow-double.png";
-import downArrow from "../resources/icons/down-arrow.png";
-import downArrowDouble from "../resources/icons/down-arrow-double.png";
-import { getTeam } from "../resources/teams";
+import upArrow from "../../resources/icons/up-arrow.png";
+import upArrowDouble from "../../resources/icons/up-arrow-double.png";
+import downArrow from "../../resources/icons/down-arrow.png";
+import downArrowDouble from "../../resources/icons/down-arrow-double.png";
+import { getTeam } from "../../resources/teams";
 
 const getChange = (guess, team) => {
   const actualRank = team.position;

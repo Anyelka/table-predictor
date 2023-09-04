@@ -1,4 +1,4 @@
-import Table from "./Table";
+import Table from "../Table";
 import React, { useMemo } from "react";
 
 const ActualTalbe = ({ id, data }) => {

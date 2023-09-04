@@ -7,7 +7,7 @@ const TableContainer = ({
   title,
   showHeaderButton,
   headerButtonAction,
-  renderTable,
+  table,
 }) => {
   return (
     <div id={`${id}-table-container`} className="table-container">
@@ -23,7 +23,7 @@ const TableContainer = ({
           </div>
         )}
       </div>
-      <div className="table-container-body">{renderTable()}</div>
+      <div className="table-container-body">{table}</div>
     </div>
   );
 };

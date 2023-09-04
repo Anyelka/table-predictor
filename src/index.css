@@ -31,7 +31,7 @@ code {
     monospace;
 }
 
-.tables-box {
+.standings-tab {
   display: flex;
   min-height: 100vh;
   opacity: 80%;
