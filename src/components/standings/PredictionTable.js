@@ -35,6 +35,28 @@ const getPositionPrefix = (position) => {
 };
 
 const PredictionTable = ({ id, predictions, actualTable }) => {
+  const mapTeam = (guess) => {
+    const team = actualTable.find(
+      (team) => getTeam(team.name) === getTeam(guess.name)
+    );
+    if (!team) {
+      console.error("Team not found: " + guess.name);
+      return guess;
+    }
+    const change = getChange(guess, team);
+    const points = getPoints(change);
+    const logo = team.logo;
+    return { ...guess, points, change, logo };
+  };
+
+  const getData = () => {
+    if (!predictions) {
+      return null;
+    }
+
+    return predictions.map((guess) => mapTeam(guess));
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -80,21 +102,13 @@ const PredictionTable = ({ id, predictions, actualTable }) => {
     []
   );
 
-  if (!predictions) {
-    return null;
-  }
-  const data = predictions.map((guess) => {
-    const team = actualTable.find(
-      (team) => getTeam(team.name) === getTeam(guess.name)
-    );
-    const change = getChange(guess, team);
-    const points = getPoints(change);
-    const logo = team.logo;
-    return { ...guess, points, change, logo };
-  });
-
   return (
-    <Table id={`${id}-table`} className="table" columns={columns} data={data} />
+    <Table
+      id={`${id}-table`}
+      className="table"
+      columns={columns}
+      data={getData()}
+    />
   );
 };
 

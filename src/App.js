@@ -5,7 +5,7 @@ import { get, getDatabase, ref, set, child } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { getTable } from "./agent";
 import PredictionTable from "./components/standings/PredictionTable";
-import ActualTalbe from "./components/standings/ActualTable";
+import ActualTable from "./components/standings/ActualTable";
 import StandingsTab from "./components/standings/StandingsTab";
 
 const firebaseConfig = {

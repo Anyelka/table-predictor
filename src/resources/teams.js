@@ -102,7 +102,11 @@ export const TEAMS = [
 ];
 
 export const getTeam = (name) => {
-  return TEAMS.find(
+  const team = TEAMS.find(
     (t) => t.short === name || t.long === name || t.basic === name
   );
+  if (!team) {
+    console.error("Team not found: " + name);
+  }
+  return team;
 };

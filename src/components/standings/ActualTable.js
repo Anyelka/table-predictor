@@ -1,7 +1,7 @@
 import Table from "../Table";
 import React, { useMemo } from "react";
 
-const ActualTalbe = ({ id, data }) => {
+const ActualTable = ({ id, data }) => {
   const columns = useMemo(
     () => [
       {
@@ -43,4 +43,4 @@ const ActualTalbe = ({ id, data }) => {
     <Table id={`${id}-table`} className="table" columns={columns} data={data} />
   );
 };
-export default ActualTalbe;
+export default ActualTable;
