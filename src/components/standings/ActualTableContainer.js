@@ -5,8 +5,10 @@ import { getCurrentDate } from "../utils";
 import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
+import Loader from "../Loader";
 
 const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
+  const [loading, setLoading] = useState(true);
   const [actualTableUpdated, setActualTableUpdated] = useState();
 
   const checkIfDateIsValid = () => {
@@ -53,11 +55,14 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          setCurrentTable(data.standings, setActualTable);
+          setCurrentTable(data.standings);
           setActualTableUpdated(data.updated);
         } else {
           console.log("No data available");
         }
+      })
+      .then(() => {
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
@@ -83,7 +88,9 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
       title="2023/24"
       showHeaderButton={checkIfDateIsValid()}
       headerButtonAction={refreshActualTable}
-      table={<ActualTable id="actual" data={actualTable} />}
+      table={
+        loading ? <Loader /> : <ActualTable id="actual" data={actualTable} />
+      }
     />
   );
 };

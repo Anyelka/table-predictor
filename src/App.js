@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
-import TableContainer from "./components/TableContainer";
-import { getTeam } from "./resources/teams";
-import { get, getDatabase, ref, set, child } from "firebase/database";
+import React from "react";
+import { getDatabase } from "firebase/database";
 import { initializeApp } from "firebase/app";
-import { getTable } from "./agent";
-import PredictionTable from "./components/standings/PredictionTable";
-import ActualTable from "./components/standings/ActualTable";
 import StandingsTab from "./components/standings/StandingsTab";
 
 const firebaseConfig = {

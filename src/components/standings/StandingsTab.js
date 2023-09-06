@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
 import ActualTableContainer from "./ActualTableContainer";
+import { motion } from "framer-motion";
 
 const StandingsTab = ({ database }) => {
   const [actualTable, setActualTable] = useState([]);
 
   return (
-    <div className="standings-tab">
+    <motion.div
+      className="standings-tab"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 0.8 }}
+    >
       {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
       <PredictionTableContainer
         id="zsolti"
@@ -25,7 +30,7 @@ const StandingsTab = ({ database }) => {
         setActualTable={setActualTable}
         database={database}
       />
-    </div>
+    </motion.div>
   );
 };
 

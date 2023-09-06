@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import TableContainer from "../TableContainer";
 import PredictionTable from "./PredictionTable";
 import { get, ref, /* set, */ child } from "firebase/database";
+import Loader from "../Loader";
 
 const PredictionTableContainer = ({ id, name, actualTable, database }) => {
+  const [loading, setLoading] = useState(true);
   const [predictions, setPredictions] = useState([]);
 
   /* const savePredictions = () => {
@@ -24,6 +26,9 @@ const PredictionTableContainer = ({ id, name, actualTable, database }) => {
           console.log("No data available");
         }
       })
+      .then(() => {
+        setLoading(false);
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -39,11 +44,15 @@ const PredictionTableContainer = ({ id, name, actualTable, database }) => {
       id={id}
       title={name}
       table={
-        <PredictionTable
-          id={id}
-          predictions={predictions}
-          actualTable={actualTable}
-        />
+        loading ? (
+          <Loader />
+        ) : (
+          <PredictionTable
+            id={id}
+            predictions={predictions}
+            actualTable={actualTable}
+          />
+        )
       }
     />
   );

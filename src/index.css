@@ -5,7 +5,7 @@
 }
 
 :root {
-  --neon-green: rgb(0, 255, 135);
+  --neon-green: #00ff88; /* rgb(0, 255, 135); */
   --green: #00db74;
   --dark-purple: #37003c;
   --dark-lighter-purple: #7f3985;
@@ -34,14 +34,14 @@ code {
 .standings-tab {
   display: flex;
   min-height: 100vh;
-  opacity: 80%;
+  /* opacity: 80%; */
   background-color: var(--light-blue);
 }
 
 .table-container {
   display: flex;
   flex: 0 1 33%;
-  flex-wrap: wrap;
+  flex-direction: column;
   margin: 20px 10px 20px 10px;
   border-radius: 20px;
   background-color: var(--dark-purple);
@@ -94,8 +94,6 @@ code {
 }
 
 .table-container-body {
-  margin: 20px;
-  margin-top: 0px;
   width: 100%;
 }
 
