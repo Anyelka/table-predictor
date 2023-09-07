@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
 import TableContainer from "../TableContainer";
 import { getCurrentDate } from "../utils";
@@ -23,8 +23,8 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     return updatedDate < currentDate;
   };
 
-  const setCurrentTable = (data) => {
-    const currentTable = data.map((entry) => {
+  const convertToTable = (data) => {
+    return data.standings.map((entry) => {
       const team = entry.team;
       const teamName = getTeam(team.name);
       return {
@@ -35,7 +35,6 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
         points: entry.points,
       };
     });
-    setActualTable(currentTable);
   };
 
   const saveActualTable = (leagueStangings) => {
@@ -49,13 +48,14 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     });
   };
 
-  const loadActualTable = () => {
+  const loadActualTable = useCallback(() => {
     const dbRef = ref(database);
     get(child(dbRef, `actualTable`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          setCurrentTable(data.standings);
+          const currentTable = convertToTable(data);
+          setActualTable(currentTable);
           setActualTableUpdated(data.updated);
         } else {
           console.log("No data available");
@@ -67,7 +67,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }, [database, setActualTable, setActualTableUpdated]);
 
   const refreshActualTable = async () => {
     const table = await getTable();
@@ -80,7 +80,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
 
     loadActualTable();
-  }, []);
+  }, [loadActualTable]);
 
   return (
     <TableContainer

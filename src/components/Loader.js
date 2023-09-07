@@ -1,4 +1,4 @@
-import FadeLoader from "react-spinners/FadeLoader";
+/* import FadeLoader from "react-spinners/FadeLoader"; */
 import MoonLoader from "react-spinners/MoonLoader";
 
 import React from "react";
@@ -11,7 +11,7 @@ const override = {
   borderColor: "red",
 };
 
-const renderFadeLoader = (size = 5) => {
+/* const renderFadeLoader = (size = 5) => {
   const height = size * 16;
   const width = size * 2;
   const radius = size;
@@ -30,7 +30,7 @@ const renderFadeLoader = (size = 5) => {
       data-testid="loader"
     />
   );
-};
+}; */
 
 const renderMoonLoader = (size = 100) => {
   return (

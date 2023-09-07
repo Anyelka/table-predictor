@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import TableContainer from "../TableContainer";
 import PredictionTable from "./PredictionTable";
 import { get, ref, /* set, */ child } from "firebase/database";
@@ -15,7 +15,7 @@ const PredictionTableContainer = ({ id, name, actualTable, database }) => {
     set(ref(database, "predictions/marci"), marciPredictions);
   }; */
 
-  const loadPredictions = () => {
+  const loadPredictions = useCallback(() => {
     const dbRef = ref(database);
     get(child(dbRef, `predictions/${id}`))
       .then((snapshot) => {
@@ -32,12 +32,12 @@ const PredictionTableContainer = ({ id, name, actualTable, database }) => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }, [id, database, setPredictions]);
 
   useEffect(() => {
     /* savePredictions(); */
     loadPredictions();
-  }, []);
+  }, [loadPredictions]);
 
   return (
     <TableContainer
