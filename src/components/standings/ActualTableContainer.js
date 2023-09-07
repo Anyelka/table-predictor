@@ -77,7 +77,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   };
 
   const renderHeaderButton = () => {
-    return isDateValid || true ? (
+    return isDateValid ? (
       <div className="table-container-head-button">
         <button className="button" onClick={refreshActualTable}>
           <img src={refreshIcon} alt="" className="button-image" />
