@@ -61,6 +61,7 @@ code {
 
 .table-container-head-title {
   justify-content: center;
+  height: 100%;
 }
 
 .table-container-head-button {
@@ -99,7 +100,9 @@ code {
 
 .table {
   font-size: 2vw;
-  width: 100%;
+  width: 90%;
+  margin: 20px;
+  margin-top: 0px;
 }
 
 @media screen and (min-width: 1500px) {
@@ -109,6 +112,11 @@ code {
 
   .table-container-head {
     font-size: 32px;
+  }
+
+  .button-image {
+    width: 35px;
+    height: 35px;
   }
 }
 
