@@ -60,13 +60,20 @@ code {
 }
 
 .table-container-head-title {
+  flex: auto;
   justify-content: center;
   height: 100%;
 }
 
 .table-container-head-button {
   justify-content: center;
-  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.table-container-head-points {
+  justify-content: center;
+  margin-right: 20px;
+  height: 100%;
 }
 
 .button {
@@ -75,8 +82,8 @@ code {
   padding: 0px;
   border: none;
   border-radius: 10px;
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
   justify-content: center;
 }
 
