@@ -6,12 +6,13 @@ import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
 import Loader from "../Loader";
+import refreshIcon from "../../resources/icons/refresh_1.png";
 
 const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   const [loading, setLoading] = useState(true);
   const [actualTableUpdated, setActualTableUpdated] = useState();
 
-  const checkIfDateIsValid = () => {
+  const isDateValid = () => {
     if (!actualTableUpdated) {
       return true;
     }
@@ -75,6 +76,18 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     loadActualTable();
   };
 
+  const renderHeaderButton = () => {
+    return isDateValid || true ? (
+      <div className="table-container-head-button">
+        <button className="button" onClick={refreshActualTable}>
+          <img src={refreshIcon} alt="" className="button-image" />
+        </button>
+      </div>
+    ) : (
+      <></>
+    );
+  };
+
   useEffect(() => {
     /* refreshActualTable(setActualTable, setActualTableUpdated); */
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
@@ -86,8 +99,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     <TableContainer
       id="actual-table"
       title="2023/24"
-      showHeaderButton={checkIfDateIsValid()}
-      headerButtonAction={refreshActualTable}
+      header={renderHeaderButton()}
       table={
         loading ? <Loader /> : <ActualTable id="actual" data={actualTable} />
       }
