@@ -5,7 +5,11 @@ const TableContainer = ({ id, title, header, table }) => {
   return (
     <div id={`${id}-table-container`} className="table-container">
       <div className="table-container-head">
-        <motion.div className="table-container-head-title" layout>
+        <motion.div
+          className="table-container-head-title"
+          transition={{ duration: 0.25 }}
+          layout
+        >
           <h1>{title}</h1>
         </motion.div>
         {header}

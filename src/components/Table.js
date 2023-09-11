@@ -36,14 +36,18 @@ export default function Table({ id, className, columns, data }) {
           return (
             <motion.tr
               initial={{ opacity: 0 }}
-              transition={{ duration: 0.75, delay: index * 0.05 }}
+              transition={{ duration: 0.25, delay: index * 0.025 }}
               animate={{ opacity: 1 }}
               {...row.getRowProps()}
             >
               {row.cells.map((cell) => {
                 if (cell.column.id === "logo") {
                   return (
-                    <motion.td {...cell.getCellProps()} layout>
+                    <motion.td
+                      {...cell.getCellProps()}
+                      transition={{ duration: 0.25 }}
+                      layout
+                    >
                       {cell.render("Cell")}
                     </motion.td>
                   );
