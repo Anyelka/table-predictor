@@ -1,5 +1,6 @@
 import React from "react";
 import { useTable } from "react-table";
+import { motion } from "framer-motion";
 
 export default function Table({ id, className, columns, data }) {
   // Use the useTable Hook to send the columns and data to build the table
@@ -30,14 +31,26 @@ export default function Table({ id, className, columns, data }) {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
+        {rows.map((row, index) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <motion.tr
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.75, delay: index * 0.05 }}
+              animate={{ opacity: 1 }}
+              {...row.getRowProps()}
+            >
               {row.cells.map((cell) => {
+                if (cell.column.id === "logo") {
+                  return (
+                    <motion.td {...cell.getCellProps()} layout>
+                      {cell.render("Cell")}
+                    </motion.td>
+                  );
+                }
                 return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
               })}
-            </tr>
+            </motion.tr>
           );
         })}
       </tbody>
