@@ -7,8 +7,9 @@ const TableContainer = ({ id, title, header, table }) => {
       <div className="table-container-head">
         <motion.div
           className="table-container-head-title"
+          initial={{ x: -300 }}
           transition={{ duration: 0.25 }}
-          layout
+          animate={{ x: 0 }}
         >
           <h1>{title}</h1>
         </motion.div>

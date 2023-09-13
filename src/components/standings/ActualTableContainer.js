@@ -7,12 +7,23 @@ import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
 import Loader from "../Loader";
 import refreshIcon from "../../resources/icons/refresh_1.png";
+import { motion } from "framer-motion";
+
+const headerButtonVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    rotate: -360,
+    transition: { duration: 0.5 },
+  },
+};
 
 const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   const [loading, setLoading] = useState(true);
   const [actualTableUpdated, setActualTableUpdated] = useState();
+  const [dateValid, setDateValid] = useState(false);
 
-  const isDateValid = () => {
+  const isDateValid = (actualTableUpdated) => {
     if (!actualTableUpdated) {
       return true;
     }
@@ -41,7 +52,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   const saveActualTable = (leagueStangings) => {
     const standings = leagueStangings.standings[0];
     const date = getCurrentDate();
-    console.log("current Date: " + JSON.stringify(date));
+    console.log("Actual table loaded at:" + JSON.stringify(date));
     set(ref(database, "actualTable"), {
       standings,
       season: leagueStangings.season,
@@ -74,17 +85,21 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     const table = await getTable();
     saveActualTable(table);
     loadActualTable();
+    setDateValid(false);
   };
 
   const renderHeaderButton = () => {
-    return isDateValid ? (
-      <div className="table-container-head-button">
+    return (
+      <motion.div
+        className="table-container-head-button"
+        variants={headerButtonVariants}
+        initial="hidden"
+        animate={dateValid ? "show" : "hidden"}
+      >
         <button className="button" onClick={refreshActualTable}>
           <img src={refreshIcon} alt="" className="button-image" />
         </button>
-      </div>
-    ) : (
-      <></>
+      </motion.div>
     );
   };
 
@@ -93,7 +108,8 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
 
     loadActualTable();
-  }, [loadActualTable]);
+    setDateValid(isDateValid(actualTableUpdated));
+  }, [loadActualTable, actualTableUpdated]);
 
   return (
     <TableContainer

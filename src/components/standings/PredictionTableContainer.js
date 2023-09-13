@@ -27,12 +27,10 @@ const PredictionTableContainer = ({ id, name, actualTable, database }) => {
   }; */
 
   const renderHeaderPoints = () => {
-    return points > 0 ? (
+    return (
       <div className="table-container-head-points">
-        <h2>{points}</h2>
+        <h2>{points > 0 ? points : ""}</h2>
       </div>
-    ) : (
-      <></>
     );
   };
 
