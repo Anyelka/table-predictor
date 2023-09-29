@@ -88,6 +88,53 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     setDateValid(false);
   };
 
+  const getRandomIndex = (randomIndexes) => {
+    const generatedIndex = Math.floor(Math.random() * (21 - 1) + 0);
+    if (randomIndexes.includes(generatedIndex)) {
+      return getRandomIndex(randomIndexes);
+    } else {
+      return generatedIndex;
+    }
+  };
+
+  const getRandomIndexes = (n) => {
+    let randomIndexes = [];
+    for (let step = 0; step < n; step++) {
+      const randomIndex = getRandomIndex(randomIndexes);
+      randomIndexes[step] = randomIndex;
+    }
+    console.log("random indexes: " + randomIndexes.join(","));
+    return randomIndexes;
+  };
+
+  const shuffleNRows = (table, rows) => {
+    let shuffledTable = [...table];
+    const randomIndexes = getRandomIndexes(rows);
+    for (let i = 0; i < rows; i++) {
+      const currentIndex = randomIndexes[i];
+      const nextIndex =
+        i === rows - 1 ? randomIndexes[0] : randomIndexes[i + 1];
+      shuffledTable[currentIndex] = table[nextIndex];
+    }
+    return shuffledTable;
+  };
+
+  const shuffleTable = () => {
+    const shuffledTable = shuffleNRows(actualTable, 5);
+    console.log(shuffledTable.map((pos) => pos.position + " - " + pos.name));
+    setActualTable(shuffledTable);
+  };
+
+  const renderShuffleButton = () => {
+    return (
+      <div className="table-container-head-button">
+        <button className="button" onClick={shuffleTable}>
+          <img src={refreshIcon} alt="" className="button-image" />
+        </button>
+      </div>
+    );
+  };
+
   const renderHeaderButton = () => {
     return (
       <motion.div
@@ -115,7 +162,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     <TableContainer
       id="actual-table"
       title="2023/24"
-      header={renderHeaderButton()}
+      header={renderShuffleButton()}
       table={
         loading ? <Loader /> : <ActualTable id="actual" data={actualTable} />
       }
