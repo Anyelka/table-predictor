@@ -136,7 +136,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
 
   useEffect(() => {
     headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
-  }, [dateValid]);
+  }, [dateValid, headerButtonControls]);
 
   return (
     <TableContainer
