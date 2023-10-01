@@ -86,7 +86,6 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     const currentDate = getCurrentDate();
     saveActualTable(table, currentDate);
     loadActualTable();
-    headerButtonControls.start({ opacity: 0 });
     setDateValid(false);
   };
 
@@ -134,6 +133,10 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   useEffect(() => {
     setDateValid(isDateValid(actualTableUpdated));
   }, [actualTableUpdated]);
+
+  useEffect(() => {
+    headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
+  }, [dateValid]);
 
   return (
     <TableContainer

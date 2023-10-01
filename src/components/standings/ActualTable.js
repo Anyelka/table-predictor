@@ -20,8 +20,7 @@ const ActualTable = ({ id, data, onReorder }) => {
               initial={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: index * 0.025 }}
               animate={{ opacity: 1 }}
-
-              /* {...row.getRowProps()} */
+              className="table-row"
             >
               <td>{team.position}</td>
               {team.logo !== undefined && (
