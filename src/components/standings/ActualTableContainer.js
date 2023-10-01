@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
 import TableContainer from "../TableContainer";
-import { getCurrentDate } from "../utils";
+import { getCurrentDate /* ,shuffleNRows */ } from "../utils";
 import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
 import Loader from "../Loader";
 import refreshIcon from "../../resources/icons/refresh_1.png";
 import { motion } from "framer-motion";
+/* import { DUMMY_TABLE_API_RESPONSE } from "../../resources/dummyData"; */
 
 const headerButtonVariants = {
   hidden: { opacity: 0 },
@@ -49,15 +50,16 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     });
   };
 
-  const saveActualTable = (leagueStangings) => {
+  const saveActualTable = (leagueStangings, updated) => {
     const standings = leagueStangings.standings[0];
-    const date = getCurrentDate();
-    console.log("Actual table loaded at:" + JSON.stringify(date));
-    set(ref(database, "actualTable"), {
+    console.log("Actual table loaded at:" + JSON.stringify(updated));
+    const tableToSave = {
       standings,
       season: leagueStangings.season,
-      updated: date,
-    });
+      updated,
+    };
+    console.log("Actual table saved to db:" + JSON.stringify(tableToSave));
+    set(ref(database, "actualTable"), tableToSave);
   };
 
   const loadActualTable = useCallback(() => {
@@ -83,57 +85,27 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
 
   const refreshActualTable = async () => {
     const table = await getTable();
-    saveActualTable(table);
+    const currentDate = getCurrentDate();
+    saveActualTable(table, currentDate);
     loadActualTable();
     setDateValid(false);
   };
 
-  const getRandomIndex = (randomIndexes) => {
-    const generatedIndex = Math.floor(Math.random() * (21 - 1) + 0);
-    if (randomIndexes.includes(generatedIndex)) {
-      return getRandomIndex(randomIndexes);
-    } else {
-      return generatedIndex;
-    }
-  };
-
-  const getRandomIndexes = (n) => {
-    let randomIndexes = [];
-    for (let step = 0; step < n; step++) {
-      const randomIndex = getRandomIndex(randomIndexes);
-      randomIndexes[step] = randomIndex;
-    }
-    console.log("random indexes: " + randomIndexes.join(","));
-    return randomIndexes;
-  };
-
-  const shuffleNRows = (table, rows) => {
-    let shuffledTable = [...table];
-    const randomIndexes = getRandomIndexes(rows);
-    for (let i = 0; i < rows; i++) {
-      const currentIndex = randomIndexes[i];
-      const nextIndex =
-        i === rows - 1 ? randomIndexes[0] : randomIndexes[i + 1];
-      shuffledTable[currentIndex] = table[nextIndex];
-    }
-    return shuffledTable;
-  };
-
-  const shuffleTable = () => {
-    const shuffledTable = shuffleNRows(actualTable, 5);
-    console.log(shuffledTable.map((pos) => pos.position + " - " + pos.name));
-    setActualTable(shuffledTable);
-  };
-
-  const renderShuffleButton = () => {
+  /* const renderShuffleButton = () => {
     return (
       <div className="table-container-head-button">
-        <button className="button" onClick={shuffleTable}>
+        <button
+          className="button"
+          onClick={() => {
+            const shuffledTable = shuffleNRows(actualTable, 2);
+            setActualTable(shuffledTable);
+          }}
+        >
           <img src={refreshIcon} alt="" className="button-image" />
         </button>
       </div>
     );
-  };
+  }; */
 
   const renderHeaderButton = () => {
     return (
@@ -152,19 +124,30 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
 
   useEffect(() => {
     /* refreshActualTable(setActualTable, setActualTableUpdated); */
-    /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league); */
+    /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league, "2023-08-17"); */
 
     loadActualTable();
+  }, [loadActualTable]);
+
+  useEffect(() => {
     setDateValid(isDateValid(actualTableUpdated));
-  }, [loadActualTable, actualTableUpdated]);
+  }, [actualTableUpdated]);
 
   return (
     <TableContainer
       id="actual-table"
       title="2023/24"
-      header={renderShuffleButton()}
+      header={renderHeaderButton()}
       table={
-        loading ? <Loader /> : <ActualTable id="actual" data={actualTable} />
+        loading ? (
+          <Loader />
+        ) : (
+          <ActualTable
+            id="actual"
+            data={actualTable}
+            onReorder={setActualTable}
+          />
+        )
       }
     />
   );

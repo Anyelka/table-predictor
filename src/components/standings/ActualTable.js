@@ -1,46 +1,50 @@
-import Table from "../Table";
-import React, { useMemo } from "react";
+import React from "react";
+import { Reorder, motion } from "framer-motion";
 
-const ActualTable = ({ id, data }) => {
-  const columns = useMemo(
-    () => [
-      {
-        Header: "",
-        accessor: "position",
-      },
-      {
-        Header: "",
-        accessor: "logo",
-        Cell: (row) =>
-          row.value !== undefined && (
-            <img src={row.value} alt="" className="logo"></img>
-          ),
-      },
-      {
-        Header: "",
-        accessor: "name",
-      },
-      {
-        Header: "",
-        accessor: "played",
-        Cell: (row) =>
-          row.value !== undefined && (
-            <div style={{ textAlign: "left", marginRight: "20px" }}>
-              {row.value}
-            </div>
-          ),
-      },
-      {
-        Header: "",
-        accessor: "points",
-        Cell: (row) => <div style={{ textAlign: "right" }}>{row.value}</div>,
-      },
-    ],
-    []
-  );
-
+const ActualTable = ({ id, data, onReorder }) => {
   return (
-    <Table id={`${id}-table`} className="table" columns={columns} data={data} />
+    <Reorder.Group
+      as="table"
+      id={id}
+      className="table"
+      values={data}
+      onReorder={onReorder}
+    >
+      <tbody>
+        {data.map((team, index) => {
+          return (
+            <Reorder.Item
+              as="tr"
+              key={team.name}
+              value={team}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.25, delay: index * 0.025 }}
+              animate={{ opacity: 1 }}
+
+              /* {...row.getRowProps()} */
+            >
+              <td>{team.position}</td>
+              {team.logo !== undefined && (
+                <motion.td transition={{ duration: 0.25 }} layout>
+                  <img src={team.logo} alt="" className="logo"></img>
+                </motion.td>
+              )}
+              <td>{team.name}</td>
+              <td>
+                {team.played !== undefined && (
+                  <div style={{ textAlign: "left", marginRight: "20px" }}>
+                    {team.played}
+                  </div>
+                )}
+              </td>
+              <td>
+                <div style={{ textAlign: "right" }}>{team.points}</div>
+              </td>
+            </Reorder.Item>
+          );
+        })}
+      </tbody>
+    </Reorder.Group>
   );
 };
 export default ActualTable;
