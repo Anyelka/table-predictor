@@ -7,28 +7,21 @@ import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
 import Loader from "../Loader";
 import refreshIcon from "../../resources/icons/refresh_1.png";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 /* import { DUMMY_TABLE_API_RESPONSE } from "../../resources/dummyData"; */
-
-const headerButtonVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    rotate: -360,
-    transition: { duration: 0.5 },
-  },
-};
 
 const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   const [loading, setLoading] = useState(true);
   const [actualTableUpdated, setActualTableUpdated] = useState();
   const [dateValid, setDateValid] = useState(false);
 
-  const isDateValid = (actualTableUpdated) => {
-    if (!actualTableUpdated) {
-      return true;
+  const headerButtonControls = useAnimation();
+
+  const isDateValid = (actualDate) => {
+    if (!actualDate) {
+      return false;
     }
-    const [year, month, day] = actualTableUpdated.split("-");
+    const [year, month, day] = actualDate.split("-");
     let updatedDate = new Date(+year, month - 1, day);
     updatedDate.setHours(0, 0, 0, 0);
     let currentDate = new Date();
@@ -52,13 +45,11 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
 
   const saveActualTable = (leagueStangings, updated) => {
     const standings = leagueStangings.standings[0];
-    console.log("Actual table loaded at:" + JSON.stringify(updated));
     const tableToSave = {
       standings,
       season: leagueStangings.season,
       updated,
     };
-    console.log("Actual table saved to db:" + JSON.stringify(tableToSave));
     set(ref(database, "actualTable"), tableToSave);
   };
 
@@ -84,10 +75,18 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   }, [database, setActualTable, setActualTableUpdated]);
 
   const refreshActualTable = async () => {
+    headerButtonControls.start({
+      rotate: 360,
+      transition: {
+        duration: 0.5,
+        ease: "linear",
+      },
+    });
     const table = await getTable();
     const currentDate = getCurrentDate();
     saveActualTable(table, currentDate);
     loadActualTable();
+    headerButtonControls.start({ opacity: 0 });
     setDateValid(false);
   };
 
@@ -111,11 +110,14 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     return (
       <motion.div
         className="table-container-head-button"
-        variants={headerButtonVariants}
-        initial="hidden"
-        animate={dateValid ? "show" : "hidden"}
+        whileHover={{ scale: 1.2 }}
+        animate={headerButtonControls}
       >
-        <button className="button" onClick={refreshActualTable}>
+        <button
+          className="button"
+          onClick={refreshActualTable}
+          disabled={!dateValid}
+        >
           <img src={refreshIcon} alt="" className="button-image" />
         </button>
       </motion.div>
