@@ -138,7 +138,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
   }, [dateValid, headerButtonControls]);
 
-  return (
+  return actualTable && actualTable.length > 0 ? (
     <TableContainer
       id="actual-table"
       title="2023/24"
@@ -155,6 +155,8 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
         )
       }
     />
+  ) : (
+    <></>
   );
 };
 

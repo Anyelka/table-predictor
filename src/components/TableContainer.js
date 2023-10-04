@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 
 const TableContainer = ({ id, title, header, table }) => {
   return (
-    <div id={`${id}-table-container`} className="table-container">
+    <motion.div
+      id={`${id}-table-container`}
+      className="table-container"
+      initial={{ x: -1500 }}
+      transition={{ duration: 0.5 }}
+      animate={{ x: 0 }}
+    >
       <div className="table-container-head">
         <motion.div
           className="table-container-head-title"
@@ -16,7 +22,7 @@ const TableContainer = ({ id, title, header, table }) => {
         {header}
       </div>
       <div className="table-container-body">{table}</div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -18,7 +18,7 @@ const ActualTable = ({ id, data, onReorder }) => {
               key={team.name}
               value={team}
               initial={{ opacity: 0 }}
-              transition={{ duration: 0.25, delay: index * 0.025 }}
+              transition={{ duration: 0.25, delay: 0.5 + index * 0.025 }}
               animate={{ opacity: 1 }}
               className="table-row"
             >
