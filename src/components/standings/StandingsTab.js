@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PredictionTableContainer from "./PredictionTableContainer";
 import ActualTableContainer from "./ActualTableContainer";
 import { motion } from "framer-motion";
 import PredictionsContainer from "./PredictionsContainer";
@@ -16,18 +15,6 @@ const StandingsTab = ({ database }) => {
     >
       {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
       <PredictionsContainer actualTable={actualTable} database={database} />
-      {/* <PredictionTableContainer
-        id="zsolti"
-        name="Zsolti"
-        actualTable={actualTable}
-        database={database}
-      />
-      <PredictionTableContainer
-        id="marci"
-        name="Marci"
-        actualTable={actualTable}
-        database={database}
-      /> */}
       <ActualTableContainer
         actualTable={actualTable}
         setActualTable={setActualTable}
