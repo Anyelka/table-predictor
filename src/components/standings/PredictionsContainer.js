@@ -12,8 +12,15 @@ const getPoints = (change) => {
   return Math.round(1000 * (1 - Math.abs(change) / 20));
 };
 
+const isHighestPoints = (playerPoints, pointsMap) => {
+  const highestPoints = Object.values(pointsMap)
+    .sort((a, b) => a - b)
+    .reverse()[0];
+  return playerPoints === highestPoints;
+};
+
 const PredictionsContainer = ({ actualTable, database }) => {
-  const [points, setPoints] = useState([]);
+  const [scores, setScores] = useState([]);
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -80,14 +87,24 @@ const PredictionsContainer = ({ actualTable, database }) => {
 
   useEffect(() => {
     if (predictions && Object.keys(predictions).length > 0) {
-      const pointsMap = Object.keys(predictions).reduce((points, name) => {
+      let pointsMap = Object.keys(predictions).reduce((points, name) => {
         points[name] = predictions[name].reduce(
           (sum, prediction) => sum + prediction.points,
           0
         );
         return points;
       }, {});
-      setPoints(pointsMap);
+      if (Object.values(pointsMap).some((points) => !isNaN(points))) {
+        const scores = Object.keys(pointsMap).reduce((scores, name) => {
+          const points = pointsMap[name];
+          scores[name] = {
+            points,
+            isWinner: isHighestPoints(points, pointsMap),
+          };
+          return scores;
+        }, {});
+        setScores(scores);
+      }
     }
   }, [predictions]);
 
@@ -96,7 +113,7 @@ const PredictionsContainer = ({ actualTable, database }) => {
       {Object.keys(predictions).map((name) => (
         <PredictionTableContainer
           name={name}
-          points={points[name]}
+          scores={scores[name]}
           predictions={predictions[name]}
           loading={loading}
         />

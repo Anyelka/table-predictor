@@ -17,7 +17,7 @@ const TableContainer = ({ id, title, header, table }) => {
           transition={{ duration: 0.25 }}
           animate={{ x: 0 }}
         >
-          <h1>{title}</h1>
+          <h1>{title.toUpperCase()}</h1>
         </motion.div>
         {header}
       </div>
