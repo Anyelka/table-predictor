@@ -12,8 +12,15 @@
   --pink: #ff2882;
   --red: #e0005e;
   --light-blue: #05f0ff;
+  --light-darker-blue: #00c0cf;
   --viola: #7367ff;
   --purple: #963cff;
+  --blue-purple-gradient: linear-gradient(
+    137.27deg,
+    var(--light-blue) 19.85%,
+    var(--viola) 91.08%,
+    var(--purple) 113.26%
+  );
 }
 
 body {
@@ -22,7 +29,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-image: url("./resources/background/Mudryk-Chelsea.webp");
   background-size: cover;
 }
 
@@ -35,7 +41,7 @@ code {
   display: flex;
   min-height: 100vh;
   /* opacity: 80%; */
-  background-color: var(--light-blue);
+  background: var(--blue-purple-gradient);
 }
 
 .table-container {
@@ -48,6 +54,9 @@ code {
   color: var(--neon-green);
 
   box-shadow: inset -10px 15px 10px var(--dark-lighter-purple);
+  /* background-image: url("https://www.premierleague.com/resources/rebrand/v7.130.1/i/elements/backgrounds/primary-graphic.svg");
+  background-blend-mode: multiply;
+  background-size: cover; */
 }
 
 .table-container-head {
@@ -82,10 +91,12 @@ code {
 }
 
 .table-container-head-points-winner {
-  border: 5px solid var(--light-blue);
   border-radius: 20px;
-  padding: 10px;
-  color: var(--light-blue);
+  padding: 5px;
+  padding-bottom: 0px;
+  color: var(--dark-purple);
+  /* background-color: var(--light-darker-blue); */
+  background: var(--blue-purple-gradient);
 }
 
 .button {
@@ -100,7 +111,17 @@ code {
 }
 
 .button-image {
-  background-color: var(--pink);
+  background: linear-gradient(
+    245.98deg,
+    #ff6900 -48.99%,
+    #ff6604 -32.53%,
+    #ff6010 -14.01%,
+    #ff5625 4.51%,
+    #ff4743 23.03%,
+    #ff3468 41.55%,
+    #ff2882 53.89%,
+    #963cff 156.77%
+  );
   margin: 0px;
   padding: 5px;
   color: #fff;

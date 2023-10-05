@@ -1,6 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+const getTitle = (title) => {
+  return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+};
+
 const TableContainer = ({ id, title, header, table }) => {
   return (
     <motion.div
@@ -17,7 +21,7 @@ const TableContainer = ({ id, title, header, table }) => {
           transition={{ duration: 0.25 }}
           animate={{ x: 0 }}
         >
-          <h1>{title.toUpperCase()}</h1>
+          <h1>{getTitle(title)}</h1>
         </motion.div>
         {header}
       </div>

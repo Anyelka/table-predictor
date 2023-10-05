@@ -21,7 +21,20 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 function App() {
-  return <StandingsTab database={database}></StandingsTab>;
+  return (
+    <div
+      style={{
+        window: "100vw",
+        opacity: 1,
+        /*         backgroundImage: `url("./resources/background/Mudryk-Chelsea.webp")`,
+         */
+        backgroundImage: `url(${"https://resources.premierleague.com/photos/2023/10/02/e0bd34d6-b76c-49b5-9d7a-97474b29bab4/Mudryk-Chelsea.jpg?width=1400&height=800"})`,
+        backgroundSize: "cover",
+      }}
+    >
+      <StandingsTab database={database}></StandingsTab>;
+    </div>
+  );
 }
 
 export default App;

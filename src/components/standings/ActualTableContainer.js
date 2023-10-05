@@ -105,11 +105,16 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     );
   }; */
 
+  const hideHeaderButton = useCallback(() => {
+    headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
+  }, [dateValid, headerButtonControls]);
+
   const renderHeaderButton = () => {
     return (
       <motion.div
         className="table-container-head-button"
         whileHover={{ scale: 1.2 }}
+        initial={{ opacity: 0 }}
         animate={headerButtonControls}
       >
         <button
@@ -117,7 +122,12 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
           onClick={refreshActualTable}
           disabled={!dateValid}
         >
-          <img src={refreshIcon} alt="" className="button-image" />
+          <img
+            src={refreshIcon}
+            alt=""
+            className="button-image"
+            style={!dateValid ? { cursor: "default" } : {}}
+          />
         </button>
       </motion.div>
     );
@@ -135,8 +145,8 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
   }, [actualTableUpdated]);
 
   useEffect(() => {
-    headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
-  }, [dateValid, headerButtonControls]);
+    hideHeaderButton();
+  }, [hideHeaderButton, dateValid]);
 
   return actualTable && actualTable.length > 0 ? (
     <TableContainer
