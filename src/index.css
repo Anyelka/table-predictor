@@ -21,6 +21,22 @@
     var(--viola) 91.08%,
     var(--purple) 113.26%
   );
+  --green-blue-gradient: linear-gradient(
+    90deg,
+    var(--neon-green),
+    var(--light-blue)
+  );
+  --red-purple-gradient: linear-gradient(
+    245.98deg,
+    #ff6900 -48.99%,
+    #ff6604 -32.53%,
+    #ff6010 -14.01%,
+    #ff5625 4.51%,
+    #ff4743 23.03%,
+    #ff3468 41.55%,
+    #ff2882 53.89%,
+    #963cff 156.77%
+  );
 }
 
 body {
@@ -96,7 +112,7 @@ code {
   padding-bottom: 0px;
   color: var(--dark-purple);
   /* background-color: var(--light-darker-blue); */
-  background: var(--blue-purple-gradient);
+  background: var(--green-blue-gradient);
 }
 
 .button {
@@ -111,17 +127,7 @@ code {
 }
 
 .button-image {
-  background: linear-gradient(
-    245.98deg,
-    #ff6900 -48.99%,
-    #ff6604 -32.53%,
-    #ff6010 -14.01%,
-    #ff5625 4.51%,
-    #ff4743 23.03%,
-    #ff3468 41.55%,
-    #ff2882 53.89%,
-    #963cff 156.77%
-  );
+  background: var(--red-purple-gradient);
   margin: 0px;
   padding: 5px;
   color: #fff;
