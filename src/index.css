@@ -15,6 +15,10 @@
   --light-darker-blue: #00c0cf;
   --viola: #7367ff;
   --purple: #963cff;
+  --light-gold: #fbff00;
+  --gold: #d4c300;
+  --dark-gold: #a08c6e;
+  --grey: #555555;
   --blue-purple-gradient: linear-gradient(
     137.27deg,
     var(--light-blue) 19.85%,
@@ -25,6 +29,12 @@
     90deg,
     var(--neon-green),
     var(--light-blue)
+  );
+  --gold-gradient: linear-gradient(
+    137.27deg,
+    var(--light-gold) 19.85%,
+    var(--gold) 91.08%,
+    var(--dark-gold) 113.26%
   );
   --red-purple-gradient: linear-gradient(
     245.98deg,
@@ -107,12 +117,12 @@ code {
 }
 
 .table-container-head-points-winner {
-  border-radius: 20px;
+  border-radius: 14px;
   padding: 5px;
   padding-bottom: 0px;
-  color: var(--dark-purple);
+  color: var(--grey);
   /* background-color: var(--light-darker-blue); */
-  background: var(--green-blue-gradient);
+  background: var(--gold-gradient);
 }
 
 .button {
