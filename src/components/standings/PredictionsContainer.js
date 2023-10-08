@@ -1,11 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
-import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
-import {
-  MARCI_PREDICTIONS_2024,
-  ZSOLTI_PREDICTIONS_2024,
-} from "../../resources/predictions/predictions";
 
 const getChange = (guess, team) => {
   const actualRank = team.position;
@@ -28,31 +23,37 @@ const PredictionsContainer = ({ rawPredictions, actualTable }) => {
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const mapTeam = (guess) => {
-    const team = actualTable.find(
-      (team) => getTeam(team.name) === getTeam(guess.name)
-    );
-    if (!team) {
-      return guess;
-    }
-    const change = getChange(guess, team);
-    const points = getPoints(change);
-    const logo = team.logo;
-    return { ...guess, points, change, logo };
-  };
-
-  const mapPredictions = (rawPredictions) => {
-    return Object.keys(rawPredictions).reduce((mappedData, name) => {
-      mappedData[name] = rawPredictions[name].predictions.map((guess) =>
-        mapTeam(guess)
+  const mapTeam = useCallback(
+    (guess) => {
+      const team = actualTable.find(
+        (team) => getTeam(team.name) === getTeam(guess.name)
       );
-      return mappedData;
-    }, {});
-  };
+      if (!team) {
+        return guess;
+      }
+      const change = getChange(guess, team);
+      const points = getPoints(change);
+      const logo = team.logo;
+      return { ...guess, points, change, logo };
+    },
+    [actualTable]
+  );
+
+  const mapPredictions = useCallback(
+    (rawPredictions) => {
+      return Object.keys(rawPredictions).reduce((mappedData, name) => {
+        mappedData[name] = rawPredictions[name].predictions.map((guess) =>
+          mapTeam(guess)
+        );
+        return mappedData;
+      }, {});
+    },
+    [mapTeam]
+  );
 
   useEffect(() => {
     setPredictions(mapPredictions(rawPredictions));
-  }, [actualTable]);
+  }, [rawPredictions, mapPredictions]);
 
   useEffect(() => {
     if (predictions && Object.keys(predictions).length > 0) {

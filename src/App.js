@@ -1,12 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import StandingsTab from "./components/standings/StandingsTab";
 import Sidebar from "./components/Sidebar";
-import {
-  MARCI_PREDICTIONS_2024,
-  ZSOLTI_PREDICTIONS_2024,
-} from "./resources/predictions/predictions";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -43,7 +39,7 @@ function App() {
     }));
   };
 
-  const savePredictions2024 = () => {
+  /* const savePredictions2024 = () => {
     const zsoltiPredictions = {
       name: "zsolti",
       predictions: ZSOLTI_PREDICTIONS_2024,
@@ -56,7 +52,7 @@ function App() {
       zsolti: zsoltiPredictions,
       marci: marciPredictions,
     });
-  };
+  }; */
 
   const loadPredictions = useCallback(() => {
     const dbRef = ref(database);
@@ -80,7 +76,7 @@ function App() {
 
   useEffect(() => {
     loadPredictions();
-  }, []);
+  }, [loadPredictions]);
 
   return (
     <div
