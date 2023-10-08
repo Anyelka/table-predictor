@@ -1,4 +1,4 @@
-export const PREVIOUS_POSITIONS = [
+export const PREVIOUS_POSITIONS_2024 = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Arsenal" },
   { position: 3, name: "Man Utd" },
@@ -21,7 +21,7 @@ export const PREVIOUS_POSITIONS = [
   { position: 20, name: "Luton" },
 ];
 
-export const ZSOLTI_PREDICTIONS = [
+export const ZSOLTI_PREDICTIONS_2024 = [
   { position: 1, name: "Chelsea" },
   { position: 2, name: "Liverpool" },
   { position: 3, name: "Man City" },
@@ -44,7 +44,7 @@ export const ZSOLTI_PREDICTIONS = [
   { position: 20, name: "Bournemouth" },
 ];
 
-export const MARCI_PREDICTIONS = [
+export const MARCI_PREDICTIONS_2024 = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Liverpool" },
   { position: 3, name: "Man Utd" },

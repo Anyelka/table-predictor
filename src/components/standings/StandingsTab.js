@@ -3,18 +3,16 @@ import ActualTableContainer from "./ActualTableContainer";
 import { motion } from "framer-motion";
 import PredictionsContainer from "./PredictionsContainer";
 
-const StandingsTab = ({ database }) => {
+const StandingsTab = ({ database, predictions }) => {
   const [actualTable, setActualTable] = useState([]);
 
   return (
-    <motion.div
-      className="standings-tab"
-      initial={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      animate={{ opacity: 0.8 }}
-    >
+    <motion.div className="standings-tab">
       {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
-      <PredictionsContainer actualTable={actualTable} database={database} />
+      <PredictionsContainer
+        actualTable={actualTable}
+        rawPredictions={predictions}
+      />
       <ActualTableContainer
         actualTable={actualTable}
         setActualTable={setActualTable}

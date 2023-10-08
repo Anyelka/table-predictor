@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
-import TableContainer from "../TableContainer";
+import TableContainer from "./TableContainer";
 import { getCurrentDate /* ,shuffleNRows */ } from "../utils";
 import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
@@ -118,14 +118,14 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
         animate={headerButtonControls}
       >
         <button
-          className="button"
+          className="refresh-button"
           onClick={refreshActualTable}
           disabled={!dateValid}
         >
           <img
             src={refreshIcon}
             alt=""
-            className="button-image"
+            className="refresh-button-image"
             style={!dateValid ? { cursor: "default" } : {}}
           />
         </button>

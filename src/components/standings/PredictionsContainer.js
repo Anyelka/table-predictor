@@ -1,7 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
-import { get, ref, /* set, */ child } from "firebase/database";
+import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
+import {
+  MARCI_PREDICTIONS_2024,
+  ZSOLTI_PREDICTIONS_2024,
+} from "../../resources/predictions/predictions";
 
 const getChange = (guess, team) => {
   const actualRank = team.position;
@@ -19,71 +23,36 @@ const isHighestPoints = (playerPoints, pointsMap) => {
   return playerPoints === highestPoints;
 };
 
-const PredictionsContainer = ({ actualTable, database }) => {
+const PredictionsContainer = ({ rawPredictions, actualTable }) => {
   const [scores, setScores] = useState([]);
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /* const savePredictions = () => {
-    const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
-    const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
-    set(ref(database, "predictions/zsolti"), zsoltiPredictions);
-    set(ref(database, "predictions/marci"), marciPredictions);
-  }; */
+  const mapTeam = (guess) => {
+    const team = actualTable.find(
+      (team) => getTeam(team.name) === getTeam(guess.name)
+    );
+    if (!team) {
+      return guess;
+    }
+    const change = getChange(guess, team);
+    const points = getPoints(change);
+    const logo = team.logo;
+    return { ...guess, points, change, logo };
+  };
 
-  const mapTeam = useCallback(
-    (guess) => {
-      const team = actualTable.find(
-        (team) => getTeam(team.name) === getTeam(guess.name)
+  const mapPredictions = (rawPredictions) => {
+    return Object.keys(rawPredictions).reduce((mappedData, name) => {
+      mappedData[name] = rawPredictions[name].predictions.map((guess) =>
+        mapTeam(guess)
       );
-      if (!team) {
-        console.error("Team not found: " + guess.name);
-        return guess;
-      }
-      const change = getChange(guess, team);
-      const points = getPoints(change);
-      const logo = team.logo;
-      return { ...guess, points, change, logo };
-    },
-    [actualTable]
-  );
-
-  const loadPredictions = useCallback(() => {
-    const dbRef = ref(database);
-    get(child(dbRef, `predictions`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          /* const mappedPredictions = data.map((predictions) =>
-            predictions.map((guess) => mapTeam(guess))
-          ); */
-
-          const mappedPredictions = Object.keys(data).reduce(
-            (mappedData, name) => {
-              mappedData[name] = data[name].predictions.map((guess) =>
-                mapTeam(guess)
-              );
-              return mappedData;
-            },
-            {}
-          );
-          setPredictions(mappedPredictions);
-        } else {
-          console.log("No data available");
-        }
-      })
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [database, setPredictions, mapTeam]);
+      return mappedData;
+    }, {});
+  };
 
   useEffect(() => {
-    /* savePredictions(); */
-    loadPredictions();
-  }, [loadPredictions]);
+    setPredictions(mapPredictions(rawPredictions));
+  }, [actualTable]);
 
   useEffect(() => {
     if (predictions && Object.keys(predictions).length > 0) {
@@ -105,6 +74,7 @@ const PredictionsContainer = ({ actualTable, database }) => {
         }, {});
         setScores(scores);
       }
+      setLoading(false);
     }
   }, [predictions]);
 

@@ -1,5 +1,5 @@
 import React from "react";
-import TableContainer from "../TableContainer";
+import TableContainer from "./TableContainer";
 import PredictionTable from "./PredictionTable";
 import Loader from "../Loader";
 import { motion } from "framer-motion";

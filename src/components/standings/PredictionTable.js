@@ -1,4 +1,4 @@
-import Table from "../Table";
+import Table from "./Table";
 import React, { useMemo } from "react";
 import upArrow from "../../resources/icons/up-arrow.png";
 import upArrowDouble from "../../resources/icons/up-arrow-double.png";

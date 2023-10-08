@@ -12,13 +12,14 @@
   --pink: #ff2882;
   --red: #e0005e;
   --light-blue: #05f0ff;
+  --light-darker-blue-2: #2dbdff;
   --light-darker-blue: #00c0cf;
   --viola: #7367ff;
   --purple: #963cff;
   --light-gold: #fbff00;
   --gold: #d4c300;
   --dark-gold: #a08c6e;
-  --grey: #555555;
+  --grey: #414141;
   --blue-purple-gradient: linear-gradient(
     137.27deg,
     var(--light-blue) 19.85%,
@@ -32,9 +33,9 @@
   );
   --gold-gradient: linear-gradient(
     137.27deg,
-    var(--light-gold) 19.85%,
-    var(--gold) 91.08%,
-    var(--dark-gold) 113.26%
+    var(--gold) 19.85%,
+    var(--dark-gold) 91.08%,
+    var(--light-gold) 113.26%
   );
   --red-purple-gradient: linear-gradient(
     245.98deg,
@@ -54,8 +55,6 @@ body {
   font-family: "Fantasy";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  background-size: cover;
 }
 
 code {
@@ -63,11 +62,80 @@ code {
     monospace;
 }
 
+.app {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background: var(--blue-purple-gradient);
+  opacity: 80%;
+}
+
+.sidebar {
+  float: left;
+  position: absolute;
+  height: 100%;
+  background: var(--red-purple-gradient);
+  z-index: 1;
+}
+
+.sidebar-closed {
+  width: 20px;
+}
+
+.sidebar-open {
+  width: 80px;
+}
+
+.open-sidebar-button {
+  right: -7px;
+  width: 20;
+  height: 60px;
+  background-color: #ff2981;
+  display: block;
+  padding: 0px;
+  border: none;
+  border-radius: 8px;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.open-sidebar-button-image {
+  margin: 0px;
+  padding: 0px;
+  color: #fff;
+  border: none;
+  border-radius: 1vw;
+  width: 27px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.page-selector {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-selector-button {
+  margin-left: auto;
+  margin-right: auto;
+  border: 0px;
+  padding: 0px;
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  background: var(--green-blue-gradient);
+  font-size: large;
+  font-family: "Fantasy";
+  color: var(--grey);
+}
+
 .standings-tab {
   display: flex;
-  min-height: 100vh;
-  /* opacity: 80%; */
-  background: var(--blue-purple-gradient);
+  margin-left: 20px;
 }
 
 .table-container {
@@ -125,7 +193,7 @@ code {
   background: var(--gold-gradient);
 }
 
-.button {
+.refresh-button {
   background-color: transparent;
   display: block;
   padding: 0px;
@@ -136,7 +204,7 @@ code {
   justify-content: center;
 }
 
-.button-image {
+.refresh-button-image {
   background: var(--red-purple-gradient);
   margin: 0px;
   padding: 5px;
