@@ -115,11 +115,13 @@ code {
 .page-selector {
   margin-top: 40px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .page-selector-button {
+  margin: 10px;
   margin-left: auto;
   margin-right: auto;
   border: 0px;
@@ -131,6 +133,7 @@ code {
   font-size: large;
   font-family: "Fantasy";
   color: var(--grey);
+  cursor: pointer;
 }
 
 .standings-tab {

@@ -99,6 +99,31 @@ export const TEAMS = [
     long: "Luton Town",
     basic: "Luton",
   },
+  {
+    short: "LEE",
+    long: "Leeds United",
+    basic: "Leeds",
+  },
+  {
+    short: "LEI",
+    long: "Leicester",
+    basic: "Leicester",
+  },
+  {
+    short: "SOU",
+    long: "Southampton",
+    basic: "Southampton",
+  },
+  {
+    short: "WAT",
+    long: "Watford",
+    basic: "Watford",
+  },
+  {
+    short: "NOR",
+    long: "Norwich",
+    basic: "Norwich",
+  },
 ];
 
 export const getTeam = (name) => {

@@ -1,7 +1,13 @@
-import React from "react";
-import { Reorder, motion } from "framer-motion";
+import React, { useEffect } from "react";
+import { Reorder, useAnimation } from "framer-motion";
 
 const ActualTable = ({ id, data, onReorder }) => {
+  /* const rowControls = useAnimation();
+
+  useEffect(() => {
+    rowControls.start();
+  }, [data]); */
+
   return (
     <Reorder.Group
       as="table"
@@ -20,13 +26,14 @@ const ActualTable = ({ id, data, onReorder }) => {
               initial={{ opacity: 0 }}
               transition={{ duration: 0.25, delay: 0.5 + index * 0.025 }}
               animate={{ opacity: 1 }}
+              /* animate={rowControls} */
               className="table-row"
             >
               <td>{team.position}</td>
               {team.logo !== undefined && (
-                <motion.td transition={{ duration: 0.25 }} layout>
+                <td>
                   <img src={team.logo} alt="" className="logo"></img>
-                </motion.td>
+                </td>
               )}
               <td>{team.name}</td>
               <td>

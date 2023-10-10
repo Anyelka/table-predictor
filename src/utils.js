@@ -35,3 +35,18 @@ export const shuffleNRows = (table, rows) => {
   }
   return shuffledTable;
 };
+
+export const formatYearToSeasonShort = (year) => {
+  return (year - 1).toString().slice(2) + "/" + year.toString().slice(2);
+};
+
+export const formatYearToSeason = (year) => {
+  return (year - 1).toString() + "/" + year.toString().slice(2);
+};
+
+export const isCurrentSeason = (year) => {
+  let currentDate = new Date();
+  let maxDate = new Date(year, 5, 15);
+  let minDate = new Date(year - 1, 5, 15);
+  return currentDate >= minDate && currentDate < maxDate;
+};

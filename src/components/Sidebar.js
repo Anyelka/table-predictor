@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import rightArrowIcon from "../resources/icons/right-arrow.png";
+import { formatYearToSeasonShort } from "../utils";
 
-const Sidebar = ({ seasons }) => {
+const Sidebar = ({ seasons, setSelectedSeason }) => {
   const [open, setOpen] = useState(false);
 
   const onClick = () => {
     setOpen(!open);
-  };
-
-  const formatYear = (year) => {
-    return (year - 1).toString().slice(2) + "/" + year.toString().slice(2);
   };
 
   return (
@@ -25,8 +22,9 @@ const Sidebar = ({ seasons }) => {
             <button
               id="page-selector-button button"
               className="page-selector-button"
+              onClick={() => setSelectedSeason(season)}
             >
-              {formatYear(season.year)}
+              {formatYearToSeasonShort(season.year)}
             </button>
           ))}
         </div>

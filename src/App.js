@@ -1,8 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref } from "firebase/database";
+import { child, get, getDatabase, ref /* set */ } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import StandingsTab from "./components/standings/StandingsTab";
 import Sidebar from "./components/Sidebar";
+/* import {
+  MARCI_PREDICTIONS_2022,
+  ZSOLTI_PREDICTIONS_2022,
+} from "./resources/predictions/predictions"; */
+import { isCurrentSeason } from "./utils";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -21,49 +26,48 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
-const isCurrentSeason = (year) => {
-  let currentDate = new Date();
-  let maxDate = new Date(year, 5, 15);
-  let minDate = new Date(year - 1, 5, 15);
-  return currentDate >= minDate && currentDate < maxDate;
+const mapSeasons = (rawSeasons) => {
+  let seasons = rawSeasons.map((year) => ({
+    year,
+    isCurrent: isCurrentSeason(year),
+  }));
+  seasons.sort((a, b) => b.year - a.year);
+  return seasons;
 };
 
 function App() {
-  const [predictions, setPredictions] = useState([]);
+  const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
 
-  const getSeasons = (predictions) => {
-    return Object.keys(predictions).map((year) => ({
-      year,
-      isCurrent: isCurrentSeason(year),
-    }));
-  };
-
-  /* const savePredictions2024 = () => {
+  /*   const savePredictions2022 = () => {
     const zsoltiPredictions = {
       name: "zsolti",
-      predictions: ZSOLTI_PREDICTIONS_2024,
+      predictions: ZSOLTI_PREDICTIONS_2022,
     };
     const marciPredictions = {
       name: "marci",
-      predictions: MARCI_PREDICTIONS_2024,
+      predictions: MARCI_PREDICTIONS_2022,
     };
-    set(ref(database, "predictions/2024/"), {
+    set(ref(database, "predictions/2022/"), {
       zsolti: zsoltiPredictions,
       marci: marciPredictions,
     });
+  };
+  */
+
+  /* const saveSeasons = () => {
+    set(ref(database, "seasons"), ["2024", "2022"]);
   }; */
 
-  const loadPredictions = useCallback(() => {
+  const loadSeasons = useCallback(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `predictions`))
+    get(child(dbRef, `seasons`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          setPredictions(data);
-          const currentSeason = getSeasons(data).find(
-            (season) => season.isCurrent
-          );
+          const seasons = mapSeasons(data);
+          setSeasons(seasons);
+          const currentSeason = seasons.find((season) => season.isCurrent);
           setSelectedSeason(currentSeason);
         } else {
           console.log("No data available");
@@ -75,25 +79,24 @@ function App() {
   }, []);
 
   useEffect(() => {
-    loadPredictions();
-  }, [loadPredictions]);
+    /* savePredictions2022(); */
+    /* saveSeasons(); */
+    loadSeasons();
+  }, [loadSeasons]);
 
   return (
     <div
       className="background"
       style={{
         opacity: 1,
-        backgroundImage: `url(${"https://resources.premierleague.com/photos/2023/10/02/e0bd34d6-b76c-49b5-9d7a-97474b29bab4/Mudryk-Chelsea.jpg?width=1400&height=800"})`,
+        backgroundImage: `url(${"https://img.chelseafc.com/image/upload/f_auto,c_fill,g_faces,w_1440,h_856,q_90/editorial/match-reports/2023-24/Burnley%20away/Sterling_celeb_Burnley_A_GettyImages-1712206536.jpg"})`,
         backgroundSize: "cover",
       }}
     >
       <div className="app">
-        <Sidebar seasons={getSeasons(predictions)} />
-        {Object.keys(predictions).length > 0 ? (
-          <StandingsTab
-            database={database}
-            predictions={predictions[selectedSeason.year]}
-          />
+        <Sidebar seasons={seasons} setSelectedSeason={setSelectedSeason} />
+        {seasons.length > 0 ? (
+          <StandingsTab database={database} season={selectedSeason} />
         ) : (
           <></>
         )}

@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
 import TableContainer from "./TableContainer";
-import { getCurrentDate /* ,shuffleNRows */ } from "../utils";
+import {
+  formatYearToSeason,
+  getCurrentDate /* ,shuffleNRows */,
+} from "../../utils";
 import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
 import { getTeam } from "../../resources/teams";
@@ -10,7 +13,12 @@ import refreshIcon from "../../resources/icons/refresh_1.png";
 import { motion, useAnimation } from "framer-motion";
 /* import { DUMMY_TABLE_API_RESPONSE } from "../../resources/dummyData"; */
 
-const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
+const ActualTableContainer = ({
+  season,
+  actualTable,
+  setActualTable,
+  database,
+}) => {
   const [loading, setLoading] = useState(true);
   const [actualTableUpdated, setActualTableUpdated] = useState();
   const [dateValid, setDateValid] = useState(false);
@@ -43,19 +51,29 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     });
   };
 
-  const saveActualTable = (leagueStangings, updated) => {
-    const standings = leagueStangings.standings[0];
-    const tableToSave = {
-      standings,
-      season: leagueStangings.season,
-      updated,
-    };
-    set(ref(database, "actualTable"), tableToSave);
-  };
+  const saveActualTable = useCallback(
+    (leagueStangings, updated) => {
+      const standings = leagueStangings.standings[0];
+      const tableToSave = {
+        standings,
+        season,
+        updated,
+      };
+      set(ref(database, `actualTable/${season.year}`), tableToSave);
+    },
+    [season, database]
+  );
+
+  const refreshTable = useCallback(async () => {
+    const table = await getTable(season.year);
+    const currentDate = getCurrentDate();
+    saveActualTable(table, currentDate);
+    /* setActualTableUpdated(); */
+  }, [saveActualTable, season]);
 
   const loadActualTable = useCallback(() => {
     const dbRef = ref(database);
-    get(child(dbRef, `actualTable`))
+    get(child(dbRef, `actualTable/${season.year}`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
@@ -63,7 +81,8 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
           setActualTable(currentTable);
           setActualTableUpdated(data.updated);
         } else {
-          console.log("No data available");
+          console.error("No data available");
+          refreshTable();
         }
       })
       .then(() => {
@@ -72,7 +91,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [database, setActualTable, setActualTableUpdated]);
+  }, [season, database, setActualTable, setActualTableUpdated, refreshTable]);
 
   const refreshActualTable = async () => {
     headerButtonControls.start({
@@ -82,10 +101,7 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
         ease: "linear",
       },
     });
-    const table = await getTable();
-    const currentDate = getCurrentDate();
-    saveActualTable(table, currentDate);
-    loadActualTable();
+    refreshTable();
     setDateValid(false);
   };
 
@@ -105,9 +121,11 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     );
   }; */
 
-  const hideHeaderButton = useCallback(() => {
-    headerButtonControls.start({ opacity: dateValid ? 1 : 0 });
-  }, [dateValid, headerButtonControls]);
+  const toggleHeaderButtonVisibility = useCallback(() => {
+    headerButtonControls.start({
+      opacity: dateValid && season.isCurrent ? 1 : 0,
+    });
+  }, [season, dateValid, headerButtonControls]);
 
   const renderHeaderButton = () => {
     return (
@@ -138,20 +156,20 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
     /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league, "2023-08-17"); */
 
     loadActualTable();
-  }, [loadActualTable]);
+  }, [season, loadActualTable]);
 
   useEffect(() => {
     setDateValid(isDateValid(actualTableUpdated));
   }, [actualTableUpdated]);
 
   useEffect(() => {
-    hideHeaderButton();
-  }, [hideHeaderButton, dateValid]);
+    toggleHeaderButtonVisibility();
+  }, [toggleHeaderButtonVisibility, dateValid]);
 
-  return actualTable && actualTable.length > 0 ? (
+  return (
     <TableContainer
       id="actual-table"
-      title="2023/24"
+      title={formatYearToSeason(season.year)}
       header={renderHeaderButton()}
       table={
         loading ? (
@@ -165,8 +183,6 @@ const ActualTableContainer = ({ actualTable, setActualTable, database }) => {
         )
       }
     />
-  ) : (
-    <></>
   );
 };
 

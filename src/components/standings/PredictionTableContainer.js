@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableContainer from "./TableContainer";
 import PredictionTable from "./PredictionTable";
 import Loader from "../Loader";
 import { motion } from "framer-motion";
 
-const PredictionTableContainer = ({ name, scores, predictions, loading }) => {
+const PredictionTableContainer = ({
+  name,
+  scores,
+  predictions,
+  setPredictions,
+}) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (predictions[0].logo && predictions[0].points && predictions[0].change) {
+      setLoading(false);
+    }
+  }, [predictions]);
+
   const id = `${name}-predictions`;
 
   const renderHeaderPoints = () => {
@@ -37,7 +50,11 @@ const PredictionTableContainer = ({ name, scores, predictions, loading }) => {
         loading ? (
           <Loader />
         ) : (
-          <PredictionTable id={id} predictions={predictions} />
+          <PredictionTable
+            id={id}
+            predictions={predictions}
+            setPredictions={setPredictions}
+          />
         )
       }
     />

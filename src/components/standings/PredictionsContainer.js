@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
 import { getTeam } from "../../resources/teams";
+import { child, get, ref } from "firebase/database";
 
 const getChange = (guess, team) => {
   const actualRank = team.position;
@@ -18,10 +19,16 @@ const isHighestPoints = (playerPoints, pointsMap) => {
   return playerPoints === highestPoints;
 };
 
-const PredictionsContainer = ({ rawPredictions, actualTable }) => {
+const PredictionsContainer = ({ season, actualTable, database }) => {
   const [scores, setScores] = useState([]);
   const [predictions, setPredictions] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  /* const savePredictions = () => {
+    const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
+    const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
+    set(ref(database, "predictions/zsolti"), zsoltiPredictions);
+    set(ref(database, "predictions/marci"), marciPredictions);
+  }; */
 
   const mapTeam = useCallback(
     (guess) => {
@@ -29,6 +36,7 @@ const PredictionsContainer = ({ rawPredictions, actualTable }) => {
         (team) => getTeam(team.name) === getTeam(guess.name)
       );
       if (!team) {
+        console.error("Team not found: " + guess.name);
         return guess;
       }
       const change = getChange(guess, team);
@@ -39,21 +47,38 @@ const PredictionsContainer = ({ rawPredictions, actualTable }) => {
     [actualTable]
   );
 
-  const mapPredictions = useCallback(
-    (rawPredictions) => {
-      return Object.keys(rawPredictions).reduce((mappedData, name) => {
-        mappedData[name] = rawPredictions[name].predictions.map((guess) =>
-          mapTeam(guess)
-        );
-        return mappedData;
-      }, {});
-    },
-    [mapTeam]
-  );
+  const loadPredictions = useCallback(() => {
+    const dbRef = ref(database);
+    get(child(dbRef, `predictions/${season.year}`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const mappedPredictions = Object.keys(data).reduce(
+            (mappedData, name) => {
+              mappedData[name] = data[name].predictions.map((guess) =>
+                mapTeam(guess)
+              );
+              return mappedData;
+            },
+            {}
+          );
+          setPredictions(mappedPredictions);
+        } else {
+          console.log("No data available");
+        }
+      })
+      /* .then(() => {
+        setLoading(false);
+      }) */
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [database, setPredictions, mapTeam, season]);
 
   useEffect(() => {
-    setPredictions(mapPredictions(rawPredictions));
-  }, [rawPredictions, mapPredictions]);
+    /* savePredictions(); */
+    loadPredictions();
+  }, [loadPredictions]);
 
   useEffect(() => {
     if (predictions && Object.keys(predictions).length > 0) {
@@ -75,7 +100,6 @@ const PredictionsContainer = ({ rawPredictions, actualTable }) => {
         }, {});
         setScores(scores);
       }
-      setLoading(false);
     }
   }, [predictions]);
 
@@ -86,7 +110,7 @@ const PredictionsContainer = ({ rawPredictions, actualTable }) => {
           name={name}
           scores={scores[name]}
           predictions={predictions[name]}
-          loading={loading}
+          setPredictions={setPredictions}
         />
       ))}
     </>
