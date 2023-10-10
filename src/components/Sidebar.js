@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import rightArrowIcon from "../resources/icons/right-arrow.png";
 import { formatYearToSeasonShort } from "../utils";
 
-const Sidebar = ({ seasons, setSelectedSeason }) => {
+const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
   const [open, setOpen] = useState(false);
 
   const onClick = () => {
@@ -17,15 +17,20 @@ const Sidebar = ({ seasons, setSelectedSeason }) => {
       layout
     >
       {open ? (
-        <div id="page-selector" className="page-selector">
+        <div id="season-selector" className="season-selector">
           {seasons.map((season) => (
-            <button
-              id="page-selector-button button"
-              className="page-selector-button"
+            <motion.button
+              id="season-selector-button button"
+              className={
+                season === selectedSeason
+                  ? `season-selector-button season-selector-button-selected`
+                  : `season-selector-button`
+              }
               onClick={() => setSelectedSeason(season)}
+              whileHover={{ scale: 1.2 }}
             >
               {formatYearToSeasonShort(season.year)}
-            </button>
+            </motion.button>
           ))}
         </div>
       ) : (

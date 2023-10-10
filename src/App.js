@@ -90,11 +90,17 @@ function App() {
       style={{
         opacity: 1,
         backgroundImage: `url(${"https://img.chelseafc.com/image/upload/f_auto,c_fill,g_faces,w_1440,h_856,q_90/editorial/match-reports/2023-24/Burnley%20away/Sterling_celeb_Burnley_A_GettyImages-1712206536.jpg"})`,
+        /* backgroundImage: `url(${"https://i.ebayimg.com/images/g/iJwAAOSwNCRhp7VN/s-l1600.jpg"})`, */
+
         backgroundSize: "cover",
       }}
     >
       <div className="app">
-        <Sidebar seasons={seasons} setSelectedSeason={setSelectedSeason} />
+        <Sidebar
+          seasons={seasons}
+          selectedSeason={selectedSeason}
+          setSelectedSeason={setSelectedSeason}
+        />
         {seasons.length > 0 ? (
           <StandingsTab database={database} season={selectedSeason} />
         ) : (

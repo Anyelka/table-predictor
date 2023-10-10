@@ -112,7 +112,7 @@ code {
   cursor: pointer;
 }
 
-.page-selector {
+.season-selector {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
@@ -120,7 +120,7 @@ code {
   align-items: center;
 }
 
-.page-selector-button {
+.season-selector-button {
   margin: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -129,11 +129,14 @@ code {
   width: 60px;
   height: 60px;
   border-radius: 15px;
-  background: var(--green-blue-gradient);
   font-size: large;
   font-family: "Fantasy";
   color: var(--grey);
   cursor: pointer;
+}
+
+.season-selector-button-selected {
+  background: var(--green-blue-gradient);
 }
 
 .standings-tab {
