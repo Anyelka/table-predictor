@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Reorder, useAnimation } from "framer-motion";
+import React from "react";
+import { Reorder } from "framer-motion";
 
 const ActualTable = ({ id, data, onReorder }) => {
   /* const rowControls = useAnimation();

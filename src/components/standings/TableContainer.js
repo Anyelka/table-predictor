@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 const getTitle = (title) => {
   return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
