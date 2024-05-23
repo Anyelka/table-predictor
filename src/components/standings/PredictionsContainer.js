@@ -62,6 +62,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
             },
             {}
           );
+
           setPredictions(mappedPredictions);
         } else {
           console.log("No data available");
