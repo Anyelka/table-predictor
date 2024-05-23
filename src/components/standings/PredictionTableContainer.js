@@ -17,7 +17,7 @@ const PredictionTableContainer = ({
       console.log(name + ' not loading' )
       setLoading(false);
     }
-  }, [predictions]);
+  }, [predictions, name]);
 
   const id = `${name}-predictions`;
 
