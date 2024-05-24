@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref /* set */ } from "firebase/database";
+import { child, get, getDatabase, ref, /* set */ 
+set} from "firebase/database";
 import { initializeApp } from "firebase/app";
 import StandingsTab from "./components/standings/StandingsTab";
 import Sidebar from "./components/Sidebar";
@@ -8,6 +9,7 @@ import Sidebar from "./components/Sidebar";
   ZSOLTI_PREDICTIONS_2022,
 } from "./resources/predictions/predictions"; */
 import { isCurrentSeason } from "./utils";
+import { getSeasons } from "./agent";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -27,37 +29,36 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 const mapSeasons = (rawSeasons) => {
-  let seasons = rawSeasons.map((year) => ({
+  let seasons = Object.keys(rawSeasons).map((year) => ({
     year,
+    start: rawSeasons[year].start,
+    end: rawSeasons[year].end,
     isCurrent: isCurrentSeason(year),
   }));
   seasons.sort((a, b) => b.year - a.year);
   return seasons;
 };
 
+const SEASONS = [2025, 2024, 2022]
+
 function App() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
 
-  /*   const savePredictions2022 = () => {
-    const zsoltiPredictions = {
-      name: "zsolti",
-      predictions: ZSOLTI_PREDICTIONS_2022,
-    };
-    const marciPredictions = {
-      name: "marci",
-      predictions: MARCI_PREDICTIONS_2022,
-    };
-    set(ref(database, "predictions/2022/"), {
-      zsolti: zsoltiPredictions,
-      marci: marciPredictions,
-    });
-  };
-  */
-
-  /* const saveSeasons = () => {
-    set(ref(database, "seasons"), ["2024", "2022"]);
-  }; */
+  const saveSeasons = useCallback(async () => {
+    const seasonsFromApi = await getSeasons();
+    SEASONS.forEach(season => {
+      // the seasons in the DB are identified by the END year of the season, while
+      //    in the API-FOOTBALL API, they are identified by START year
+      const s = seasonsFromApi.find(s => s.year === (season-1));
+      if(s) {
+        set(ref(database, `seasons/${season}`), {
+          start: s.start,
+          end: s.end
+        })
+      }
+    })
+  }, []);
 
   const loadSeasons = useCallback(() => {
     const dbRef = ref(database);
@@ -80,16 +81,16 @@ function App() {
 
   useEffect(() => {
     /* savePredictions2022(); */
-    /* saveSeasons(); */
+    saveSeasons(); 
     loadSeasons();
-  }, [loadSeasons]);
+  }, [loadSeasons, saveSeasons]);
 
   return (
     <div
       className="background"
       style={{
         opacity: 1,
-        backgroundImage: `url(${"https://img.chelseafc.com/image/upload/f_auto,c_fill,g_faces,w_1440,h_856,q_90/editorial/match-reports/2023-24/Burnley%20away/Sterling_celeb_Burnley_A_GettyImages-1712206536.jpg"})`,
+        backgroundImage: `url(${"https://resources.premierleague.com/photos/2024/05/20/50c79208-8de1-43bf-887c-fb4f209f9373/Man-City-cele.jpg?width=1400&height=800"})`,
         /* backgroundImage: `url(${"https://i.ebayimg.com/images/g/iJwAAOSwNCRhp7VN/s-l1600.jpg"})`, */
 
         backgroundSize: "cover",

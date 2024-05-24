@@ -47,6 +47,13 @@ export const formatYearToSeason = (year) => {
 export const isCurrentSeason = (year) => {
   let currentDate = new Date();
   let maxDate = new Date(year, 5, 15);
-  let minDate = new Date(year - 1, 5, 15);
+  let minDate = new Date(year - 1, 8, 15);
   return currentDate >= minDate && currentDate < maxDate;
 };
+
+export const isUpcomingSeason = (year) => {
+  let currentDate = new Date();
+  let minDate = new Date(year, 6, 15);
+  let maxDate = new Date(year, 8, 15);
+  return currentDate >= minDate && currentDate < maxDate;
+}

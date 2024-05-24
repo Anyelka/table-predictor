@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
 import { getTeam } from "../../resources/teams";
-import { child, get, ref } from "firebase/database";
-
+import { child, get, ref, /* set */ } from "firebase/database";
+/* import { MARCI_PREDICTIONS_2022, MARCI_PREDICTIONS_2024, ZSOLTI_PREDICTIONS_2022, ZSOLTI_PREDICTIONS_2024 } from "../../resources/predictions/predictions";
+ */
 const getChange = (guess, team) => {
   const actualRank = team.position;
   return guess.position - actualRank;
@@ -24,11 +25,11 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
   const [predictions, setPredictions] = useState([]);
 
   /* const savePredictions = () => {
-    const zsoltiPredictions = { name: "zsolti", predictions: ZSOLTI_PREDICTIONS };
-    const marciPredictions = { name: "marci", predictions: MARCI_PREDICTIONS };
-    set(ref(database, "predictions/zsolti"), zsoltiPredictions);
-    set(ref(database, "predictions/marci"), marciPredictions);
-  }; */
+    const predictions2024 = { zsolti: ZSOLTI_PREDICTIONS_2024, marci: MARCI_PREDICTIONS_2024 } ;
+    const predictions2022 = { zsolti: ZSOLTI_PREDICTIONS_2022, marci: MARCI_PREDICTIONS_2022 } ;
+    set(ref(database, "predictions/2024"), predictions2024);
+    set(ref(database, "predictions/2022"), predictions2022);
+  };   */
 
   const mapTeam = useCallback(
     (guess) => {
@@ -55,7 +56,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
           const data = snapshot.val();
           const mappedPredictions = Object.keys(data).reduce(
             (mappedData, name) => {
-              mappedData[name] = data[name].predictions.map((guess) =>
+              mappedData[name] = data[name].map((guess) =>
                 mapTeam(guess)
               );
               return mappedData;
@@ -77,7 +78,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
   }, [database, setPredictions, mapTeam, season]);
 
   useEffect(() => {
-    /* savePredictions(); */
+    //savePredictions();
     loadPredictions();
   }, [loadPredictions]);
 
