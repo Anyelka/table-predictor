@@ -10,6 +10,35 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
     setOpen(!open);
   };
 
+  const getLastYearWithPredictions = () => {
+    const seasonsWithPredictions = seasons.filter(season => season.hasPredictions).sort((s1, s2) => s1.year - s2.year);
+    console.log('seasonsWithPredictions: ' + JSON.stringify(seasonsWithPredictions))
+    return seasonsWithPredictions[0].year;
+  }
+
+  const renderButton = (season, lastYearWithPredictions) => {
+    return season.year < lastYearWithPredictions ? <></> : (
+      <motion.button
+        id="season-selector-button button"
+        className={
+          season === selectedSeason
+            ? `season-selector-button season-selector-button-selected`
+            : `season-selector-button`
+        }
+        disabled={!season.hasPredictions}
+        onClick={() => setSelectedSeason(season)}
+        whileHover={season.hasPredictions ? { scale: 1.2 } : {}}
+      >
+        {formatYearToSeasonShort(season.year)}
+      </motion.button>
+    )
+  }
+
+  const renderButtons = () => {
+    const lastYearWithPredictions = getLastYearWithPredictions();
+    return seasons.map((season) => renderButton(season, lastYearWithPredictions))
+  }
+
   return (
     <motion.div
       id="sidebar"
@@ -18,21 +47,7 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
     >
       {open ? (
         <div id="season-selector" className="season-selector">
-          {seasons.map((season) => (
-            <motion.button
-              id="season-selector-button button"
-              className={
-                season === selectedSeason
-                  ? `season-selector-button season-selector-button-selected`
-                  : `season-selector-button`
-              }
-              disabled={!season.hasPredictions}
-              onClick={() => setSelectedSeason(season)}
-              whileHover={season.hasPredictions ? { scale: 1.2 } : {}}
-            >
-              {formatYearToSeasonShort(season.year)}
-            </motion.button>
-          ))}
+          {renderButtons()}
         </div>
       ) : (
         <></>
