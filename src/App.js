@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref, /* set */ 
-set} from "firebase/database";
+import { child, get, getDatabase, ref, /* set */ } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import StandingsTab from "./components/standings/StandingsTab";
 import Sidebar from "./components/Sidebar";
@@ -9,7 +8,7 @@ import Sidebar from "./components/Sidebar";
   ZSOLTI_PREDICTIONS_2022,
 } from "./resources/predictions/predictions"; */
 import { isCurrentSeason } from "./utils";
-import { getSeasons } from "./agent";
+//import { getSeasons } from "./agent";
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -28,45 +27,57 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
-const mapSeasons = (rawSeasons) => {
+const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
   let seasons = Object.keys(rawSeasons).map((year) => ({
     year,
     start: rawSeasons[year].start,
     end: rawSeasons[year].end,
+    hasPredictions: seasonsWithPredictions.some(season => year === season),
     isCurrent: isCurrentSeason(year),
   }));
   seasons.sort((a, b) => b.year - a.year);
   return seasons;
 };
 
-const SEASONS = [2025, 2024, 2022]
+//const SEASONS = [2025, 2024, 2022]
 
 function App() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
 
-  const saveSeasons = useCallback(async () => {
+/*   const saveSeasons = useCallback(async () => {
     const seasonsFromApi = await getSeasons();
-    SEASONS.forEach(season => {
+    seasonsFromApi.forEach(season => {
       // the seasons in the DB are identified by the END year of the season, while
       //    in the API-FOOTBALL API, they are identified by START year
-      const s = seasonsFromApi.find(s => s.year === (season-1));
-      if(s) {
-        set(ref(database, `seasons/${season}`), {
-          start: s.start,
-          end: s.end
+      
+        set(ref(database, `seasons/${season.year}`), {
+          start: season.start,
+          end: season.end
         })
-      }
+      
     })
-  }, []);
+  }, []); */
 
   const loadSeasons = useCallback(() => {
     const dbRef = ref(database);
+    
+    let seasonsWithPredictions = [];
+    get(child(dbRef, `predictions`))
+      .then((snapshot => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          seasonsWithPredictions = Object.keys(data);
+        } else {
+          console.log("No data available");
+        }
+      }))
+
     get(child(dbRef, `seasons`))
       .then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          const seasons = mapSeasons(data);
+          const seasons = mapSeasons(data, seasonsWithPredictions);
           setSeasons(seasons);
           const currentSeason = seasons.find((season) => season.isCurrent);
           setSelectedSeason(currentSeason);
@@ -80,10 +91,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    /* savePredictions2022(); */
-    saveSeasons(); 
+    // saveSeasons(); 
     loadSeasons();
-  }, [loadSeasons, saveSeasons]);
+  }, [loadSeasons]);
 
   return (
     <div

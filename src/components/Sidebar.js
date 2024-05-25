@@ -26,8 +26,9 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
                   ? `season-selector-button season-selector-button-selected`
                   : `season-selector-button`
               }
+              disabled={!season.hasPredictions}
               onClick={() => setSelectedSeason(season)}
-              whileHover={{ scale: 1.2 }}
+              whileHover={season.hasPredictions ? { scale: 1.2 } : {}}
             >
               {formatYearToSeasonShort(season.year)}
             </motion.button>
