@@ -73,7 +73,7 @@ code {
 .sidebar {
   float: left;
   position: absolute;
-  height: 100%;
+  height: 100vh;
   background: var(--red-purple-gradient);
   z-index: 1;
 }
@@ -90,7 +90,7 @@ code {
   right: -7px;
   width: 20;
   height: 60px;
-  background-color: #ff2981;
+  background-color: var(--pink);
   display: block;
   padding: 0px;
   border: none;
@@ -139,14 +139,19 @@ code {
   background: var(--green-blue-gradient);
 }
 
-.standings-tab {
+.main-panel {
+  height: 100vh;
+  width: 100vw;
+}
+
+.tab {
   display: flex;
   margin-left: 20px;
 }
 
 .table-container {
   display: flex;
-  flex: 0 1 33%;
+  flex: auto;
   flex-direction: column;
   margin: 20px 10px 20px 10px;
   border-radius: 20px;
@@ -157,6 +162,8 @@ code {
   /* background-image: url("https://www.premierleague.com/resources/rebrand/v7.130.1/i/elements/backgrounds/primary-graphic.svg");
   background-blend-mode: multiply;
   background-size: cover; */
+
+  max-width: 1000px;
 }
 
 .table-container-head {
@@ -231,11 +238,16 @@ code {
 .table {
   font-size: 2vw;
   width: 90%;
+  /* height: 100%; */
   margin: 20px;
   margin-top: 0px;
 }
 
 .table-row {
+  transform: none;
+}
+
+.table-row-fixed {
   pointer-events: none;
 }
 
@@ -272,4 +284,111 @@ h1 {
 .logo {
   width: 30px;
   height: 30px;
+}
+
+.players-container {
+  font-size: 1.2vw;
+
+  height: 100%;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 20px;
+
+  background-color: var(--dark-purple);
+  color: var(--neon-green);
+
+  box-shadow: inset -10px 15px 10px var(--dark-lighter- purple);
+}
+
+.players-container-open {
+  background-color: var(--pink);
+}
+
+.player-button {
+  font-size: 4vh;
+  font-family: "Fantasy";
+  border-radius: 20px;
+  border: 0px;
+  /* padding: 15px; */
+
+  /* color: var(--dark-purple);
+  background: var(--red-purple-gradient); */
+
+  /* needed for gradient text color: */
+  /* background: var(--red-purple-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+  background: transparent;
+  cursor: pointer;
+}
+
+.player-button-hover {
+  scale: 1.2;
+}
+
+.open-player-button-image {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  border-radius: 1vw;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+
+  background: var(--red-purple-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* filter that results in --pink: #ff2882 color when applied to black pixel */
+  filter: invert(37%) sepia(52%) saturate(6369%) hue-rotate(318deg)
+    brightness(100%) contrast(106%);
+}
+
+.player-login-form {
+  display: flex;
+}
+
+.player-password-input {
+  max-width: 200px;
+  font-size: 3.5vh;
+  font-family: "Fantasy";
+  border: 0px;
+  border-radius: 10px;
+  text-align: center;
+  background: var(--dark-purple);
+  /* color: var(--neon-green); */
+}
+
+.player-password-input:focus {
+  outline: none !important;
+}
+
+.player-login-button {
+  border: 0px;
+  border-radius: 10px;
+  height: 40px;
+  width: 40px;
+  margin-left: 5px;
+
+  position: relative;
+  background-color: var(--dark-purple);
+
+  cursor: pointer;
+}
+
+.player-login-button-image {
+  height: 20px;
+
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  filter: invert(76%) sepia(75%) saturate(1835%) hue-rotate(92deg)
+    brightness(100%) contrast(103%);
 }

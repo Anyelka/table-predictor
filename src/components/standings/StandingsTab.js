@@ -7,8 +7,7 @@ const StandingsTab = ({ season, database }) => {
   const [actualTable, setActualTable] = useState([]);
 
   return (
-    <motion.div className="standings-tab">
-      {/* <TableContainer id="previous" title="2022/23" data={PREVIOUS_POSITIONS} /> */}
+    <motion.div className="tab">
       <PredictionsContainer
         season={season}
         actualTable={actualTable}

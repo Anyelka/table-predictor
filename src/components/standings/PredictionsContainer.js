@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
 import { getTeam } from "../../resources/teams";
-import { child, get, ref, /* set */ } from "firebase/database";
+import { child, get, ref /* set */ } from "firebase/database";
 /* import { MARCI_PREDICTIONS_2022, MARCI_PREDICTIONS_2024, ZSOLTI_PREDICTIONS_2022, ZSOLTI_PREDICTIONS_2024 } from "../../resources/predictions/predictions";
  */
 const getChange = (guess, team) => {
@@ -56,9 +56,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
           const data = snapshot.val();
           const mappedPredictions = Object.keys(data).reduce(
             (mappedData, name) => {
-              mappedData[name] = data[name].map((guess) =>
-                mapTeam(guess)
-              );
+              mappedData[name] = data[name].map((guess) => mapTeam(guess));
               return mappedData;
             },
             {}
@@ -79,6 +77,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
 
   useEffect(() => {
     //savePredictions();
+
     loadPredictions();
   }, [loadPredictions]);
 

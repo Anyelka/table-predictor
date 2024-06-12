@@ -98,7 +98,7 @@ const PredictionTable = ({ id, predictions, setPredictions }) => {
               transition={{ duration: 0.25, delay: 0.5 + index * 0.025 }}
               animate={{ opacity: 1 }}
               /* animate={rowControls} */
-              className="table-row"
+              className="table-row-fixed"
             >
               <td>{team.position}</td>
               {team.logo !== undefined && (

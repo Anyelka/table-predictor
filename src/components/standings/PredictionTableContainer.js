@@ -13,8 +13,12 @@ const PredictionTableContainer = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (predictions[0].logo && predictions[0].points && typeof predictions[0].change === 'number') {
-      console.log(name + ' not loading' )
+    if (
+      predictions[0].logo &&
+      predictions[0].points &&
+      typeof predictions[0].change === "number"
+    ) {
+      console.log(name + " not loading");
       setLoading(false);
     }
   }, [predictions, name]);

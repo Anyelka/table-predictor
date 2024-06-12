@@ -11,13 +11,17 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
   };
 
   const getLastYearWithPredictions = () => {
-    const seasonsWithPredictions = seasons.filter(season => season.hasPredictions).sort((s1, s2) => s1.year - s2.year);
-    console.log('seasonsWithPredictions: ' + JSON.stringify(seasonsWithPredictions))
+    const seasonsWithPredictions = seasons
+      .filter((season) => season.hasPredictions)
+      .sort((s1, s2) => s1.year - s2.year);
     return seasonsWithPredictions[0].year;
-  }
+  };
 
   const renderButton = (season, lastYearWithPredictions) => {
-    return season.year < lastYearWithPredictions ? <></> : (
+    if (season.year < lastYearWithPredictions) {
+      return <></>;
+    }
+    return (
       <motion.button
         id="season-selector-button button"
         className={
@@ -25,19 +29,25 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
             ? `season-selector-button season-selector-button-selected`
             : `season-selector-button`
         }
-        disabled={!season.hasPredictions}
+        disabled={!season.isPredictionActive && !season.hasPredictions}
         onClick={() => setSelectedSeason(season)}
-        whileHover={season.hasPredictions ? { scale: 1.2 } : {}}
+        whileHover={
+          season.isPredictionActive || season.hasPredictions
+            ? { scale: 1.2 }
+            : {}
+        }
       >
-        {formatYearToSeasonShort(season.year)}
+        {season.isPredictionActive ? "+" : formatYearToSeasonShort(season.year)}
       </motion.button>
-    )
-  }
+    );
+  };
 
   const renderButtons = () => {
     const lastYearWithPredictions = getLastYearWithPredictions();
-    return seasons.map((season) => renderButton(season, lastYearWithPredictions))
-  }
+    return seasons.map((season) =>
+      renderButton(season, lastYearWithPredictions)
+    );
+  };
 
   return (
     <motion.div
@@ -45,12 +55,10 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
       className={open ? `sidebar sidebar-open` : `sidebar sidebar-closed`}
       layout
     >
-      {open ? (
+      {open && (
         <div id="season-selector" className="season-selector">
           {renderButtons()}
         </div>
-      ) : (
-        <></>
       )}
       <motion.button
         className="open-sidebar-button"

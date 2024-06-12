@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
 import TableContainer from "./TableContainer";
 import {
+  convertToTable,
   formatYearToSeason,
   getCurrentDate /* ,shuffleNRows */,
 } from "../../utils";
 import ActualTable from "./ActualTable";
 import { get, ref, set, child } from "firebase/database";
-import { getTeam } from "../../resources/teams";
 import Loader from "../Loader";
 import refreshIcon from "../../resources/icons/refresh_1.png";
 import { motion, useAnimation } from "framer-motion";
@@ -35,20 +35,6 @@ const ActualTableContainer = ({
     let currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
     return updatedDate < currentDate;
-  };
-
-  const convertToTable = (data) => {
-    return data.standings.map((entry) => {
-      const team = entry.team;
-      const teamName = getTeam(team.name);
-      return {
-        position: entry.rank,
-        logo: team.logo,
-        name: teamName.basic,
-        played: entry.all.played,
-        points: entry.points,
-      };
-    });
   };
 
   const saveActualTable = useCallback(
@@ -123,7 +109,7 @@ const ActualTableContainer = ({
 
   const toggleHeaderButtonVisibility = useCallback(() => {
     headerButtonControls.start({
-      opacity: dateValid && season.isCurrent ? 1 : 0,
+      opacity: dateValid && season.isCurrent && season.isUnderway ? 1 : 0,
     });
   }, [season, dateValid, headerButtonControls]);
 

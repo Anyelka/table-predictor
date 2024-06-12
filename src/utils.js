@@ -1,3 +1,5 @@
+import { getTeam } from "./resources/teams";
+
 export const getCurrentDate = () => {
   const date = new Date();
   const day = date.getDate();
@@ -46,14 +48,40 @@ export const formatYearToSeason = (year) => {
 
 export const isCurrentSeason = (year) => {
   let currentDate = new Date();
-  let maxDate = new Date(year, 5, 15);
-  let minDate = new Date(year - 1, 8, 15);
-  return currentDate >= minDate && currentDate < maxDate;
+  let maxDate = new Date(year, 7, 15);
+  let minDate = new Date(year - 1, 7, 15);
+  return isDateBetween(currentDate, minDate, maxDate);
 };
 
 export const isUpcomingSeason = (year) => {
   let currentDate = new Date();
   let minDate = new Date(year, 6, 15);
   let maxDate = new Date(year, 8, 15);
-  return currentDate >= minDate && currentDate < maxDate;
-}
+  return isDateBetween(currentDate, minDate, maxDate);
+};
+
+export const convertToTable = (data) => {
+  return data.standings.map((entry) => {
+    const team = entry.team;
+    const teamName = getTeam(team.name);
+    return {
+      position: entry.rank,
+      logo: team.logo,
+      name: teamName.basic,
+      played: entry.all.played,
+      points: entry.points,
+    };
+  });
+};
+
+export const isSeasonUnderway = (start, end) => {
+  return;
+};
+
+export const uppercaseInitials = (title) => {
+  return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+};
+
+const isDateBetween = (date, start, end) => {
+  return date >= start && date < end;
+};

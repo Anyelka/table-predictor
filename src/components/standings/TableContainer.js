@@ -1,8 +1,5 @@
 import React from "react";
-
-const getTitle = (title) => {
-  return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
-};
+import { uppercaseInitials } from "../../utils";
 
 const TableContainer = ({ id, title, header, table }) => {
   return (
@@ -20,7 +17,7 @@ const TableContainer = ({ id, title, header, table }) => {
           transition={{ duration: 0.25 }}
           animate={{ x: 0 }} */
         >
-          <h1>{getTitle(title)}</h1>
+          <h1>{uppercaseInitials(title)}</h1>
         </div>
         {header}
       </div>
