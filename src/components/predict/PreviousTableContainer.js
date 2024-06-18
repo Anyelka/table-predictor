@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { convertToTable, formatYearToSeason } from "../../utils";
 import Loader from "../Loader";
-import { motion } from "framer-motion";
 import TableContainer from "../standings/TableContainer";
 import { child, get, ref } from "firebase/database";
 import ActualTable from "../standings/ActualTable";

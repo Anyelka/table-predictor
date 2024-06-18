@@ -11,6 +11,8 @@
   --dark-lighter-purple: #7f3985;
   --pink: #ff2882;
   --red: #e0005e;
+  --dark-red: #ba034f;
+  --dark-red-2: #8a0017;
   --light-blue: #05f0ff;
   --light-darker-blue-2: #2dbdff;
   --light-darker-blue: #00c0cf;
@@ -48,6 +50,12 @@
     #ff2882 53.89%,
     #963cff 156.77%
   );
+
+  --cl-blue-1: #0d3aff;
+  --cl-blue-2: #0929c9;
+  --cl-blue-3: #061da5;
+  --el-orange-1: #ff6900;
+  --el-orange-2: #bb4d00;
 }
 
 body {
@@ -391,4 +399,34 @@ h1 {
 
   filter: invert(76%) sepia(75%) saturate(1835%) hue-rotate(92deg)
     brightness(100%) contrast(103%);
+}
+
+ul {
+  padding: 0px;
+  list-style-type: none;
+}
+
+li {
+  cursor: pointer;
+}
+
+.reorder-table-row {
+  padding-left: 20px;
+  /* background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--cl-blue-1) 25%,
+    var(--cl-blue-1) 75%,
+    transparent 100%
+  ); */
+}
+
+.toast-message {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--neon-green);
+  color: var(--dark-purple);
 }

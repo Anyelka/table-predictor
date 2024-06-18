@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { child, get, getDatabase, ref /* set */ } from "firebase/database";
 import { initializeApp } from "firebase/app";
-import StandingsTab from "./components/standings/StandingsTab";
 import Sidebar from "./components/Sidebar";
 /* import {
   MARCI_PREDICTIONS_2022,
@@ -30,6 +29,8 @@ const database = getDatabase(app);
 
 const isPredictionActive = (year) => {
   // TODO: choose based on season start, end & current date - maybe from 2 months before season start until season start
+  // HAS TO BE == INSTEAD OF === !
+  // eslint-disable-next-line eqeqeq
   return year == 2025;
 };
 
@@ -47,25 +48,9 @@ const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
   return seasons;
 };
 
-//const SEASONS = [2025, 2024, 2022]
-
 function App() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
-
-  /*   const saveSeasons = useCallback(async () => {
-    const seasonsFromApi = await getSeasons();
-    seasonsFromApi.forEach(season => {
-      // the seasons in the DB are identified by the END year of the season, while
-      //    in the API-FOOTBALL API, they are identified by START year
-      
-        set(ref(database, `seasons/${season.year}`), {
-          start: season.start,
-          end: season.end
-        })
-      
-    })
-  }, []); */
 
   const loadSeasons = useCallback(() => {
     const dbRef = ref(database);
@@ -100,7 +85,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // saveSeasons();
     loadSeasons();
   }, [loadSeasons]);
 

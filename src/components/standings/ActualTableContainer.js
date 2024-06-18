@@ -68,7 +68,7 @@ const ActualTableContainer = ({
           setActualTableUpdated(data.updated);
         } else {
           console.error("No data available");
-          refreshTable();
+          /* refreshTable(); */
         }
       })
       .then(() => {
@@ -77,7 +77,7 @@ const ActualTableContainer = ({
       .catch((error) => {
         console.error(error);
       });
-  }, [season, database, setActualTable, setActualTableUpdated, refreshTable]);
+  }, [season, database, setActualTable, setActualTableUpdated]);
 
   const refreshActualTable = async () => {
     headerButtonControls.start({

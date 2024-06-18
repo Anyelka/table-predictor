@@ -1,10 +1,11 @@
-import { child, get, ref } from "firebase/database";
-import { Reorder, motion, useAnimation } from "framer-motion";
+import { child, get, ref, set } from "firebase/database";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { uppercaseInitials } from "../../utils";
 import rightArrowIcon from "../../resources/icons/right-arrow-thick.png";
-import rightArrowDoubleIcon from "../../resources/icons/right-arrow-double.png";
 import Predictor from "./Predictor";
+import LoginForm from "./LoginForm";
+import debounce from "lodash.debounce";
 
 const playerButtonVariants = {
   initial: { scale: 1, color: "#ff2882" },
@@ -24,26 +25,11 @@ const playerButtonArrowVariants = {
   },
 };
 
-const playerLoginButtonVariants = {
-  initial: {},
-  animateHover: { backgroundColor: "#00ff88" },
-};
-
-const playerLoginButtonImageVariants = {
-  initial: {},
-  animateHover: {
-    filter:
-      "invert(8%) sepia(51%) saturate(3677%) hue-rotate(280deg) brightness(103%) contrast(114%)",
-  },
-};
-
 const PlayersContainer = ({ database, season }) => {
   const [predictions, setPredictions] = useState([]);
   const [players, setPlayers] = useState([]);
   const [playerOpen, setPlayerOpen] = useState({ player: null, open: null });
-  const [password, setPassword] = useState("");
-
-  const passwordInputControls = useAnimation();
+  const [showToastMessage, setShowToastMessage] = useState(false);
 
   const openLogin = (player) => {
     setPlayerOpen({ player, open: "login" });
@@ -58,7 +44,6 @@ const PlayersContainer = ({ database, season }) => {
 
   const closePlayer = () => {
     setPlayerOpen({ player: null, open: null });
-    setPassword("");
   };
 
   const toggleLogin = (player) => {
@@ -81,38 +66,6 @@ const PlayersContainer = ({ database, season }) => {
 
   const hasPredictions = () => {
     return predictions && predictions.length > 0;
-  };
-
-  /* const hasPredictions = (player) => {
-    return predictions[player.name] && predictions[player.name].length > 0;
-  }; */
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    passwordInputControls.start({
-      border: "0px",
-      color: "#00ff88",
-    });
-  };
-
-  const handleLoginButton = (event, player) => {
-    event.preventDefault();
-    if (password === player.password) {
-      openPredictor(player);
-    } else {
-      animateInvalidPassword(player);
-    }
-  };
-
-  const animateInvalidPassword = (player) => {
-    passwordInputControls.start({
-      border: "1px solid red",
-      color: "red",
-      x: [0, 5, 0, -5, 0, 5, 0, -5, 0, 5, 0, -5, 0],
-      transition: {
-        duration: 0.5,
-      },
-    });
   };
 
   const loadPlayers = useCallback(() => {
@@ -164,6 +117,17 @@ const PlayersContainer = ({ database, season }) => {
     [database, season.year]
   );
 
+  const savePlayerPredictions = useCallback(
+    async (predictions, player) => {
+      const dbRef = ref(database);
+      set(
+        child(dbRef, `predictions/${season.year}/${player.name}`),
+        predictions
+      );
+    },
+    [database, season.year]
+  );
+
   const loadPlayerPredictions = useCallback(
     async (player) => {
       const playerPredictions = await fetchPlayerPredictions(player);
@@ -172,12 +136,21 @@ const PlayersContainer = ({ database, season }) => {
     [fetchPlayerPredictions]
   );
 
-  /* const loadPredictions = useCallback(async () => {
-    players.forEach(async (player) => {
-      const playerPredictions = await fetchPlayerPredictions(player);
-      setPredictions({ ...predictions, [player.name]: playerPredictions });
-    });
-  }, [predictions, players, fetchPlayerPredictions]); */
+  const handleSavePredictions = (newTeamOrder, player) => {
+    const newPredictions = newTeamOrder.map((team) =>
+      predictions.find((prediction) => prediction.name === team)
+    );
+    setPredictions(newPredictions);
+    savePlayerPredictions(newPredictions, player);
+
+    setShowToastMessage(true);
+    scheduleHideToastMessage();
+  };
+
+  const scheduleHideToastMessage = debounce(
+    () => setShowToastMessage(false),
+    5000
+  );
 
   useEffect(() => {
     loadPlayers();
@@ -207,52 +180,6 @@ const PlayersContainer = ({ database, season }) => {
     );
   };
 
-  const renderLoginForm = (player) => {
-    return (
-      <motion.form
-        onSubmit={(event) => handleLoginButton(event, player)}
-        class="player-login-form"
-      >
-        <motion.input
-          class="player-password-input"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-          initial={{
-            border: "none",
-            color: "#00ff88",
-            backgroundColor: "#37003c",
-          }}
-          animate={passwordInputControls}
-        />
-        <motion.button
-          class="player-login-button"
-          variants={playerLoginButtonVariants}
-          whileHover="animateHover"
-          type="submit"
-        >
-          <motion.img
-            src={rightArrowDoubleIcon}
-            alt=""
-            class="player-login-button-image"
-            variants={playerLoginButtonImageVariants}
-          />
-        </motion.button>
-      </motion.form>
-    );
-  };
-
-  const renderPredictor = (player) => {
-    return (
-      <Predictor
-        player={player}
-        database={database}
-        predictions={predictions}
-        setPredictions={setPredictions}
-      />
-    );
-  };
-
   const renderPlayer = (player) => {
     const isPlayerOpen = isOpen(player);
 
@@ -261,8 +188,17 @@ const PlayersContainer = ({ database, season }) => {
       !isOtherPlayerOpen && (
         <>
           {renderPlayerName(player)}
-          {isLoginOpen(player) && renderLoginForm(player)}
-          {isPredictorOpen(player) && renderPredictor(player)}
+          {isLoginOpen(player) && (
+            <LoginForm player={player} openPredictor={openPredictor} />
+          )}
+          {isPredictorOpen(player) && (
+            <Predictor
+              predictions={predictions}
+              setPredictions={(newTeamOrder) =>
+                handleSavePredictions(newTeamOrder, player)
+              }
+            />
+          )}
         </>
       )
     );
@@ -278,10 +214,22 @@ const PlayersContainer = ({ database, season }) => {
             ? { background: "#ff2882" }
             : { background: "#37003c" }
         }
-        /* style={{ transform: "none" }} */
         layout
       >
         {players.map((player) => renderPlayer(player))}
+
+        <AnimatePresence>
+          {showToastMessage && (
+            <motion.div
+              className="toast-message"
+              initial={{ x: 300 }}
+              animate={{ x: 0 }}
+              exit={{ x: 300 }}
+            >
+              Predictions Saved
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     )
   );
