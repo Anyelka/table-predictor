@@ -39,11 +39,13 @@ export const shuffleNRows = (table, rows) => {
 };
 
 export const formatYearToSeasonShort = (year) => {
-  return (year - 1).toString().slice(2) + "/" + year.toString().slice(2);
+  const nextYear = Number(year) + 1;
+  return year.toString().slice(2) + "/" + nextYear.toString().slice(2);
 };
 
 export const formatYearToSeason = (year) => {
-  return (year - 1).toString() + "/" + year.toString().slice(2);
+  const nextYear = Number(year) + 1;
+  return year.toString() + "/" + nextYear.toString().slice(2);
 };
 
 export const isCurrentSeason = (year) => {
@@ -75,7 +77,8 @@ export const convertToTable = (data) => {
 };
 
 export const isSeasonUnderway = (start, end) => {
-  return;
+  let currentDate = new Date();
+  return isDateBetween(currentDate, start, end);
 };
 
 export const uppercaseInitials = (title) => {

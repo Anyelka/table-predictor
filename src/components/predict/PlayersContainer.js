@@ -1,11 +1,12 @@
 import { child, get, ref, set } from "firebase/database";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { uppercaseInitials } from "../../utils";
+import { getCurrentDate, uppercaseInitials } from "../../utils";
 import rightArrowIcon from "../../resources/icons/right-arrow-thick.png";
 import Predictor from "./Predictor";
 import LoginForm from "./LoginForm";
 import debounce from "lodash.debounce";
+import { getTable } from "../../agent";
 
 const playerButtonVariants = {
   initial: { scale: 1, color: "#ff2882" },
@@ -84,6 +85,60 @@ const PlayersContainer = ({ database, season }) => {
       });
   }, [database]);
 
+  const saveActualTable = useCallback(
+    (leagueStangings, updated) => {
+      const standings = leagueStangings.standings[0];
+      const tableToSave = {
+        standings,
+        season,
+        updated,
+      };
+      set(ref(database, `actualTable/${season.year}`), tableToSave);
+    },
+    [season, database]
+  );
+
+  const refreshTable = useCallback(async () => {
+    const table = await getTable(season.year);
+    const currentDate = getCurrentDate();
+    saveActualTable(table, currentDate);
+  }, [saveActualTable, season]);
+
+  const getTableOrElse = useCallback(
+    async (otherFunction) => {
+      const dbRef = ref(database);
+      const snapshot = await get(child(dbRef, `actualTable/${season.year}`));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const teams = data.standings.map((place) => {
+          return {
+            position: place.rank,
+            name: place.team.name,
+            logo: place.team.logo,
+          };
+        });
+        return teams;
+      } else {
+        otherFunction();
+      }
+    },
+    [database, season.year]
+  );
+
+  const fetchActualTable = useCallback(
+    async (player) => {
+      return getTableOrElse(() => {
+        refreshTable();
+        return getTableOrElse(() =>
+          console.error(
+            "No data available for predictions of player: " + player.name
+          )
+        );
+      });
+    },
+    [getTableOrElse, refreshTable]
+  );
+
   const fetchPlayerPredictions = useCallback(
     async (player) => {
       const dbRef = ref(database);
@@ -91,30 +146,12 @@ const PlayersContainer = ({ database, season }) => {
         child(dbRef, `predictions/${season.year}/${player.name}`)
       );
       if (snapshot.exists()) {
-        const data = snapshot.val();
-        return data;
+        return snapshot.val();
       } else {
-        const snapshot2 = await get(
-          child(dbRef, `actualTable/${season.year - 1}`)
-        );
-        if (snapshot2.exists()) {
-          const data = snapshot2.val();
-          const teams = data.standings.map((place) => {
-            return {
-              position: place.rank,
-              name: place.team.name,
-              logo: place.team.logo,
-            };
-          });
-          return teams;
-        } else {
-          console.error(
-            "No data available for predictions of player: " + player.name
-          );
-        }
+        return fetchActualTable(player);
       }
     },
-    [database, season.year]
+    [database, season.year, fetchActualTable]
   );
 
   const savePlayerPredictions = useCallback(
@@ -135,6 +172,12 @@ const PlayersContainer = ({ database, season }) => {
     },
     [fetchPlayerPredictions]
   );
+
+  /* const loadCurrentActualTable = async () => {
+    const table = await getTable(season.year);
+    const currentDate = getCurrentDate();
+    saveActualTable(table, currentDate);
+  }; */
 
   const handleSavePredictions = (newTeamOrder, player) => {
     const newPredictions = newTeamOrder.map((team) =>

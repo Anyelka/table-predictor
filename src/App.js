@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref /* set */ } from "firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import Sidebar from "./components/Sidebar";
-/* import {
-  MARCI_PREDICTIONS_2022,
-  ZSOLTI_PREDICTIONS_2022,
-} from "./resources/predictions/predictions"; */
 import { isCurrentSeason, isSeasonUnderway } from "./utils";
 import MainPanel from "./components/MainPanel";
-//import { getSeasons } from "./agent";
+import { getSeasons } from "./agent";
+/* import {
+  MARCI_PREDICTIONS_2021,
+  MARCI_PREDICTIONS_2023,
+  ZSOLTI_PREDICTIONS_2021,
+  ZSOLTI_PREDICTIONS_2023,
+} from "./resources/predictions/predictions"; */
 
 const firebaseConfig = {
   // Your web app's Firebase configuration
@@ -31,7 +33,7 @@ const isPredictionActive = (year) => {
   // TODO: choose based on season start, end & current date - maybe from 2 months before season start until season start
   // HAS TO BE == INSTEAD OF === !
   // eslint-disable-next-line eqeqeq
-  return year == 2025;
+  return year == 2024;
 };
 
 const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
@@ -51,6 +53,19 @@ const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
 function App() {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(0);
+
+  /* const savePredictions = () => {
+    const predictions2023 = {
+      zsolti: ZSOLTI_PREDICTIONS_2023,
+      marci: MARCI_PREDICTIONS_2023,
+    };
+    const predictions2021 = {
+      zsolti: ZSOLTI_PREDICTIONS_2021,
+      marci: MARCI_PREDICTIONS_2021,
+    };
+    set(ref(database, "predictions/2023"), predictions2023);
+    set(ref(database, "predictions/2021"), predictions2021);
+  }; */
 
   const loadSeasons = useCallback(() => {
     const dbRef = ref(database);
@@ -74,7 +89,7 @@ function App() {
           const currentSeason = seasons.find((season) => season.isCurrent);
           setSelectedSeason(currentSeason);
           //TODO: delete
-          setSelectedSeason(seasons[0]);
+          /* setSelectedSeason(seasons[0]); */
         } else {
           console.log("No data available");
         }
@@ -84,9 +99,26 @@ function App() {
       });
   }, []);
 
+  const fetchAndSaveSeasons = useCallback(async () => {
+    const seasons = await getSeasons();
+    let seasonsToSave = {};
+    seasons.forEach((season) => {
+      seasonsToSave = {
+        ...seasonsToSave,
+        [season.year]: { start: season.start, end: season.end },
+      };
+    });
+    set(ref(database, `seasons`), seasonsToSave);
+  }, []);
+
   useEffect(() => {
+    // Load the predictions from hardcoded js file:
+    /* savePredictions(); */
+    // Load the seasons from FOOTBALL API call:
+    /* fetchAndSaveSeasons(); */
+
     loadSeasons();
-  }, [loadSeasons]);
+  }, [loadSeasons, fetchAndSaveSeasons]);
 
   return (
     <div

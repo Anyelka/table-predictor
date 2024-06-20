@@ -21,7 +21,7 @@ export const PREVIOUS_POSITIONS_2024 = [
   { position: 20, name: "Luton" },
 ];
 
-export const ZSOLTI_PREDICTIONS_2024 = [
+export const ZSOLTI_PREDICTIONS_2023 = [
   { position: 1, name: "Chelsea" },
   { position: 2, name: "Liverpool" },
   { position: 3, name: "Man City" },
@@ -44,7 +44,7 @@ export const ZSOLTI_PREDICTIONS_2024 = [
   { position: 20, name: "Bournemouth" },
 ];
 
-export const MARCI_PREDICTIONS_2024 = [
+export const MARCI_PREDICTIONS_2023 = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Liverpool" },
   { position: 3, name: "Man Utd" },
@@ -67,7 +67,7 @@ export const MARCI_PREDICTIONS_2024 = [
   { position: 20, name: "Sheffield Utd" },
 ];
 
-export const ZSOLTI_PREDICTIONS_2022 = [
+export const ZSOLTI_PREDICTIONS_2021 = [
   { position: 1, name: "Chelsea" },
   { position: 2, name: "Man Utd" },
   { position: 3, name: "Man City" },
@@ -90,7 +90,7 @@ export const ZSOLTI_PREDICTIONS_2022 = [
   { position: 20, name: "Watford" },
 ];
 
-export const MARCI_PREDICTIONS_2022 = [
+export const MARCI_PREDICTIONS_2021 = [
   { position: 1, name: "Man City" },
   { position: 2, name: "Chelsea" },
   { position: 3, name: "Man Utd" },

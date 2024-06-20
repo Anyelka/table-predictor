@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PredictionTableContainer from "./PredictionTableContainer";
 import { getTeam } from "../../resources/teams";
-import { child, get, ref /* set */ } from "firebase/database";
-/* import { MARCI_PREDICTIONS_2022, MARCI_PREDICTIONS_2024, ZSOLTI_PREDICTIONS_2022, ZSOLTI_PREDICTIONS_2024 } from "../../resources/predictions/predictions";
- */
+import { child, get, ref } from "firebase/database";
+
 const getChange = (guess, team) => {
   const actualRank = team.position;
   return guess.position - actualRank;
@@ -23,13 +22,6 @@ const isHighestPoints = (playerPoints, pointsMap) => {
 const PredictionsContainer = ({ season, actualTable, database }) => {
   const [scores, setScores] = useState([]);
   const [predictions, setPredictions] = useState([]);
-
-  /* const savePredictions = () => {
-    const predictions2024 = { zsolti: ZSOLTI_PREDICTIONS_2024, marci: MARCI_PREDICTIONS_2024 } ;
-    const predictions2022 = { zsolti: ZSOLTI_PREDICTIONS_2022, marci: MARCI_PREDICTIONS_2022 } ;
-    set(ref(database, "predictions/2024"), predictions2024);
-    set(ref(database, "predictions/2022"), predictions2022);
-  };   */
 
   const mapTeam = useCallback(
     (guess) => {
@@ -76,8 +68,6 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
   }, [database, setPredictions, mapTeam, season]);
 
   useEffect(() => {
-    //savePredictions();
-
     loadPredictions();
   }, [loadPredictions]);
 

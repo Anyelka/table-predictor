@@ -14,7 +14,9 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
     const seasonsWithPredictions = seasons
       .filter((season) => season.hasPredictions)
       .sort((s1, s2) => s1.year - s2.year);
-    return seasonsWithPredictions[0].year;
+    return seasonsWithPredictions.length > 0
+      ? seasonsWithPredictions[0].year
+      : 0;
   };
 
   const renderButton = (season, lastYearWithPredictions) => {

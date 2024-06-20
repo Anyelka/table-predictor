@@ -138,9 +138,7 @@ const ActualTableContainer = ({
   };
 
   useEffect(() => {
-    /* refreshActualTable(setActualTable, setActualTableUpdated); */
-    /* saveActualTable(DUMMY_TABLE_API_RESPONSE.league, "2023-08-17"); */
-
+    /* refreshTable(); */
     loadActualTable();
   }, [season, loadActualTable]);
 

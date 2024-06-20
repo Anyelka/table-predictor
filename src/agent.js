@@ -7,7 +7,7 @@ const getStandingsOptions = (season) => {
     method: "GET",
     url: "https://api-football-v1.p.rapidapi.com/v3/standings",
     params: {
-      season: (parseInt(season) - 1).toString(),
+      season: parseInt(season).toString(),
       league: PREMIER_LEAGUE_ID,
     },
     headers: {
