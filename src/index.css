@@ -39,6 +39,11 @@
     var(--dark-gold) 91.08%,
     var(--light-gold) 113.26%
   );
+  --light-gold-gradient: linear-gradient(
+    137.27deg,
+    var(--gold) 19.85%,
+    var(--light-gold) 113.26%
+  );
   --red-purple-gradient: linear-gradient(
     245.98deg,
     #ff6900 -48.99%,
@@ -143,9 +148,13 @@ code {
   cursor: pointer;
 }
 
-.season-selector-button-selected {
+/* .season-selector-button-selected {
   background: var(--green-blue-gradient);
 }
+
+.season-selector-button-predictable {
+  background: var(--light-gold-gradient);
+} */
 
 .main-panel {
   height: 100vh;
@@ -167,9 +176,6 @@ code {
   color: var(--neon-green);
 
   box-shadow: inset -10px 15px 10px var(--dark-lighter-purple);
-  /* background-image: url("https://www.premierleague.com/resources/rebrand/v7.130.1/i/elements/backgrounds/primary-graphic.svg");
-  background-blend-mode: multiply;
-  background-size: cover; */
 
   max-width: 1000px;
 }
@@ -307,8 +313,6 @@ h1 {
 
   background-color: var(--dark-purple);
   color: var(--neon-green);
-
-  box-shadow: inset -10px 15px 10px var(--dark-lighter- purple);
 }
 
 .players-container-open {

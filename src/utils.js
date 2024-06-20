@@ -43,6 +43,15 @@ export const formatYearToSeasonShort = (year) => {
   return year.toString().slice(2) + "/" + nextYear.toString().slice(2);
 };
 
+export const getYearShort = (year) => {
+  return year.toString().slice(2);
+};
+
+export const getNextYearShort = (year) => {
+  const nextYear = Number(year) + 1;
+  return nextYear.toString().slice(2);
+};
+
 export const formatYearToSeason = (year) => {
   const nextYear = Number(year) + 1;
   return year.toString() + "/" + nextYear.toString().slice(2);

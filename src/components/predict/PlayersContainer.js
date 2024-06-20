@@ -192,7 +192,7 @@ const PlayersContainer = ({ database, season }) => {
 
   const scheduleHideToastMessage = debounce(
     () => setShowToastMessage(false),
-    5000
+    2000
   );
 
   useEffect(() => {
@@ -254,8 +254,14 @@ const PlayersContainer = ({ database, season }) => {
         className={`players-container`}
         animate={
           playerOpen.player
-            ? { background: "#ff2882" }
-            : { background: "#37003c" }
+            ? {
+                background: "#ff2882",
+                boxShadow: "inset -10px 10px 10px #e0005e",
+              }
+            : {
+                background: "#37003c",
+                boxShadow: "inset -5px 8px 10px #7f3985",
+              }
         }
         layout
       >

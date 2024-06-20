@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import rightArrowIcon from "../resources/icons/right-arrow.png";
-import { formatYearToSeasonShort } from "../utils";
+import rightArrowIcon from "../../resources/icons/right-arrow.png";
+import SeasonSelectorButton from "./SeasonSelectorButton";
 
 const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
   const [open, setOpen] = useState(false);
@@ -19,36 +19,18 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
       : 0;
   };
 
-  const renderButton = (season, lastYearWithPredictions) => {
-    if (season.year < lastYearWithPredictions) {
-      return <></>;
-    }
-    return (
-      <motion.button
-        id="season-selector-button button"
-        className={
-          season === selectedSeason
-            ? `season-selector-button season-selector-button-selected`
-            : `season-selector-button`
-        }
-        disabled={!season.isPredictionActive && !season.hasPredictions}
-        onClick={() => setSelectedSeason(season)}
-        whileHover={
-          season.isPredictionActive || season.hasPredictions
-            ? { scale: 1.2 }
-            : {}
-        }
-      >
-        {season.isPredictionActive ? "+" : formatYearToSeasonShort(season.year)}
-      </motion.button>
-    );
-  };
-
   const renderButtons = () => {
     const lastYearWithPredictions = getLastYearWithPredictions();
-    return seasons.map((season) =>
-      renderButton(season, lastYearWithPredictions)
-    );
+    return seasons.map((season) => (
+      <SeasonSelectorButton
+        season={season}
+        isSelected={season === selectedSeason}
+        setSelectedSeason={
+          setSelectedSeason /* (season) => setSelectedSeason(season) */
+        }
+        lastYearWithPredictions={lastYearWithPredictions}
+      />
+    ));
   };
 
   return (
@@ -58,9 +40,9 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
       layout
     >
       {open && (
-        <div id="season-selector" className="season-selector">
+        <motion.div id="season-selector" className="season-selector" layout>
           {renderButtons()}
-        </div>
+        </motion.div>
       )}
       <motion.button
         className="open-sidebar-button"

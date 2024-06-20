@@ -38,7 +38,6 @@ const PreviousTableContainer = ({ database, season }) => {
       id="previous-table"
       title={formatYearToSeason(season.year - 1)}
       table={loading ? <Loader /> : <ActualTable id="previous" data={table} />}
-      layout
     />
   );
 };

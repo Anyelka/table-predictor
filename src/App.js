@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { child, get, getDatabase, ref, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import { isCurrentSeason, isSeasonUnderway } from "./utils";
 import MainPanel from "./components/MainPanel";
 import { getSeasons } from "./agent";

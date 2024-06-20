@@ -3,13 +3,7 @@ import { uppercaseInitials } from "../../utils";
 
 const TableContainer = ({ id, title, header, table }) => {
   return (
-    <div
-      id={`${id}-table-container`}
-      className="table-container"
-      /* initial={{ x: -1500 }}
-      transition={{ duration: 0.5 }}
-      animate={{ x: 0 }} */
-    >
+    <div id={`${id}-table-container`} className="table-container">
       <div className="table-container-head">
         <div
           className="table-container-head-title"
