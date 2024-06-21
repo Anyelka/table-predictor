@@ -37,6 +37,7 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
     <motion.div
       id="sidebar"
       className={open ? `sidebar sidebar-open` : `sidebar sidebar-closed`}
+      transition={{ type: "spring", duration: 0.5 }}
       layout
     >
       {open && (
@@ -49,6 +50,7 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
         onClick={onClick}
         initial={{ rotate: 0 }}
         animate={{ rotate: open ? 180 : 0 }}
+        transition={{ type: "spring", duration: 0.5 }}
         layout
       >
         <img
