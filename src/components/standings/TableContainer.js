@@ -1,9 +1,15 @@
 import React from "react";
 import { uppercaseInitials } from "../../utils";
+import { motion } from "framer-motion";
 
 const TableContainer = ({ id, title, header, table }) => {
   return (
-    <div id={`${id}-table-container`} className="table-container">
+    <motion.div
+      id={`${id}-table-container`}
+      className="table-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <div className="table-container-head">
         <div
           className="table-container-head-title"
@@ -11,12 +17,12 @@ const TableContainer = ({ id, title, header, table }) => {
           transition={{ duration: 0.25 }}
           animate={{ x: 0 }} */
         >
-          <h1>{uppercaseInitials(title)}</h1>
+          <h1 className="table-header-text">{uppercaseInitials(title)}</h1>
         </div>
         {header}
       </div>
       <div className="table-container-body">{table}</div>
-    </div>
+    </motion.div>
   );
 };
 

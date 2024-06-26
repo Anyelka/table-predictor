@@ -40,21 +40,21 @@ export const Item = ({ item, index, logo }) => {
       style={{
         boxShadow,
         y,
+        color: fontColor(),
+        background: backgroundColor(),
       }}
       whileDrag={{ scale: 1.1 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.5 } }}
+      as="tr"
       className="reorder-table-row"
       layout
     >
-      <div
-        style={{
-          color: fontColor(),
-          background: backgroundColor(),
-        }}
-      >
-        {index} <img src={logo} alt="" className="logo"></img> {item}
-      </div>
+      <td>{index}</td>
+      <td>
+        <img src={logo} alt="" className="logo"></img>
+      </td>
+      <td>{item}</td>
     </Reorder.Item>
   );
 };

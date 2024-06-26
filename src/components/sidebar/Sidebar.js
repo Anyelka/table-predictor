@@ -3,10 +3,20 @@ import { motion } from "framer-motion";
 import rightArrowIcon from "../../resources/icons/right-arrow.png";
 import SeasonSelectorButton from "./SeasonSelectorButton";
 
+const sidebarVariants = {
+  closed: { width: 20 },
+  open: { width: 80 },
+};
+
+const openSidebarButtonVariants = {
+  closed: { rotate: 0, x: 0 },
+  open: { rotate: 180, x: 60 },
+};
+
 const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
   const [open, setOpen] = useState(false);
 
-  const onClick = () => {
+  const toggleOpen = () => {
     setOpen(!open);
   };
 
@@ -36,7 +46,10 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
   return (
     <motion.div
       id="sidebar"
-      className={open ? `sidebar sidebar-open` : `sidebar sidebar-closed`}
+      className="sidebar"
+      initial="closed"
+      animate={open ? "open" : "closed"}
+      variants={sidebarVariants}
       transition={{ type: "spring", duration: 0.5 }}
       layout
     >
@@ -47,9 +60,10 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
       )}
       <motion.button
         className="open-sidebar-button"
-        onClick={onClick}
-        initial={{ rotate: 0 }}
-        animate={{ rotate: open ? 180 : 0 }}
+        onClick={toggleOpen}
+        initial="closed"
+        animate={open ? "open" : "closed"}
+        variants={openSidebarButtonVariants}
         transition={{ type: "spring", duration: 0.5 }}
         layout
       >

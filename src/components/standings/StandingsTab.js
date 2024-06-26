@@ -7,7 +7,7 @@ const StandingsTab = ({ season, database }) => {
   const [actualTable, setActualTable] = useState([]);
 
   return (
-    <motion.div className="tab">
+    <>
       <PredictionsContainer
         season={season}
         actualTable={actualTable}
@@ -19,7 +19,7 @@ const StandingsTab = ({ season, database }) => {
         setActualTable={setActualTable}
         database={database}
       />
-    </motion.div>
+    </>
   );
 };
 

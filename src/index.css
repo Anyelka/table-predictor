@@ -76,16 +76,15 @@ code {
 }
 
 .app {
+  display: flex;
   overflow: hidden;
   position: relative;
   width: 100%;
   background: var(--blue-purple-gradient);
-  opacity: 80%;
+  opacity: 90%;
 }
 
 .sidebar {
-  float: left;
-  position: absolute;
   height: 100vh;
   background: var(--red-purple-gradient);
   z-index: 1;
@@ -100,8 +99,6 @@ code {
 }
 
 .open-sidebar-button {
-  right: -7px;
-  width: 20;
   height: 60px;
   background-color: var(--pink);
   display: block;
@@ -111,7 +108,6 @@ code {
   justify-content: center;
   position: absolute;
   top: 50%;
-  transform: translate(0, -50%);
 }
 
 .open-sidebar-button-image {
@@ -162,15 +158,24 @@ code {
 }
 
 .tab {
+  width: 100vw;
+  height: 100vh;
+}
+
+.tables-container {
   display: flex;
-  margin-left: 20px;
+  gap: 20px;
+  margin: 20px;
+  flex: 1;
+
+  height: -webkit-fill-available;
 }
 
 .table-container {
   display: flex;
   flex: auto;
   flex-direction: column;
-  margin: 20px 10px 20px 10px;
+  margin-bottom: auto;
   border-radius: 20px;
   background-color: var(--dark-purple);
   color: var(--neon-green);
@@ -182,10 +187,9 @@ code {
 
 .table-container-head {
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   display: flex;
   width: 100%;
-  height: 80px;
   text-align: center;
 }
 
@@ -203,12 +207,20 @@ code {
 .table-container-head-points-container {
   display: flex;
   justify-content: center;
-  min-width: 150px;
   height: 100%;
+  margin-right: 4vh;
 }
 
 .table-container-head-points-text {
-  margin: auto;
+  font-size: 3.5vh;
+}
+
+h1 {
+  margin: 0px;
+}
+
+h2 {
+  margin: 0px;
 }
 
 .table-container-head-points-winner {
@@ -216,7 +228,6 @@ code {
   padding: 5px;
   padding-bottom: 0px;
   color: var(--grey);
-  /* background-color: var(--light-darker-blue); */
   background: var(--gold-gradient);
 }
 
@@ -226,8 +237,6 @@ code {
   padding: 0px;
   border: none;
   border-radius: 10px;
-  width: 45px;
-  height: 45px;
   justify-content: center;
 }
 
@@ -246,15 +255,15 @@ code {
 }
 
 .table-container-body {
+  display: flex;
   width: 100%;
 }
 
 .table {
-  font-size: 2vw;
   width: 90%;
-  /* height: 100%; */
-  margin: 20px;
-  margin-top: 0px;
+  margin: 10px 20px 10px;
+  font-size: 2vh;
+  border-collapse: collapse;
 }
 
 .table-row {
@@ -265,23 +274,9 @@ code {
   pointer-events: none;
 }
 
-@media screen and (min-width: 1500px) {
-  .table {
-    font-size: 28px;
-  }
-
-  .table-container-head {
-    font-size: 24px;
-  }
-
-  .button-image {
-    width: 35px;
-    height: 35px;
-  }
-}
-
-h1 {
-  margin-top: 20px;
+.table-header-text {
+  font-size: 4vh;
+  margin-top: 3vh;
 }
 
 .arrow {
@@ -291,21 +286,35 @@ h1 {
   margin-right: 5px;
   filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
     brightness(104%) contrast(97%);
-  width: 20px;
-  height: 20px;
+  width: 2vh;
+  height: 2vh;
 }
 
 .logo {
-  width: 30px;
-  height: 30px;
+  width: 3vh;
+  height: 3vh;
+  padding-right: 10px;
+}
+
+.position {
+  padding-right: 10px;
+}
+
+.players-container-container {
+  container-type: normal;
+  container-name: players-container;
+}
+
+@container players-container (min-height: 1px) {
+  .players-container {
+    margin: 0px 20px;
+    border: 10px solid salmon;
+  }
 }
 
 .players-container {
-  font-size: 1.2vw;
-
-  height: 100%;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 15px;
+  margin-bottom: auto;
   display: flex;
   flex-direction: column;
 
@@ -346,8 +355,8 @@ h1 {
   padding: 0px;
   border: none;
   border-radius: 1vw;
-  width: 30px;
-  height: 25px;
+  width: 3vh;
+  height: 3vh;
   cursor: pointer;
 
   background: var(--red-purple-gradient);
@@ -411,18 +420,14 @@ ul {
 }
 
 li {
+  padding-left: 10px;
+  padding-right: 10px;
   cursor: pointer;
 }
 
 .reorder-table-row {
   padding-left: 20px;
-  /* background: linear-gradient(
-    to right,
-    transparent 0%,
-    var(--cl-blue-1) 25%,
-    var(--cl-blue-1) 75%,
-    transparent 100%
-  ); */
+  padding-right: 20px;
 }
 
 .toast-message {

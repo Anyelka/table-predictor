@@ -127,8 +127,6 @@ function App() {
         height: "100vh",
         opacity: 1,
         backgroundImage: `url(${"https://resources.premierleague.com/photos/2024/05/20/50c79208-8de1-43bf-887c-fb4f209f9373/Man-City-cele.jpg?width=1400&height=800"})`,
-        /* backgroundImage: `url(${"https://i.ebayimg.com/images/g/iJwAAOSwNCRhp7VN/s-l1600.jpg"})`, */
-
         backgroundSize: "cover",
       }}
     >

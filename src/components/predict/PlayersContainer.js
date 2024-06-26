@@ -5,7 +5,6 @@ import { getCurrentDate, uppercaseInitials } from "../../utils";
 import rightArrowIcon from "../../resources/icons/right-arrow-thick.png";
 import Predictor from "./Predictor";
 import LoginForm from "./LoginForm";
-import debounce from "lodash.debounce";
 import { getTable } from "../../agent";
 
 const playerButtonVariants = {
@@ -20,9 +19,23 @@ const playerButtonArrowVariants = {
   animateOpen: {
     scale: 1.2,
     rotateY: 180,
-    x: "-140px",
+    x: "-15vh",
     filter:
       "invert(8%) sepia(51%) saturate(3677%) hue-rotate(280deg) brightness(103%) contrast(114%)",
+  },
+};
+
+const playersContainerVariants = {
+  initial: { opacity: 0 },
+  playerList: {
+    opacity: 1,
+    background: "#37003c",
+    boxShadow: "inset -5px 8px 10px #7f3985",
+  },
+  playerOpen: {
+    opacity: 1,
+    background: "#ff2882",
+    boxShadow: "inset -10px 10px 10px #e0005e",
   },
 };
 
@@ -187,13 +200,8 @@ const PlayersContainer = ({ database, season }) => {
     savePlayerPredictions(newPredictions, player);
 
     setShowToastMessage(true);
-    scheduleHideToastMessage();
+    setTimeout(() => setShowToastMessage(false), 2000);
   };
-
-  const scheduleHideToastMessage = debounce(
-    () => setShowToastMessage(false),
-    2000
-  );
 
   useEffect(() => {
     loadPlayers();
@@ -250,36 +258,30 @@ const PlayersContainer = ({ database, season }) => {
   return (
     players &&
     players.length > 0 && (
-      <motion.div
-        className={`players-container`}
-        animate={
-          playerOpen.player
-            ? {
-                background: "#ff2882",
-                boxShadow: "inset -10px 10px 10px #e0005e",
-              }
-            : {
-                background: "#37003c",
-                boxShadow: "inset -5px 8px 10px #7f3985",
-              }
-        }
-        layout
-      >
-        {players.map((player) => renderPlayer(player))}
+      <div className="players-container-container">
+        <motion.div
+          className="players-container"
+          initial="initial"
+          animate={playerOpen.player ? "playerOpen" : "playerList"}
+          variants={playersContainerVariants}
+          layout
+        >
+          {players.map((player) => renderPlayer(player))}
 
-        <AnimatePresence>
-          {showToastMessage && (
-            <motion.div
-              className="toast-message"
-              initial={{ x: 300 }}
-              animate={{ x: 0 }}
-              exit={{ x: 300 }}
-            >
-              Predictions Saved
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+          <AnimatePresence>
+            {showToastMessage && (
+              <motion.div
+                className="toast-message"
+                initial={{ x: 300 }}
+                animate={{ x: 0 }}
+                exit={{ x: 300 }}
+              >
+                Predictions Saved
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
     )
   );
 };

@@ -2,12 +2,6 @@ import React from "react";
 import { Reorder } from "framer-motion";
 
 const ActualTable = ({ id, data, onReorder }) => {
-  /* const rowControls = useAnimation();
-
-  useEffect(() => {
-    rowControls.start();
-  }, [data]); */
-
   return (
     <Reorder.Group
       as="table"

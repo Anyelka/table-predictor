@@ -26,59 +26,6 @@ const getPositionPrefix = (position) => {
 };
 
 const PredictionTable = ({ id, predictions, setPredictions }) => {
-  /* const columns = useMemo(
-    () => [
-      {
-        Header: "",
-        accessor: "position",
-      },
-      {
-        Header: "",
-        accessor: "logo",
-        Cell: (row) =>
-          row.value !== undefined && (
-            <img src={row.value} alt="" className="logo"></img>
-          ),
-      },
-      {
-        Header: "",
-        accessor: "name",
-      },
-      {
-        Header: "",
-        accessor: "change",
-        Cell: (row) =>
-          row.value !== undefined &&
-          row.value !== 0 && (
-            <div
-              style={{
-                display: "flex",
-                textAlign: "center",
-                marginRight: "20px",
-              }}
-            >
-              {getPositionPrefix(row.value)}
-              <div>{Math.abs(row.value)}</div>
-            </div>
-          ),
-      },
-      {
-        Header: "",
-        accessor: "points",
-        Cell: (row) => <div style={{ textAlign: "right" }}>{row.value}</div>,
-      },
-    ],
-    []
-  );
- */
-  /* return (
-    <Table
-      id={`${id}-table`}
-      className="table"
-      columns={columns}
-      data={predictions}
-    />
-  ); */
   return (
     <Reorder.Group
       as="table"
