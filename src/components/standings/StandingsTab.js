@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ActualTableContainer from "./ActualTableContainer";
-import { motion } from "framer-motion";
 import PredictionsContainer from "./PredictionsContainer";
 
 const StandingsTab = ({ season, database }) => {
