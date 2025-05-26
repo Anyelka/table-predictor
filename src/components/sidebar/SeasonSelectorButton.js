@@ -62,9 +62,10 @@ const Icon = ({ season }) => {
             position: "absolute",
             top: "10%",
             right: "5%",
-            fontSize: "1.5vh",
-            color: "",
+            fontSize: "1.25vh",
+            color: "#a08c6e",
             backgroundColor: "",
+            rotate: "15deg",
           }}
         >
           NEW

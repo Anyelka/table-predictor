@@ -126,7 +126,7 @@ function App() {
       style={{
         height: "100vh",
         opacity: 1,
-        backgroundImage: `url(${"https://resources.premierleague.com/photos/2024/05/20/50c79208-8de1-43bf-887c-fb4f209f9373/Man-City-cele.jpg?width=1400&height=800"})`,
+        backgroundImage: `url(${"https://resources.premierleague.pulselive.com/photo-resources/2025/05/25/c310dd76-9fe3-40b6-ae43-a3227ac69503/Virgil-van-Dijk-lifts-Premier-League-Trophy.png?width=1400&height=800"})`,
         backgroundSize: "cover",
       }}
     >
