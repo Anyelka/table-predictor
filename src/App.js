@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { child, get, getDatabase, ref, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
+import { child, get, getDatabase, ref, set } from "firebase/database";
+import React, { useCallback, useEffect, useState } from "react";
+import { getSeasons } from "./agent";
+import MainPanel from "./components/MainPanel";
 import Sidebar from "./components/sidebar/Sidebar";
 import { isCurrentSeason, isSeasonUnderway } from "./utils";
-import MainPanel from "./components/MainPanel";
-import { getSeasons } from "./agent";
 /* import {
   MARCI_PREDICTIONS_2021,
   MARCI_PREDICTIONS_2023,
@@ -33,7 +33,7 @@ const isPredictionActive = (year) => {
   // TODO: choose based on season start, end & current date - maybe from 2 months before season start until season start
   // HAS TO BE == INSTEAD OF === !
   // eslint-disable-next-line eqeqeq
-  return year == 2024;
+  return year == 2025;
 };
 
 const mapSeasons = (rawSeasons, seasonsWithPredictions) => {

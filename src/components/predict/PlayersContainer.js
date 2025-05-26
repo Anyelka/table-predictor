@@ -1,11 +1,11 @@
 import { child, get, ref, set } from "firebase/database";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { getCurrentDate, uppercaseInitials } from "../../utils";
-import rightArrowIcon from "../../resources/icons/right-arrow-thick.png";
-import Predictor from "./Predictor";
-import LoginForm from "./LoginForm";
 import { getTable } from "../../agent";
+import rightArrowIcon from "../../resources/icons/right-arrow-thick.png";
+import { getCurrentDate, uppercaseInitials } from "../../utils";
+import LoginForm from "./LoginForm";
+import Predictor from "./Predictor";
 
 const playerButtonVariants = {
   initial: { scale: 1, color: "#ff2882" },
@@ -193,9 +193,13 @@ const PlayersContainer = ({ database, season }) => {
   }; */
 
   const handleSavePredictions = (newTeamOrder, player) => {
-    const newPredictions = newTeamOrder.map((team) =>
-      predictions.find((prediction) => prediction.name === team)
-    );
+    const newPredictions = newTeamOrder
+      .map((team) => predictions.find((prediction) => prediction.name === team))
+      .map((team, index) => ({
+        name: team.name,
+        position: index + 1,
+        logo: team.logo,
+      }));
     setPredictions(newPredictions);
     savePlayerPredictions(newPredictions, player);
 

@@ -1,16 +1,16 @@
+import { child, get, ref, set } from "firebase/database";
+import { motion, useAnimation } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
 import { getTable } from "../../agent";
-import TableContainer from "./TableContainer";
+import refreshIcon from "../../resources/icons/refresh_1.png";
 import {
   convertToTable,
   formatYearToSeason,
   getCurrentDate /* ,shuffleNRows */,
 } from "../../utils";
-import ActualTable from "./ActualTable";
-import { get, ref, set, child } from "firebase/database";
 import Loader from "../Loader";
-import refreshIcon from "../../resources/icons/refresh_1.png";
-import { motion, useAnimation } from "framer-motion";
+import ActualTable from "./ActualTable";
+import TableContainer from "./TableContainer";
 /* import { DUMMY_TABLE_API_RESPONSE } from "../../resources/dummyData"; */
 
 const ActualTableContainer = ({
@@ -118,7 +118,7 @@ const ActualTableContainer = ({
       <motion.div
         className="table-container-head-button"
         whileHover={{ scale: 1.2 }}
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 1 }}
         animate={headerButtonControls}
       >
         <button
