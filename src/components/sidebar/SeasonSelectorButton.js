@@ -9,7 +9,7 @@ const buttonVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    background: "linear-gradient(90deg, #F0F0F0, #C0C0C0",
+    background: "linear-gradient(90deg, #F0F0F0, #C0C0C0)",
   },
   selected: {
     opacity: 1,

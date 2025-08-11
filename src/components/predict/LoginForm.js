@@ -4,7 +4,7 @@ import rightArrowDoubleIcon from "../../resources/icons/right-arrow-double.png";
 
 const loginButtonVariants = {
   initial: {},
-  animateHover: { backgroundColor: "#00ff88" },
+  animateHover: { backgroundColor: "#00ff88", x: 2 },
 };
 
 const loginButtonImageVariants = {
@@ -55,10 +55,10 @@ const LoginForm = ({ player, openPredictor }) => {
   return (
     <motion.form
       onSubmit={(event) => handleLoginButton(event, player)}
-      class="player-login-form"
+      className="player-login-form"
     >
       <motion.input
-        class="player-password-input"
+        className="player-password-input"
         type="password"
         value={password}
         onChange={handlePasswordChange}
@@ -70,7 +70,7 @@ const LoginForm = ({ player, openPredictor }) => {
         animate={passwordInputControls}
       />
       <motion.button
-        class="player-login-button"
+        className="player-login-button"
         variants={loginButtonVariants}
         whileHover="animateHover"
         type="submit"
@@ -78,7 +78,7 @@ const LoginForm = ({ player, openPredictor }) => {
         <motion.img
           src={rightArrowDoubleIcon}
           alt=""
-          class="player-login-button-image"
+          className="player-login-button-image"
           variants={loginButtonImageVariants}
         />
       </motion.button>

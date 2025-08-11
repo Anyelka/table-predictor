@@ -9,15 +9,15 @@ import Predictor from "./Predictor";
 
 const playerButtonVariants = {
   initial: { scale: 1, color: "#ff2882" },
-  animateHover: { scale: 1.2 },
-  animateOpen: { scale: 1.2, color: "#37003c", x: 20 },
+  animateHover: { scale: 1.1 },
+  animateOpen: { scale: 1.1, color: "#37003c", x: 40 },
 };
 
 const playerButtonArrowVariants = {
   initial: { scale: 0 },
   animateHover: { scale: 1 },
   animateOpen: {
-    scale: 1.2,
+    scale: 1.05,
     rotateY: 180,
     x: "-15vh",
     filter:
@@ -216,7 +216,7 @@ const PlayersContainer = ({ database, season }) => {
     return (
       <motion.button
         id={`${player.name}-player-button`}
-        class="player-button"
+        className="player-button"
         initial="initial"
         whileHover="animateHover"
         animate={isOpen(player) ? "animateOpen" : "initial"}
@@ -241,7 +241,7 @@ const PlayersContainer = ({ database, season }) => {
     const isOtherPlayerOpen = playerOpen.player && !isPlayerOpen;
     return (
       !isOtherPlayerOpen && (
-        <>
+        <div key={player.name}>
           {renderPlayerName(player)}
           {isLoginOpen(player) && (
             <LoginForm player={player} openPredictor={openPredictor} />
@@ -254,7 +254,7 @@ const PlayersContainer = ({ database, season }) => {
               }
             />
           )}
-        </>
+        </div>
       )
     );
   };
