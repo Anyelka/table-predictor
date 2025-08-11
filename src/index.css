@@ -173,7 +173,7 @@ code {
 
 .table-container {
   display: flex;
-  flex: auto;
+  flex: 0.33333;
   flex-direction: column;
   margin-bottom: auto;
   border-radius: 20px;

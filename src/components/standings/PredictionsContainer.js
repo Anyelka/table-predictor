@@ -23,6 +23,12 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
   const [scores, setScores] = useState([]);
   const [predictions, setPredictions] = useState([]);
 
+  const [animationKey, setAnimationKey] = useState(0);
+
+  const restartAnimation = () => {
+    setAnimationKey((prev) => prev + 1);
+  };
+
   const mapTeam = useCallback(
     (guess) => {
       const team = actualTable.find(
@@ -87,6 +93,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
           return scores;
         }, {});
         setScores(scores);
+        restartAnimation();
       }
     }
   }, [predictions]);
@@ -99,6 +106,7 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
           scores={scores[name]}
           predictions={predictions[name]}
           setPredictions={setPredictions}
+          animationKey={animationKey}
         />
       ))}
     </>

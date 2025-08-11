@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import TableContainer from "./TableContainer";
-import PredictionTable from "./PredictionTable";
-import Loader from "../Loader";
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import Loader from "../Loader";
+import PredictionTable from "./PredictionTable";
+import TableContainer from "./TableContainer";
 
 const PredictionTableContainer = ({
   name,
   scores,
   predictions,
   setPredictions,
+  animationKey,
 }) => {
   const [loading, setLoading] = useState(true);
 
@@ -28,6 +29,7 @@ const PredictionTableContainer = ({
   const renderHeaderPoints = () => {
     return scores && scores.points > 0 ? (
       <motion.div
+        key={animationKey}
         className="table-container-head-points-container"
         initial={{ opacity: 0, scale: 0 }}
         transition={{ duration: 0.25, delay: 0.5 }}
@@ -51,6 +53,7 @@ const PredictionTableContainer = ({
       id={id}
       title={name}
       header={renderHeaderPoints()}
+      animationKey={animationKey}
       table={
         loading ? (
           <Loader />

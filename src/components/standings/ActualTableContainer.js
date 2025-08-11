@@ -23,6 +23,12 @@ const ActualTableContainer = ({
   const [actualTableUpdated, setActualTableUpdated] = useState();
   const [dateValid, setDateValid] = useState(false);
 
+  const [animationKey, setAnimationKey] = useState(0);
+
+  const restartAnimation = () => {
+    setAnimationKey((prev) => prev + 1);
+  };
+
   const headerButtonControls = useAnimation();
 
   const isDateValid = (actualDate) => {
@@ -55,6 +61,7 @@ const ActualTableContainer = ({
     const currentDate = getCurrentDate();
     saveActualTable(table, currentDate);
     /* setActualTableUpdated(); */
+    restartAnimation();
   }, [saveActualTable, season]);
 
   const loadActualTable = useCallback(() => {
@@ -89,6 +96,7 @@ const ActualTableContainer = ({
     });
     refreshTable();
     setDateValid(false);
+    restartAnimation();
   };
 
   /* const renderShuffleButton = () => {
@@ -140,6 +148,7 @@ const ActualTableContainer = ({
   useEffect(() => {
     /* refreshTable(); */
     loadActualTable();
+    restartAnimation();
   }, [season, loadActualTable]);
 
   useEffect(() => {
@@ -155,6 +164,7 @@ const ActualTableContainer = ({
       id="actual-table"
       title={formatYearToSeason(season.year)}
       header={renderHeaderButton()}
+      animationKey={animationKey}
       table={
         loading ? (
           <Loader />
