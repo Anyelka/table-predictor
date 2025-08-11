@@ -12,14 +12,14 @@ const TableContainer = ({ id, title, header, table, animationKey }) => {
       key={animationKey}
     >
       <div className="table-container-head">
-        <div
+        <motion.div
           className="table-container-head-title"
-          /* initial={{ x: -300 }}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.25 }}
-          animate={{ x: 0 }} */
         >
           <h1 className="table-header-text">{uppercaseInitials(title)}</h1>
-        </div>
+        </motion.div>
         {header}
       </div>
       <div className="table-container-body">{table}</div>
