@@ -2,11 +2,7 @@ import { motion } from "framer-motion";
 import { getNextYearShort, getYearShort } from "../../utils";
 
 const buttonVariants = {
-  initial: {
-    opacity: 0,
-    x: -60,
-  },
-  visible: {
+  default: {
     opacity: 1,
     x: 0,
     background: "linear-gradient(90deg, #00ff88, #00c0cf)",
@@ -86,7 +82,7 @@ const getVariant = (isSelected, isPredictionActive, disabled) => {
   if (disabled) {
     return "disabled";
   }
-  return "visible";
+  return "default";
 };
 
 const SeasonSelectorButton = ({

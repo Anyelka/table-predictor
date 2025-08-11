@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import rightArrowIcon from "../../resources/icons/right-arrow.png";
 import SeasonSelectorButton from "./SeasonSelectorButton";
@@ -58,11 +58,21 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
       transition={{ type: "spring", duration: 0.5 }}
       layout
     >
-      {open && (
-        <motion.div id="season-selector" className="season-selector" layout>
-          {renderButtons()}
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="season-selector"
+            className="season-selector"
+            initial={{ opacity: 0, x: -50 }}
+            animate={open && { opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ type: "linear" }}
+            layout
+          >
+            {renderButtons()}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.button
         className="open-sidebar-button"
         onClick={toggleOpen}

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import PredictionTableContainer from "./PredictionTableContainer";
-import { getTeam } from "../../resources/teams";
 import { child, get, ref } from "firebase/database";
+import React, { useCallback, useEffect, useState } from "react";
+import { getTeam } from "../../resources/teams";
+import PredictionTableContainer from "./PredictionTableContainer";
 
 const getChange = (guess, team) => {
   const actualRank = team.position;
@@ -59,9 +59,6 @@ const PredictionsContainer = ({ season, actualTable, database }) => {
           console.log("No data available");
         }
       })
-      /* .then(() => {
-        setLoading(false);
-      }) */
       .catch((error) => {
         console.error(error);
       });
