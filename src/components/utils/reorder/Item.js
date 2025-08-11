@@ -61,7 +61,9 @@ export const Item = ({ item, index, logo }) => {
     >
       <td>{index}</td>
       <td>
-        <img src={logo} alt="" className="logo"></img>
+        <div className="logo-container">
+          <img src={logo} alt="" className="logo"></img>
+        </div>
       </td>
       <td>{item}</td>
     </Reorder.Item>

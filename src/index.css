@@ -290,10 +290,15 @@ h2 {
   height: 2vh;
 }
 
-.logo {
-  width: 3vh;
-  height: 3vh;
+.logo-container {
+  width: 3.5vh;
+  height: 3.5vh;
   padding-right: 10px;
+  text-align: center;
+}
+
+.logo {
+  max-height: 3.5vh;
 }
 
 .position {

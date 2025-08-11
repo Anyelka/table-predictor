@@ -1,5 +1,5 @@
-import React from "react";
 import { Reorder } from "framer-motion";
+import React from "react";
 
 const ActualTable = ({ id, data, onReorder }) => {
   return (
@@ -26,7 +26,9 @@ const ActualTable = ({ id, data, onReorder }) => {
               <td>{team.position}</td>
               {team.logo !== undefined && (
                 <td>
-                  <img src={team.logo} alt="" className="logo"></img>
+                  <div className="logo-container">
+                    <img src={team.logo} alt="" className="logo"></img>
+                  </div>
                 </td>
               )}
               <td>{team.name}</td>

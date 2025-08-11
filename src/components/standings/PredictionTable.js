@@ -1,10 +1,10 @@
 /* import Table from "./Table";
- */ import React /* useMemo */ from "react";
-import upArrow from "../../resources/icons/up-arrow.png";
-import upArrowDouble from "../../resources/icons/up-arrow-double.png";
-import downArrow from "../../resources/icons/down-arrow.png";
+ */ import { Reorder } from "framer-motion";
+import React /* useMemo */ from "react";
 import downArrowDouble from "../../resources/icons/down-arrow-double.png";
-import { Reorder } from "framer-motion";
+import downArrow from "../../resources/icons/down-arrow.png";
+import upArrowDouble from "../../resources/icons/up-arrow-double.png";
+import upArrow from "../../resources/icons/up-arrow.png";
 
 const getArrowIcon = (position) => {
   if (position > 0 && position <= 5) {
@@ -50,7 +50,9 @@ const PredictionTable = ({ id, predictions, setPredictions }) => {
               <td>{team.position}</td>
               {team.logo !== undefined && (
                 <td>
-                  <img src={team.logo} alt="" className="logo"></img>
+                  <div className="logo-container">
+                    <img src={team.logo} alt="" className="logo"></img>
+                  </div>
                 </td>
               )}
               <td>{team.name}</td>
