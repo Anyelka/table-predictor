@@ -1,5 +1,5 @@
+import { Reorder, useMotionValue } from "framer-motion";
 import * as React from "react";
-import { useMotionValue, Reorder } from "framer-motion";
 import { useRaisedShadow } from "./use-raised-shadow";
 
 const background = (color) => {
@@ -14,6 +14,12 @@ export const Item = ({ item, index, logo }) => {
     if (index === 1) {
       return "#37003c";
     }
+    if (index <= 5) {
+      return "#ffffff";
+    }
+    if (index <= 6 || index <= 7) {
+      return "#000000";
+    }
     return "";
   };
 
@@ -21,14 +27,17 @@ export const Item = ({ item, index, logo }) => {
     if (index === 1) {
       return background("#fbff00");
     }
-    if (index <= 4) {
-      return background("#7f3985");
+    if (index <= 5) {
+      return background("#102de6");
     }
-    if (index === 5) {
-      return background("#7367ff");
+    if (index <= 6) {
+      return background("#ff6900");
+    }
+    if (index <= 7) {
+      return background("#00be14");
     }
     if (index >= 18) {
-      return background("#ba034f");
+      return background("#a3001e");
     }
     return "";
   };

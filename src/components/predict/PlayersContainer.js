@@ -241,7 +241,11 @@ const PlayersContainer = ({ database, season }) => {
     const isOtherPlayerOpen = playerOpen.player && !isPlayerOpen;
     return (
       !isOtherPlayerOpen && (
-        <div key={player.name}>
+        <div
+          id={`player-container-${player.name}`}
+          className="player-container"
+          key={player.name}
+        >
           {renderPlayerName(player)}
           {isLoginOpen(player) && (
             <LoginForm player={player} openPredictor={openPredictor} />
