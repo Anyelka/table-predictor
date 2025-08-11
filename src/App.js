@@ -126,7 +126,7 @@ function App() {
       style={{
         height: "100vh",
         opacity: 1,
-        backgroundImage: `url(${"https://resources.premierleague.pulselive.com/photo-resources/2025/05/25/c310dd76-9fe3-40b6-ae43-a3227ac69503/Virgil-van-Dijk-lifts-Premier-League-Trophy.png?width=1400&height=800"})`,
+        backgroundImage: `url(${"https://icdn.hayters.com/wp-content/uploads/2025/08/chelsea-fc-v-bayer-04-leverkusen-pre-season-friendly-Large.jpeg.webp"})`,
         backgroundSize: "cover",
       }}
     >

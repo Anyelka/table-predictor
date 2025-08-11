@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
 import rightArrowIcon from "../../resources/icons/right-arrow.png";
 import SeasonSelectorButton from "./SeasonSelectorButton";
 
@@ -11,6 +11,11 @@ const sidebarVariants = {
 const openSidebarButtonVariants = {
   closed: { rotate: 0, x: 0 },
   open: { rotate: 180, x: 60 },
+};
+
+const openSidebarButtonImgVariants = {
+  initial: { x: 0 },
+  onHover: { x: 5 },
 };
 
 const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
@@ -64,13 +69,15 @@ const Sidebar = ({ seasons, selectedSeason, setSelectedSeason }) => {
         initial="closed"
         animate={open ? "open" : "closed"}
         variants={openSidebarButtonVariants}
+        whileHover="onHover"
         transition={{ type: "spring", duration: 0.5 }}
         layout
       >
-        <img
+        <motion.img
           src={rightArrowIcon}
           alt=""
           className="open-sidebar-button-image"
+          variants={openSidebarButtonImgVariants}
         />
       </motion.button>
     </motion.div>

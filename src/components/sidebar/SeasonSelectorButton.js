@@ -9,19 +9,20 @@ const buttonVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    background: "linear-gradient(90deg, #F0F0F0, #C0C0C0)",
+    background: "linear-gradient(90deg, #00ff88, #00c0cf)",
   },
   selected: {
     opacity: 1,
     x: 0,
-    background: "linear-gradient(90deg, #00ff88, #05f0ff)",
+    background: "linear-gradient(90deg, #37003c, #7f3985)",
+    color: "#00ff88",
   },
   predictionActive: {
     opacity: 1,
     x: 0,
     background: "linear-gradient(137.27deg, #fbff00, 19.85%, #d4c300 113.26%)",
   },
-  hover: { scale: 1.2, x: 0 },
+  hover: { scale: 1.1, x: 0 },
   disabled: { opacity: 1, x: 0 },
 };
 
