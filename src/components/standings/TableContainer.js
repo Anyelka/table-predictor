@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { uppercaseInitials } from "../../utils";
 
-const TableContainer = ({ id, title, header, table, animationKey }) => {
+const TableContainer = ({ id, title, header, table, animationKey, style }) => {
   return (
     <motion.div
       id={`${id}-table-container`}
@@ -10,6 +10,7 @@ const TableContainer = ({ id, title, header, table, animationKey }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       key={animationKey}
+      style={style}
     >
       <div className="table-container-head">
         <motion.div

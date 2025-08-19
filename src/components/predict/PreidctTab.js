@@ -1,6 +1,6 @@
 import React from "react";
-import PreviousTableContainer from "./PreviousTableContainer";
 import PlayersContainer from "./PlayersContainer";
+import PreviousTableContainer from "./PreviousTableContainer";
 
 const PredictTab = ({ season, database }) => {
   return (

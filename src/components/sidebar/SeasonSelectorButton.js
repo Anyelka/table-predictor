@@ -5,7 +5,7 @@ const buttonVariants = {
   default: {
     opacity: 1,
     x: 0,
-    background: "linear-gradient(90deg, #00ff88, #00c0cf)",
+    background: "linear-gradient(90deg, #00db74, #00c0cf)",
   },
   selected: {
     opacity: 1,
@@ -17,6 +17,11 @@ const buttonVariants = {
     opacity: 1,
     x: 0,
     background: "linear-gradient(137.27deg, #fbff00, 19.85%, #d4c300 113.26%)",
+  },
+  underway: {
+    opacity: 1,
+    x: 0,
+    background: "linear-gradient(90deg, #00ff88, #2dbdff)",
   },
   hover: { scale: 1.1, x: 0 },
   disabled: { opacity: 1, x: 0 },
@@ -68,11 +73,25 @@ const Icon = ({ season }) => {
           NEW
         </div>
       )}
+      {season.isUnderway && (
+        <div
+          style={{
+            position: "absolute",
+            top: "15%",
+            right: "2%",
+            fontSize: "1vh",
+            color: "#a08c6e",
+            rotate: "15deg",
+          }}
+        >
+          UNDERWAY
+        </div>
+      )}
     </div>
   );
 };
 
-const getVariant = (isSelected, isPredictionActive, disabled) => {
+const getVariant = (isSelected, isPredictionActive, isUnderway, disabled) => {
   if (isSelected) {
     return "selected";
   }
@@ -81,6 +100,9 @@ const getVariant = (isSelected, isPredictionActive, disabled) => {
   }
   if (disabled) {
     return "disabled";
+  }
+  if (isUnderway) {
+    return "underway";
   }
   return "default";
 };
@@ -103,7 +125,12 @@ const SeasonSelectorButton = ({
       onClick={() => setSelectedSeason(season)}
       whileHover={!disabled && "hover"}
       initial="initial"
-      animate={getVariant(isSelected, season.isPredictionActive, disabled)}
+      animate={getVariant(
+        isSelected,
+        season.isPredictionActive,
+        season.isUnderway,
+        disabled
+      )}
       variants={buttonVariants}
       layout
     >

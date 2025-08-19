@@ -29,11 +29,20 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
-const isPredictionActive = (year) => {
+const isPredictionActive = (start) => {
   // TODO: choose based on season start, end & current date - maybe from 2 months before season start until season start
   // HAS TO BE == INSTEAD OF === !
   // eslint-disable-next-line eqeqeq
-  return year == 2025;
+
+  const startDate = new Date(start);
+  const currentDate = new Date();
+
+  const twoMonthsBefore = new Date(startDate);
+  twoMonthsBefore.setMonth(twoMonthsBefore.getMonth() - 2);
+
+  return currentDate >= twoMonthsBefore && currentDate < startDate;
+
+  //return year == 2025;
 };
 
 const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
@@ -44,7 +53,7 @@ const mapSeasons = (rawSeasons, seasonsWithPredictions) => {
     hasPredictions: seasonsWithPredictions.some((season) => year === season),
     isCurrent: isCurrentSeason(year),
     isUnderway: isSeasonUnderway(rawSeasons[year].start, rawSeasons[year].end),
-    isPredictionActive: isPredictionActive(year),
+    isPredictionActive: isPredictionActive(rawSeasons[year].start),
   }));
   seasons.sort((a, b) => b.year - a.year);
   return seasons;

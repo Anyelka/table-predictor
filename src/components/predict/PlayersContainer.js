@@ -266,13 +266,13 @@ const PlayersContainer = ({ database, season }) => {
   return (
     players &&
     players.length > 0 && (
-      <div className="players-container-container">
+      <motion.div className="players-container-container" layout>
         <motion.div
           className="players-container"
           initial="initial"
           animate={playerOpen.player ? "playerOpen" : "playerList"}
           variants={playersContainerVariants}
-          layout
+          /* layout */
         >
           {players.map((player) => renderPlayer(player))}
 
@@ -289,7 +289,7 @@ const PlayersContainer = ({ database, season }) => {
             )}
           </AnimatePresence>
         </motion.div>
-      </div>
+      </motion.div>
     )
   );
 };

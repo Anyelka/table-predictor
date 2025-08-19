@@ -1,9 +1,8 @@
+import { child, get, ref } from "firebase/database";
 import { useCallback, useEffect, useState } from "react";
 import { convertToTable, formatYearToSeason } from "../../utils";
-import Loader from "../Loader";
-import TableContainer from "../standings/TableContainer";
-import { child, get, ref } from "firebase/database";
 import ActualTable from "../standings/ActualTable";
+import TableContainer from "../standings/TableContainer";
 
 const PreviousTableContainer = ({ database, season }) => {
   const [table, setTable] = useState([]);
@@ -37,7 +36,8 @@ const PreviousTableContainer = ({ database, season }) => {
     <TableContainer
       id="previous-table"
       title={formatYearToSeason(season.year - 1)}
-      table={loading ? <Loader /> : <ActualTable id="previous" data={table} />}
+      table={<ActualTable id="previous" data={table} />}
+      style={{ flex: "0.5" }}
     />
   );
 };

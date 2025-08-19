@@ -129,6 +129,11 @@ export const TEAMS = [
     long: "Ipswich",
     basic: "Ipswich",
   },
+  {
+    short: "SUN",
+    long: "Sunderland",
+    basic: "Sunderland",
+  },
 ];
 
 export const getTeam = (name) => {

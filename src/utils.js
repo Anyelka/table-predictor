@@ -59,8 +59,8 @@ export const formatYearToSeason = (year) => {
 
 export const isCurrentSeason = (year) => {
   let currentDate = new Date();
-  let maxDate = new Date(year, 7, 15);
-  let minDate = new Date(year - 1, 7, 15);
+  let maxDate = new Date(year + 1, 6, 15);
+  let minDate = new Date(year, 6, 15);
   return isDateBetween(currentDate, minDate, maxDate);
 };
 
@@ -87,7 +87,7 @@ export const convertToTable = (data) => {
 
 export const isSeasonUnderway = (start, end) => {
   let currentDate = new Date();
-  return isDateBetween(currentDate, start, end);
+  return isDateBetween(currentDate, new Date(start), new Date(end));
 };
 
 export const uppercaseInitials = (title) => {
