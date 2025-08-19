@@ -6,7 +6,7 @@ import TableContainer from "../standings/TableContainer";
 
 const PreviousTableContainer = ({ database, season }) => {
   const [table, setTable] = useState([]);
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
 
   const loadTable = useCallback(() => {
     const dbRef = ref(database);
@@ -20,9 +20,9 @@ const PreviousTableContainer = ({ database, season }) => {
           console.error("No data available");
         }
       })
-      .then(() => {
+      /* .then(() => {
         setLoading(false);
-      })
+      }) */
       .catch((error) => {
         console.error(error);
       });
